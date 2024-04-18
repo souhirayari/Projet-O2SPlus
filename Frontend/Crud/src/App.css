@@ -1,0 +1,134 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+.Navbarbox {
+  height: 100px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.box {
+  margin-left: 230px;
+}
+
+.btnEdit {
+  color: var(--BtnRouge) !important;
+
+}
+
+.btnEdit:hover {
+  color: var(--BackBtnAjout) !important;
+
+
+}
+
+.btnView a {
+  color: black;
+
+}
+
+.btnView :hover {
+  transform: scale(1.1);
+}
+
+.btnsupp {
+
+  color: black;
+
+}
+
+.btnsupp :hover {
+  color: var(--BtnRouge);
+}
+
+th,
+td {
+  text-align: center;
+}
+
+.BodyBox p {
+  color: var(--SideBartext);
+  font-size: 20px;
+
+}
+
+.Viewbody {
+  padding-top: 60px;
+}
+
+.containerView {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.titleView {
+  color: var(--BackBtnAjout);
+}
+
+.dataP {
+  color: black !important;
+}
+
+.TabAff a {
+  text-decoration: none;
+
+}
+
+/* BTN update css*/
+
+.update-container{
+  position: absolute;
+  top: 200px;
+  Left :500px
+}
+a{
+  text-decoration: none;
+  background-color: none;
+}
+
+.formulaire{
+  overflow: hidden;
+  margin: 30px;
+  padding: 10px;
+}
+.btnAjout{
+  width: 300px;
+  position: relative;
+  left:35%
+}
+
+
+
+.modal-content{
+  width: 800px;
+  left: -100px;
+  padding: 10px;
+}
+.layoutView{
+  display: flex;
+  align-items: center ;
+  gap :50px;
+}
+.dossierUser{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.layout{
+  font-size: 20px;
+}
+
+.Error{
+  width: 200px;
+  height: 200px;
+  position: relative;
+ 
+}
