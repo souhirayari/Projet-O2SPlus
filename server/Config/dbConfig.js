@@ -1,15 +1,14 @@
-module.exports={
-    host:"localhost",
-    user:"root",
-    password:"",
-    dataBase:"crud",
-    dialect:"mysql",
+module.exports = {
+	host: "localhost",
+	user: "root",
+	password: "",
+	database: "o2s",
+	dialect: "mysql",
 
-    pool :{
-        min: 0,
-        max :10,
-        acquire:3000000000,
-        idle: 100000,
-
-    }
-}
+	pool: {
+		max: 5,
+		min: 0,
+		acquire: 30000,
+		idle: 10000,
+	},
+};

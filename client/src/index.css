@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+	/* background-color: rgb(237, 232, 232); */
+}
+
+body {
+	/*	font-family: "Poppins", sans-serif;
+	color: #111827;*/
+}
