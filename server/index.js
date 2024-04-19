@@ -45,13 +45,30 @@ require('./Routes/RoutesArticle/RoutesTypeTarif')(app)
 * Auth */ 
 require('./Routes/RoutesAuth/RoutesAuth')(app)
 
-
-
+const familleClientRouter = require("./Routes/RoutesClient/familleClientRouter.js");
+app.use("/api/familleClient", familleClientRouter);
+const secteurGeoRouter = require("./Routes/RoutesClient/secteurGeoRouter.js");
+app.use("/api/secteurGeo", secteurGeoRouter);
+const clientRouter = require("./Routes/RoutesClient/clientRouter.js");
+app.use("/api/client", clientRouter);
+const siteClientRouter = require("./Routes/RoutesClient/siteClientRouter.js");
+app.use("/api/siteClient", siteClientRouter);
+const zoneInterventionRouter = require("./Routes/RoutesArticle/zoneInterventionRouter.js");
+app.use("/api/zoneIntervention", zoneInterventionRouter);
+const vendeurRouter = require("./Routes/RoutesArticle/vendeurRouter.js");
+app.use("/api/vendeur", vendeurRouter);
+const depotRouter = require("./Routes/RoutesStock/depotRouter.js");
+app.use("/api/depot", depotRouter);
+const enteteStockRouter = require("./Routes/RoutesStock/enteteStockRouter.js");
+app.use("/api/enteteStock", enteteStockRouter);
+const ligneStockRouter = require("./Routes/RoutesStock/ligneStockRouter.js");
+app.use("/api/ligneStock", ligneStockRouter);
 
 app.get('/', (req, res) => {
     res.send("hello world")
 })
 
-app.listen(PORT, () => {
-    console.log(`Server is running on PORT : ${PORT}`)
-})
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+    console.log(`Le serveur fonctionne sur le port ${port}`);
+});
