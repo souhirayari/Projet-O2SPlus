@@ -1,0 +1,35 @@
+# Dependency directories
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables file (if using dotenv)
+.env
+
+# Log files
+logs/
+*.log
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+
+# Production build directory (if using a build process)
+/dist/
+
+# Ignore local configuration
+config/local.js
+
+# Ignore npm debug log
+npm-debug.log*
+
+# Ignore environment-specific config files
+config/*.local.js
+config/*.production.js
+config/*.development.js
