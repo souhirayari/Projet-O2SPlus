@@ -46,7 +46,7 @@ function UpdateLicence({ show, handleClose, licence }) {
         try {
             const tokenString = localStorage.getItem('token'); // Suppose que vous stockez le token dans le localStorage
             const token = JSON.parse(tokenString); // Analyser la chaîne JSON pour obtenir le token sans les guillemets
-            const response = await fetch(`http://localhost:3000/api/licence/update/${licence.idLicence}`, {
+            const response = await fetch(`http://localhost:5000/api/licence/update/${licence.idLicence}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

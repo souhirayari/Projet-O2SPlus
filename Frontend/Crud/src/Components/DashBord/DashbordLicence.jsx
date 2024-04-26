@@ -11,7 +11,7 @@ function DashBordLicence() {
     useEffect(() => {
         async function getData() {
             try {
-                const resLicence = await fetch(`http://localhost:3000/api/licence/findOne/${licenceId}`,{
+                const resLicence = await fetch(`http://localhost:5000/api/licence/findOne/${licenceId}`,{
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }

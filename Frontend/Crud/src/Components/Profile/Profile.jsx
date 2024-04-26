@@ -18,7 +18,7 @@ function Profile() {
   useEffect(() => {
     async function getData() {
       try {
-        const resUserInfo = await fetch(`http://localhost:3000/api/users/findOneUser/${userId}`, {
+        const resUserInfo = await fetch(`http://localhost:5000/api/users/findOneUser/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
           }

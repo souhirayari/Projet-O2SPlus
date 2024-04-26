@@ -12,7 +12,7 @@ function DashBordUser() {
     useEffect(() => {
         async function getData() {
             try {
-                const resUser = await fetch(`http://localhost:3000/api/users/findOneUser/${userId}`,{
+                const resUser = await fetch(`http://localhost:5000/api/users/findOneUser/${userId}`,{
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }

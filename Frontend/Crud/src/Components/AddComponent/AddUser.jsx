@@ -46,7 +46,7 @@ function AddUser() {
     useEffect(() => {
         const fetchDossiers = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/dossier/findAll', {
+                const response = await fetch('http://localhost:5000/api/dossier/findAll', {
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }
@@ -107,7 +107,7 @@ function AddUser() {
         console.log(formData)
 
         try {
-            const response = await fetch('http://localhost:3000/api/users/Add', {
+            const response = await fetch('http://localhost:5000/api/users/Add', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}` ,// Ajout du token d'authentification dans le header

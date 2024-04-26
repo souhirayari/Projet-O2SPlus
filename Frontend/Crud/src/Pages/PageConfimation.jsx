@@ -8,7 +8,7 @@ export default function PageConfimation() {
     useEffect(() => {
         async function confirmation() {
             try {
-                const res = await fetch(`http://localhost:3000/api/auth/verifyUser`, {
+                const res = await fetch(`http://localhost:5000/api/auth/verifyUser`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

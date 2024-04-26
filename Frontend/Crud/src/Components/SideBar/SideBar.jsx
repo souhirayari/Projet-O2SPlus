@@ -17,17 +17,17 @@ const Sidebar = () => {
             const tokenString = localStorage.getItem('token'); // Suppose que vous stockez le token dans le localStorage
             const token = JSON.parse(tokenString); // Analyser la chaîne JSON pour obtenir le token sans les guillemets
             try {
-                const resDossiers = await fetch('http://localhost:3000/api/dossier/findAll',{
+                const resDossiers = await fetch('http://localhost:5000/api/dossier/findAll',{
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }
                 });
-                const resUsers = await fetch('http://localhost:3000/api/users/findAll',{
+                const resUsers = await fetch('http://localhost:5000/api/users/findAll',{
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }
                 });
-                const resLicences = await fetch('http://localhost:3000/api/licence/findAll' ,{
+                const resLicences = await fetch('http://localhost:5000/api/licence/findAll' ,{
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }

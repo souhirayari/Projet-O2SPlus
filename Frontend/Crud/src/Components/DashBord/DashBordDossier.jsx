@@ -12,7 +12,7 @@ function DashBordDossier() {
       try {
         const tokenString = localStorage.getItem('token'); // Suppose que vous stockez le token dans le localStorage
         const token = JSON.parse(tokenString); // Analyser la chaîne JSON pour obtenir le token sans les guillemets
-        const resDossier = await fetch(`http://localhost:3000/api/dossier/findOne/${dossierId}`,{
+        const resDossier = await fetch(`http://localhost:5000/api/dossier/findOne/${dossierId}`,{
           headers: {
               'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
           }

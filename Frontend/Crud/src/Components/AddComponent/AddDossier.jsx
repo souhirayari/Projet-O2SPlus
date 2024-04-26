@@ -34,7 +34,7 @@ function AddDossier() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3000/api/dossier/AddDossier', {
+            const response = await fetch('http://localhost:5000/api/dossier/AddDossier', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`, // Ajout du token d'authentification dans le header

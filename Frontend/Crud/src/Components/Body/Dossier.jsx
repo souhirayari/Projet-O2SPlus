@@ -16,7 +16,7 @@ function Dossier({ searchTerm }) {
       try {
 
 
-        const resDossiers = await fetch('http://localhost:3000/api/dossier/findAll', {
+        const resDossiers = await fetch('http://localhost:5000/api/dossier/findAll', {
           headers: {
             'authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
           }
@@ -42,7 +42,7 @@ function Dossier({ searchTerm }) {
 
   const handleDeleteDossier = async (id) => {
     try {
-      const resDossier = await fetch(`http://localhost:3000/api/dossier/delete/${id}`, {
+      const resDossier = await fetch(`http://localhost:5000/api/dossier/delete/${id}`, {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header

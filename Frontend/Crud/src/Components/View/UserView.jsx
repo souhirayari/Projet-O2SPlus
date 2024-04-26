@@ -11,7 +11,7 @@ function UserView({ user, token }) {
     async function getData() {
       try {
         if (id) {
-          const resDossier = await fetch(`http://localhost:3000/api/dossier/findOne/${id}`,{
+          const resDossier = await fetch(`http://localhost:5000/api/dossier/findOne/${id}`,{
             headers: {
                 'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
             }

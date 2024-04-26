@@ -58,7 +58,7 @@ function UpdateDossier({ show, handleClose, dossier }) {
         try {
             const tokenString = localStorage.getItem('token'); // Suppose que vous stockez le token dans le localStorage
             const token = JSON.parse(tokenString); // Analyser la chaîne JSON pour obtenir le token sans les guillemets
-            const response = await fetch(`http://localhost:3000/api/dossier/update/${dossier.id}`, {
+            const response = await fetch(`http://localhost:5000/api/dossier/update/${dossier.id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -74,7 +74,7 @@ function UpdateDossier({ show, handleClose, dossier }) {
             // Mise à jour du statut dans la première licence
             if (dossier.licence && dossier.licence.length > 0) {
                 const firstLicenceId = dossier.licence[0].idLicence;
-                const licenceUpdateResponse = await fetch(`http://localhost:3000/api/licence/update/${firstLicenceId}`, {
+                const licenceUpdateResponse = await fetch(`http://localhost:5000/api/licence/update/${firstLicenceId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'

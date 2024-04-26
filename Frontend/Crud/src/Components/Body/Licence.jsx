@@ -19,7 +19,7 @@ function Licence({ searchTerm }) {
             try {
 
 
-                const reslicence = await fetch('http://localhost:3000/api/licence/findAll', {
+                const reslicence = await fetch('http://localhost:5000/api/licence/findAll', {
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }
@@ -45,7 +45,7 @@ function Licence({ searchTerm }) {
 
     const handleDeleteLicence = async (id) => {
         try {
-            const reslicence = await fetch(`http://localhost:3000/api/licence/delete/${id}`, {
+            const reslicence = await fetch(`http://localhost:5000/api/licence/delete/${id}`, {
                 method: "DELETE",
 
                 headers: {

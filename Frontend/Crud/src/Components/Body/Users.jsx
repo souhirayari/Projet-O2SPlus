@@ -19,7 +19,7 @@ function Users({ searchTerm }) {
         async function fetchData() {
 
             try {
-                const resUsers = await fetch('http://localhost:3000/api/users/findAll', {
+                const resUsers = await fetch('http://localhost:5000/api/users/findAll', {
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }
@@ -37,7 +37,7 @@ function Users({ searchTerm }) {
                     setUsers(jsonUsers);
                 }
 
-                const resDossier = await fetch('http://localhost:3000/api/dossier/findAll', {
+                const resDossier = await fetch('http://localhost:5000/api/dossier/findAll', {
                     headers: {
                         'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
                     }
@@ -63,7 +63,7 @@ function Users({ searchTerm }) {
 
     const handleDeleteUser = async (id) => {
         try {
-            const resUser = await fetch(`http://localhost:3000/api/users/delete/${id}`, {
+            const resUser = await fetch(`http://localhost:5000/api/users/delete/${id}`, {
                 method: "DELETE",
 
                 headers: {
