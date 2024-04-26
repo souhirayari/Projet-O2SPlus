@@ -71,9 +71,9 @@ function AddUser() {
             [name]: value
         });
         if (name === 'Role' && (value === 'adminDossier' || value === 'user')) {
-            setShowDossierSelect(true);
+            setShowDossierSelect(!showDossierSelect);
         } else {
-            setShowDossierSelect(false);
+            setShowDossierSelect(!showDossierSelect);
         }
     };
 
