@@ -79,7 +79,7 @@ exports.SignIn = async (req, res) => {
                 redirectPath = '/user';
                 break;
             case 'adminDossier':
-                redirectPath = '/admin';
+                redirectPath = '/dashboard';
                 break;
             default:
                 return res.status(401).json({ success: false, error: 'Invalid Role' });

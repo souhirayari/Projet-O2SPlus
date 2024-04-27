@@ -50,6 +50,52 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+// Dossier-------------------------------------------------------------------
+const Dossier = React.lazy(() => import('./views/PagesDossier/General/Dossier'))
+
+
+//User
+const Users = React.lazy(() => import('./views/PagesDossier/User/User'))
+const Fournisseur = React.lazy(() => import('./views/PagesDossier/User/Fournisseur'))
+const Technicien = React.lazy(() => import('./views/PagesDossier/User/Technicien'))
+const Vendeur = React.lazy(() => import('./views/PagesDossier/User/Vendeur'))
+
+//Article Stock
+const Article = React.lazy(() => import('./views/PagesDossier/ArticleStock/Article'))
+const Appareil = React.lazy(() => import('./views/PagesDossier/ArticleStock/Appareil'))
+const Mvt = React.lazy(() => import('./views/PagesDossier/ArticleStock/Mvt'))
+const Entree = React.lazy(() => import('./views/PagesDossier/ArticleStock/Entree'))
+const Sortie = React.lazy(() => import('./views/PagesDossier/ArticleStock/Sortie'))
+
+//clients
+const Clients = React.lazy(() => import('./views/PagesDossier/Client/client'))
+
+//fonction
+const Vente = React.lazy(() => import('./views/PagesDossier/Fonction/Vente'))
+const Achat = React.lazy(() => import('./views/PagesDossier/Fonction/Achat'))
+const Contrat = React.lazy(() => import('./views/PagesDossier/Fonction/Contrats'))
+const Intervention = React.lazy(() => import('./views/PagesDossier/Fonction/Intervention'))
+const Demande = React.lazy(() => import('./views/PagesDossier/Fonction/Demande'))
+const Bon = React.lazy(() => import('./views/PagesDossier/Fonction/Bon'))
+const Rapport = React.lazy(() => import('./views/PagesDossier/Fonction/Rapport'))
+
+//Marketing
+const Finance = React.lazy(() => import('./views/PagesDossier/Marketing/Finance'))
+const comptabilite = React.lazy(() => import('./views/PagesDossier/Marketing/comptabilite'))
+const Statistique = React.lazy(() => import('./views/PagesDossier/Marketing/statistique'))
+
+//init
+const Droits = React.lazy(() => import('./views/PagesDossier/init/Droits'))
+const TypeTarif = React.lazy(() => import('./views/PagesDossier/init/TypeTarif'))
+const ModeReg = React.lazy(() => import('./views/PagesDossier/init/ModeRg'))
+const FamilleArticle = React.lazy(() => import('./views/PagesDossier/init/FamilleArticle'))
+const FamilleClient = React.lazy(() => import('./views/PagesDossier/init/FamilleClient'))
+const Marque = React.lazy(() => import('./views/PagesDossier/init/Marque'))
+const SecteurGeo = React.lazy(() => import('./views/PagesDossier/init/SecteurGeo'))
+const ZoneInter = React.lazy(() => import('./views/PagesDossier/init/ZoneInter'))
+
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -95,6 +141,41 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+  { path: '/Users', name: 'Tous Utilisateurs', element: Users },
+  { path: '/Users/employes', name: 'Utilisateurs', element: Users },
+  { path: '/Users/fournisseurs', name: 'Fournisseur', element: Fournisseur },
+  { path: '/Users/techniciens', name: 'Technicien', element: Technicien },
+  { path: '/Users/vendeurs', name: 'Vendeur', element: Vendeur },
+  { path: '/articles', name: 'Article', element: Article },
+  { path: '/articles/allarticle', name: 'Articles', element: Article },
+  { path: '/articles/appareils', name: 'Appareil', element: Appareil },
+  { path: '/stock', name: 'Stock', element: Mvt },
+  { path: '/stock/mvt', name: 'Movements', element: Mvt },
+  { path: '/stock/Entree', name: 'Entree', element: Entree },
+  { path: '/stock/Sortie', name: 'Sortiee', element: Sortie },
+  { path: '/clients', name: 'Clients', element: Clients },
+  { path: '/vente', name: 'Ventes', element: Vente },
+  { path: '/achat', name: 'Achats', element: Achat },
+  { path: '/contrat', name: 'Contrats', element: Contrat },
+  { path: '/intervention', name: 'Intervention', element: Intervention },
+  { path: '/intervention/demandes', name: 'Demandes', element: Demande },
+  { path: '/intervention/bons', name: 'Bons', element: Bon },
+  { path: '/intervention/rapport', name: 'Rapports', element: Rapport },
+  { path: '/finance', name: 'Finance', element: Finance },
+  { path: '/comptabilite', name: 'Comptabilité', element: comptabilite },
+  { path: '/statistique', name: 'Statistique', element: Statistique },
+  { path: '/initia', name: 'Initialisation', element: Finance },
+  { path: '/initia/droitAcces', name: 'Droits d\'accés', element: Droits },
+  { path: '/initia/typetarif', name: 'Type Tarif', element: TypeTarif },
+  { path: '/initia/moderegl', name: 'Mode Reglements', element: ModeReg },
+  { path: '/initia/famillearticle', name: 'Famille Articles', element: FamilleArticle },
+  { path: '/initia/familleclient', name: 'Famille Clients', element: FamilleClient },
+  { path: '/initia/marque', name: 'Marques', element: Marque },
+  { path: '/initia/secteur', name: 'Secteur Géoraphique', element: SecteurGeo },
+  { path: '/initia/zone', name: 'Zone d\'Intervention', element: ZoneInter },
+  { path: '/Dossier/info', name: 'Dossier', element: Dossier },
+
+
 ]
 
 export default routes

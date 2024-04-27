@@ -50,7 +50,7 @@ const handleSubmit = async (e) => {
             // Rediriger vers la page appropriée
 
             setTimeout(() => {
-                window.location.href = '/dashboard';
+                window.location.href = data.redirectPath;
             }, 1000);
 
         } else {
