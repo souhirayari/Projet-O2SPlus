@@ -49,10 +49,10 @@ function SignIn() {
 
 
     return (
-        <div>
-            <div className="overlay-container">
-                <div className="overlay">
-                    <div className="overlay-panel overlay-right ">
+            <div>
+                <div className="overlay-container">
+                    <div className="overlay">
+                        <div className="overlay-panel overlay-right ">
                         <h1 className='h1SignIn'>Hello, Friend!</h1>
                         <p className='PSignIn'>Enter your personal details and start journey with us</p>
                     </div>

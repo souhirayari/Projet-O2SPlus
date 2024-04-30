@@ -2,6 +2,7 @@ const User = require('../../Model/main').User;
 const jwt = require('jsonwebtoken');
 const { findbyId } = require('../Administration/ControllerDossier');
 const Dossier = require('../../Model/main').Dossier;
+const UserDossier=require('../../Model/main').userDossier
 const { Sequelize } = require('sequelize');
 const { sendConfirmationEmail } = require('../../MailConfig/NodeMailer');
 const bcrypt = require('bcrypt');
@@ -9,8 +10,7 @@ const bcrypt = require('bcrypt');
 
 exports.AddUserinfo = async (req, res) => {
     try {
-
-        if (auth.user.Role !== 'adminSite') {
+        if (auth.Role !== 'adminSite') {
             return res.status(403).json({ message: 'Unauthorized access' });
         }
 
@@ -74,7 +74,7 @@ exports.AddUserinfo = async (req, res) => {
                     return res.status(404).send({ message: 'Dossier not found' });
                 }
                 // Créer un nouvel utilisateur avec le rôle user ou adminDossier
-                const newUserInstance = await User.create(newUser);
+                const newUserInstance = await User.create({ ...newUser, dossierId: dossierId });
                 if (Role === 'adminDossier') {
                     await newUserInstance.addDossier(dossier);
                 }
@@ -123,7 +123,7 @@ exports.findByIdUser = async (req, res) => {
             login: user.login,
             Role: user.Role
         };
-        const token = jwt.sign(tokenPayload, 'user', { expiresIn: '1h' });
+        const token = jwt.sign(tokenPayload, 'user', { expiresIn: '24h' });
         res.status(200).json({ success: true, token });
 
     } catch (err) {
@@ -191,5 +191,36 @@ exports.updateUser = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).send({ message: "Internal server error!" });
+    }
+};
+
+exports.findAllByDossier = async (req, res) => {
+    if (auth.Role !== 'adminSite' && auth.Role !== 'adminDossier') {
+        return res.status(403).json({ message: 'Unauthorized access' });
+    }
+    try {
+        const { dossierId } = req.params;
+        const usersDossier = await UserDossier.findAll({ where: { DossierId: dossierId } });
+
+        // Récupérez les informations de chaque utilisateur de UserDossier
+        const infoUser = await Promise.all(usersDossier.map(async (user) => {
+            const userInfo = await User.findOne({ where: { id: user.UtilisateurId } });
+            return userInfo;
+        }));
+
+        const users = await User.findAll({ where: { dossierId: dossierId } });
+
+        // Vérifiez si les utilisateurs existent dans le dossier
+        if (users.length === 0 && infoUser.length === 0) {
+            return res.status(404).send({ message: `No users exist in dossier ${dossierId}` });
+        }
+
+        // Combinez les utilisateurs des deux tables dans un seul tableau
+        const allUsers = [...users, ...infoUser];
+
+        return res.status(200).send(allUsers);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ message: 'Internal server error!' });
     }
 };

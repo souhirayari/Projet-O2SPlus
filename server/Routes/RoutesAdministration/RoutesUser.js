@@ -1,5 +1,5 @@
 
-const { AddUserinfo,findAll, findByIdUser ,findOneUser, DeleteUser, updateUser} = require('../../Controller/Administration/ControllerUser')
+const { AddUserinfo,findAll, findByIdUser ,findOneUser, DeleteUser, updateUser ,findAllByDossier} = require('../../Controller/Administration/ControllerUser')
 const {authMiddleware}=require('../../Controller/Auth/AuthController')
 
 const router=require ('express').Router();
@@ -11,6 +11,8 @@ module.exports =app =>{
     router.get('/findOneUser/:id',authMiddleware,findOneUser)
     router.delete('/delete/:id',authMiddleware,DeleteUser)
     router.put('/update/:id',authMiddleware,updateUser)
+    router.get('/findAll/:dossierId',authMiddleware,findAllByDossier);
+
 
 
 
