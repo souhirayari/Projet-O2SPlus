@@ -2,6 +2,7 @@ const { User } = require('../../Model/main');
 const { Sequelize } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const UserDossier = require('../../Model/main').userDossier;
 
 
 exports.VerifyUser = async (req, res) => {
@@ -70,32 +71,40 @@ exports.SignIn = async (req, res) => {
         }
 
         let redirectPath = '';
+        let dossierId = null; // Initialiser dossierId
 
         switch (user.Role) {
             case 'adminSite':
                 redirectPath = '/';
                 break;
             case 'user':
+                dossierId = user.dossierId; // Affecter dossierId pour l'utilisateur
                 redirectPath = '/user';
                 break;
             case 'adminDossier':
-                redirectPath = '/dashboard';
+                const userDossier = await UserDossier.findOne({ where: { UtilisateurId: user.id } });
+                console.log(userDossier)
+                dossierId = userDossier.DossierId ? userDossier.DossierId : null; // Affecter dossierId pour l'admin de dossier s'il existe
+                redirectPath = '/admin';
                 break;
             default:
                 return res.status(401).json({ success: false, error: 'Invalid Role' });
         }
+       
         const usertoken = {
+            id :user.id,
             login,
-            Role: user.Role
+            Role: user.Role,
+            dossierId: dossierId // Utiliser le dossierId déterminé ci-dessus
         }
 
-        const token = jwt.sign({ user: usertoken }, 'user', { expiresIn: '1h' });
+        const token = jwt.sign({ user: usertoken }, 'user', { expiresIn: '24h' });
         console.log('token sign in ', token)
         res.status(200).json({
             success: true,
             redirectPath,
             token,
-            user: user
+            user: usertoken
 
         });
 
@@ -104,5 +113,4 @@ exports.SignIn = async (req, res) => {
         res.status(500).json({ message: 'Internal server error!' });
     }
 };
-
 

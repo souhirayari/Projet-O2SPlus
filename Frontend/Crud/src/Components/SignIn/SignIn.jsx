@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../../Style/SignIn.css';
 import { toast } from "react-toastify";
+import image from '../../assets/signin.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Assurez-vous d'importer FontAwesomeIcon
+import {  faUser,faLock } from '@fortawesome/free-solid-svg-icons';
+
 
 function SignIn() {
     const [formData, setFormData] = useState({
@@ -28,11 +32,16 @@ function SignIn() {
             });
 
             const data = await res.json();
+            console.log (data)
             if (data.success) {
                 localStorage.setItem('userId', JSON.stringify(data.user.id));
                 localStorage.setItem('token', JSON.stringify(data.token));
+
+                if (data.user.Role === 'adminDossier' || data.user.Role === 'user'){
+                    localStorage.setItem('dossierId', JSON.stringify(data.user.dossierId));  
+                }
                 // Rediriger vers la page appropriée
-                
+
                 setTimeout(() => {
                     window.location.href = data.redirectPath;
                 }, 1000);
@@ -49,26 +58,35 @@ function SignIn() {
 
 
     return (
-            <div>
-                <div className="overlay-container">
-                    <div className="overlay">
-                        <div className="overlay-panel overlay-right ">
-                        <h1 className='h1SignIn'>Hello, Friend!</h1>
-                        <p className='PSignIn'>Enter your personal details and start journey with us</p>
-                    </div>
-                </div>
+        <div className="signin-content">
+            <div className="signin-image">
+                <figure><img src={image} alt="sign up image" /></figure>
             </div>
-            <div className="form-container sign-in-container">
-                <form className='formSign' onSubmit={handleSubmit}>
-                    <h1 className='h1SignIn'>Sign In</h1>
-                    <br />
-                    <input className='inputSignIn' type="text" name="login" placeholder="Email" value={formData.login} onChange={handleChange} />
-                    <input className='inputSignIn' type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                    <br />
-                    <button className='btnSignIn' type="submit">Sign In</button>
+            <div className="signin-form">
+                <h1 className="form-title">Bonjour</h1>
+                <h2 className="form-title">Sign up</h2>
+                <form method="POST" id="login-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="your_name"><FontAwesomeIcon icon={faUser} /></label>
+                        <input type="text" name="login" id="your_name" placeholder="Your Name" value={formData.login}
+                            onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="your_pass"><FontAwesomeIcon icon={faLock} /></label>
+                        <input type="password" name="password" id="your_pass" placeholder="Password"  value={formData.password}
+                            onChange={handleChange}/>
+                    </div>
+
+                    <div className="form-group form-button">
+                        <input type="submit" name="signin" id="signin" className="form-submit" value="Log in" />
+                    </div>
                 </form>
+
             </div>
         </div>
+
+
+
     );
 }
 
