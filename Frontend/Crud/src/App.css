@@ -84,51 +84,94 @@ td {
 
 /* BTN update css*/
 
-.update-container{
+.update-container {
   position: absolute;
   top: 200px;
-  Left :500px
+  Left: 500px
 }
-a{
+
+a {
   text-decoration: none;
   background-color: none;
 }
 
-.formulaire{
+.formulaire {
   overflow: hidden;
   margin: 30px;
   padding: 10px;
 }
-.btnAjout{
+
+.btnAjout {
   width: 300px;
   position: relative;
-  left:35%
+  left: 35%
 }
 
 
 
-.modal-content{
+.modal-content {
   width: 800px;
   left: -100px;
   padding: 10px;
 }
-.layoutView{
+
+.layoutView {
   display: flex;
-  align-items: center ;
-  gap :50px;
+  align-items: center;
+  gap: 50px;
 }
-.dossierUser{
+
+.dossierUser {
   display: flex;
   align-items: center;
   gap: 30px;
 }
-.layout{
+
+.layout {
   font-size: 20px;
 }
 
-.Error{
+.Error {
   width: 200px;
   height: 200px;
   position: relative;
- 
+
+}
+
+.biglayout {
+  margin-left: 261px;
+}
+
+.smalllayout {
+  margin-left: 60px;
+
+}
+
+@media screen and (max-width: 827px) {
+  .biglayout {
+    margin-left: 0px;
+  }
+
+
+}
+
+.containerNav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+}
+
+.leftpartnav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+}
+
+.namelogin {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }

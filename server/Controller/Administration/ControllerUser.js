@@ -135,7 +135,7 @@ exports.findByIdUser = async (req, res) => {
 
 
 exports.findOneUser = async (req, res) => {
-    if (auth.user.Role !== 'adminSite') {
+    if (auth.user.Role !== 'adminSite'&& auth.user.Role !== 'adminDossier' ) {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {

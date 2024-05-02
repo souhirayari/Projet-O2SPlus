@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidebar from '../Components/SideBar/SideBar'
-import DashbordLicence from '../Components/DashBord/DashbordLicence'
+import Sidebar from '../../Components/SideBar/SideBar'
+import DashbordLicence from '../../Components/DashBord/DashbordLicence'
 
 
 function PageViewLicence() {

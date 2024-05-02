@@ -53,13 +53,16 @@ exports.findAllDossier = async (req, res) => {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {
-        const Dossiers = await Dossier.findAll({ where: {},
+        const Dossiers = await Dossier.findAll({
+            where: {},
             include: [{ model: user },
-                { model: Licence,
-                as:'licence' }
+            {
+                model: Licence,
+                as: 'licence'
+            }
             ]
 
-         })
+        })
         if (Dossiers.length == 0) {
             return res.status(404).send({ message: "aucun dossier trouvée" })
         }
@@ -85,7 +88,7 @@ exports.findOneDossier = async (req, res) => {
             where: { id: id },
             include: [
                 { model: user }, // Incluez le modèle User
-                 { model: Licence, as: 'licence' } // Utilisez l'alias 'licence' pour le modèle Licence
+                { model: Licence, as: 'licence' } // Utilisez l'alias 'licence' pour le modèle Licence
             ]
         });
 
@@ -123,6 +126,9 @@ exports.updateDossier = async (req, res) => {
 };
 
 exports.findDossierById = async (req, res) => {
+    if (auth.user.Role !== 'adminSite' &&  auth.user.Role !== 'adminDossier') {
+        return res.status(403).json({ message: 'Unauthorized access' });
+    }
     try {
         const dossierId = req.params.id
         const dossier = await Dossier.findByPk(dossierId);

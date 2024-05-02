@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../../Style/SignIn.css';
 import { toast } from "react-toastify";
-import image from '../../assets/signin.jpg'
+import image from '../../assets/login.jpg'
+import logo from '../../assets/logo.png'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Assurez-vous d'importer FontAwesomeIcon
 import {  faUser,faLock } from '@fortawesome/free-solid-svg-icons';
 
@@ -58,10 +60,17 @@ function SignIn() {
 
 
     return (
+        <>
+        <body className='BodySignIn'>
+        <div className='minlayoutimg'>
+                <img src={logo} alt="sign up image" />
+
+            </div>
         <div className="signin-content">
             <div className="signin-image">
                 <figure><img src={image} alt="sign up image" /></figure>
             </div>
+            
             <div className="signin-form">
                 <h1 className="form-title">Bonjour</h1>
                 <h2 className="form-title">Sign up</h2>
@@ -84,7 +93,8 @@ function SignIn() {
 
             </div>
         </div>
-
+        </body>
+        </>
 
 
     );

@@ -1,4 +1,4 @@
-const { User } = require('../../Model/main');
+const { User, Dossier } = require('../../Model/main');
 const { Sequelize } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -85,7 +85,8 @@ exports.SignIn = async (req, res) => {
                 const userDossier = await UserDossier.findOne({ where: { UtilisateurId: user.id } });
                 console.log(userDossier)
                 dossierId = userDossier.DossierId ? userDossier.DossierId : null; // Affecter dossierId pour l'admin de dossier s'il existe
-                redirectPath = '/admin';
+                const dossier = await Dossier.findOne({ where: { id: dossierId } });
+                redirectPath = dossier ? `/dossier${dossier.RaisonSociale}/accueil` : '/erreur'; // Correction de la construction de redirectPath
                 break;
             default:
                 return res.status(401).json({ success: false, error: 'Invalid Role' });

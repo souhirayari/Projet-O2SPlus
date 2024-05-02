@@ -9,7 +9,7 @@ module.exports = app => {
     router.get('/findAll', authMiddleware, findAllDossier); // Protégez toutes les autres routes nécessitant une authentification
     router.get('/findOne/:id', authMiddleware, findOneDossier);
     router.put('/update/:id', authMiddleware, updateDossier);
-    router.get('/findByid/:id', authMiddleware, findDossierById);
+    router.get('/findDossierById/:id', authMiddleware, findDossierById);
 
     app.use('/api/dossier', router);
 };

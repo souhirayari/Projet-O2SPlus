@@ -1,9 +1,9 @@
 import React from 'react'
-import SideBar from '../Components/SideBar/SideBar'
-import AddDossier from '../Components/AddComponent/AddDossier'
+import SideBar from '../../Components/SideBar/SideBar'
+import AddDossier from '../../Components/AddComponent/AddDossier'
 import { useParams } from 'react-router-dom';
-import AddUser from '../Components/AddComponent/AddUser';
-import AddLicence from '../Components/AddComponent/AddLicence';
+import AddUser from '../../Components/AddComponent/AddUser';
+import AddLicence from '../../Components/AddComponent/AddLicence';
 
 function PageAjout() {
     const { title } = useParams();

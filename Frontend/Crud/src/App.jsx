@@ -1,24 +1,24 @@
 import './App.css';
 import Admin from './Pages/Admin';
-import Home from './Pages/Home';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import User from './Pages/User';
-import PageViewwDossier from './Pages/PageViewDossier';
-import PageViewUser from './Pages/PageViewUser';
-import PageViewLicence from './Pages/PageViewLicence';
-import PageGestDossiers from './Pages/PageGestDossiers';
-import PageGestUser from './Pages/PageGestUser';
-import PageGestLicence from './Pages/PageGestLicence';
-import PageAjout from './Pages/PageAjout';
+import PageViewwDossier from './Pages/PagesAdmin/PageViewDossier';
+import PageViewUser from './Pages/PagesAdmin/PageViewUser';
+import PageViewLicence from './Pages/PagesAdmin/PageViewLicence';
+import PageGestDossiers from './Pages/PagesAdmin/PageGestDossiers';
+import PageGestUser from './Pages/PagesAdmin/PageGestUser';
+import PageGestLicence from './Pages/PagesAdmin/PageGestLicence';
+import PageAjout from './Pages/PagesAdmin/PageAjout';
 import PageSign from './Pages/PageSign';
 import Profile from './Components/Profile/Profile';
 import PageConfimation from './Pages/PageConfimation';
 import PrivateRoutes from './Components/ProtectedRoutes/ProtectedRoute';
 import PageError from './Pages/PageError';
-import { jwtDecode } from "jwt-decode";
 import Unauthorized from './Pages/Unauthorized';
+import Home from './Pages/PagesDossier/Home';
+import { useState,useEffect } from 'react';
 
 
 
@@ -26,6 +26,36 @@ import Unauthorized from './Pages/Unauthorized';
 
 
 function App() {
+  const [dossier,setDossier]=useState(null)
+
+  const dossierId = localStorage.getItem('dossierId')
+  
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const tokenString = localStorage.getItem('token'); // Suppose que vous stockez le token dans le localStorage
+        const token = JSON.parse(tokenString); // Analyser la chaîne JSON pour obtenir le token sans les guillemets
+        const resDossier = await fetch(`http://localhost:5000/api/dossier/findDossierById/${dossierId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
+          }
+        });
+
+        if (!resDossier.ok) {
+          return console.log("erreur fetching data");
+
+        }
+        const dossierData = await resDossier.json();
+        setDossier(dossierData);
+
+      } catch (err) {
+        console.error("erreur dans getData SidebarDossier", err);
+      }
+    }
+
+    getData();
+  }, [dossierId]);
 
 
   return (
@@ -52,6 +82,11 @@ function App() {
 
 
           </Route>
+          <Route element={<PrivateRoutes allowRoles={['adminDossier']} />}>
+            <Route path={ dossier ? `/dossier${dossier.RaisonSociale}/accueil` : ''} element={<Home />} />
+
+
+          </Route>
 
           <Route path='/ErrorPage' element={<PageError />} />
 
@@ -59,11 +94,11 @@ function App() {
 
 
           <Route path='/home' element={<Home />} />
-          <Route element={<PrivateRoutes allowRoles={['adminSite','adminDossier']}  />}>
-          <Route path='/admin' element={<Admin />} />
+          <Route element={<PrivateRoutes allowRoles={['adminSite', 'adminDossier']} />}>
+            <Route path='/admin' element={<Admin />} />
           </Route>
-          <Route element={<PrivateRoutes allowRoles={['user']}  />}>
-          <Route path='/user' element={<User />} />
+          <Route element={<PrivateRoutes allowRoles={['user']} />}>
+            <Route path='/user' element={<User />} />
           </Route>
 
 

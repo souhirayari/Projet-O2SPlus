@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidebar from '../Components/SideBar/SideBar'
-import DashBordUser from '../Components/DashBord/DashbordUser'
+import Sidebar from '../../Components/SideBar/SideBar'
+import DashBordUser from '../../Components/DashBord/DashbordUser'
 
 
 function PageViewwUser() {

@@ -1,0 +1,74 @@
+.header {
+    height: 100px !important;
+
+}
+
+.border-end {
+    min-height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    width: fit-content;
+
+}
+
+.imgSideBar {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.bodySideBar::-webkit-scrollbar {
+    display: none;
+}
+
+.linksidebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.smallscreen {
+    display: none;
+}
+
+.closebtn {
+    position: absolute;
+    left: 220px;
+    top: 10px;
+    z-index: 5;
+}
+
+.smallheader {
+    height: max-content;
+}
+
+.smallimg img {
+    width: 50px;
+}
+
+.smallside :nth-child(n) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3px;
+
+}
+
+.smallside::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebarF{
+    margin-left: 0% !important;
+}
+
+@media screen and (max-width :837px) {
+    .border-end{
+        display: none
+    } ;
+    
+}
