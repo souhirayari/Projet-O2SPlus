@@ -13,7 +13,7 @@ import '@coreui/coreui/dist/css/coreui.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser, faFileImport } from '@fortawesome/free-solid-svg-icons';
 
-function NavbarD({ setVisible, visible, show, setShow }) {
+function NavbarD({ setVisible, visible, show, setShow, title }) {
     const [dossier, setDossier] = useState(null);
     const [user, setUser] = useState(null);
 
@@ -66,7 +66,7 @@ function NavbarD({ setVisible, visible, show, setShow }) {
                         <CNavbarNav>
                             <CNavItem>
                                 <CNavLink href="#" active style={{ color: '#0f77c7' }}>
-                                    Dashboard
+                                    {title}
                                 </CNavLink>
                             </CNavItem>
                         </CNavbarNav>

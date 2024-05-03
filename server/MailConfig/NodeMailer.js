@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer')
 
 
 const user = "souhirayari31@gmail.com"; // hedhi t7ot feha l email 
-const pass = "ahab kqsc fmiv niwz"; // houni lazmek ta3mel generation lel code hedha gmail apps 
+const pass = "Sou31122003"; // houni lazmek ta3mel generation lel code hedha gmail apps 
 
 const transport = nodemailer.createTransport({
   service: "Gmail",

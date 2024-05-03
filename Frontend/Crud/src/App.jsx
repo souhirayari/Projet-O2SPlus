@@ -18,18 +18,18 @@ import PrivateRoutes from './Components/ProtectedRoutes/ProtectedRoute';
 import PageError from './Pages/PageError';
 import Unauthorized from './Pages/Unauthorized';
 import Home from './Pages/PagesDossier/Home';
-import { useState,useEffect } from 'react';
-
-
-
-
+import { useState, useEffect } from 'react';
+import Initia from './Pages/PagesDossier/Initia';
+import UsersD from './Pages/PagesDossier/UsersD'
+import Article from './Pages/PagesDossier/Article';
+import Stocks from'./Pages/PagesDossier/Stocks'
 
 
 function App() {
-  const [dossier,setDossier]=useState(null)
+  const [dossier, setDossier] = useState(null)
 
   const dossierId = localStorage.getItem('dossierId')
-  
+
 
   useEffect(() => {
     async function getData() {
@@ -58,6 +58,8 @@ function App() {
   }, [dossierId]);
 
 
+
+
   return (
     <>
       <ToastContainer position="top-center"
@@ -75,15 +77,46 @@ function App() {
             <Route path={`/Dossier/:dossierId`} element={<PageViewwDossier />} />
             <Route path={`/utilisateur/:userId`} element={<PageViewUser />} />
             <Route path={`/licence/:licenceId`} element={<PageViewLicence />} />
-
             <Route path="/Ajouter/:title" element={<PageAjout />} />
-
             <Route path='/Profile' element={<Profile />} />
 
 
           </Route>
           <Route element={<PrivateRoutes allowRoles={['adminDossier']} />}>
-            <Route path={ dossier ? `/dossier${dossier.RaisonSociale}/accueil` : ''} element={<Home />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/accueil` : ''} element={<Home />} />
+
+            <Route path={dossier ? `/dossier${dossier ? dossier.RaisonSociale : ''}/init/droitaccess` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/typetarif` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/moderegl` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/famillearticle` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/familleclient` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/marque` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/zoneinter` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/secteursgeo` : ''} element={<Initia />} />
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/utilisateurs` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/fournisseurs` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/techniciens` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/vendeurs` : ''} element={<UsersD />} />
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles` : ''} element={<Article />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/article/appareils` : ''} element={<Article />} />
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stocks` : ''} element={<Stocks/>} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/entree` : ''} element={<Stocks/>} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/sortie` : ''} element={<Stocks/>} />
+
+
+
+
+
+
+
+
+
+
+
+
 
 
           </Route>

@@ -4,11 +4,9 @@ import {
     CSidebarBrand,
     CSidebarHeader,
     CSidebarNav,
-    CSidebarToggler,
     CNavTitle,
     CNavItem,
     CNavGroup,
-    CNavbarToggler,
     CCollapse,
     CCloseButton
 
@@ -92,25 +90,35 @@ function SideBarD({ visible, show, setShow }) {
                     </CSidebarHeader>
 
                     <CSidebarNav className='bodySideBar' >
-                        <CNavItem href="/accueil" className='linksidebar'   > <FontAwesomeIcon icon={faGaugeSimpleHigh} /> Dashboard</CNavItem>
-                        <CNavItem href="/init" className='linksidebar'  > <FontAwesomeIcon icon={faBookmark} /> initialisation </CNavItem>
+                        <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/accueil`} className='linksidebar' name='Dashbord'   > <FontAwesomeIcon icon={faGaugeSimpleHigh} /> Dashboard</CNavItem>
+                        <CNavGroup toggler={<a href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init`} className='linksidebar' > <FontAwesomeIcon icon={faBookmark} /> Initialisation</a>}>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/droitaccess`} ><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Droits d'access</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/typetarif`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Types Tarif</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/moderegl`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Mode Réglement</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/famillearticle`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Famille Articles</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/familleclient`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Famille Clients  </CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/marque`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Marques</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/zoneinter`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Zone d'Intervention</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/init/secteursgeo`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Secteurs Géoraphique</CNavItem>
+
+                        </CNavGroup>
 
                         <CNavTitle>utilisateurs</CNavTitle>
                         <CNavGroup toggler={<a href={`/dossier${dossier ? dossier.RaisonSociale : ''}/utilisateurs`} className='linksidebar' > <FontAwesomeIcon icon={faUsers} /> Utilisateurs</a>}>
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/utilisateurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Utilisateurs</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/fournisseurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Fournisseurs</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/technicien`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Techniciens</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/vendeurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Vendeur</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/users/fournisseurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Fournisseurs</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/users/techniciens`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Techniciens</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/users/vendeurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Vendeur</CNavItem>
                         </CNavGroup>
                         <CNavTitle>Article Stocks</CNavTitle>
                         <CNavGroup toggler={<a href={`/dossier${dossier ? dossier.RaisonSociale : ''}/articles`} className='linksidebar' > <FontAwesomeIcon icon={faBoxArchive} /> Article</a>}>
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/articles`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Article</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/appareils`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Appareil</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/article/appareils`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Appareil</CNavItem>
                         </CNavGroup>
                         <CNavGroup toggler={<a href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stocks`} className='linksidebar'> <FontAwesomeIcon icon={faTruckRampBox} /> Stocks</a>}>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/mouvements`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Mouvements</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/entree`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Entree</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/sortie`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Sortie</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stocks`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Mouvements</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/entree`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Entree</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/sortie`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Sortie</CNavItem>
                         </CNavGroup>
                         <CNavTitle>Fonctionnalité</CNavTitle>
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/ventes`} className='linksidebar'> <FontAwesomeIcon icon={faTags} /> Ventes</CNavItem>
