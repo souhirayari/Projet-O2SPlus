@@ -1,18 +1,17 @@
 const vendeurController = require("../../Controller/Article/ControllerVendeur");
+const { authMiddleware } = require('../../Controller/Auth/AuthController')
 
 const router = require("express").Router();
 
-router.post("/addVendeur", vendeurController.addVendeur);
-router.put("/updateVendeur/:id", vendeurController.updateVendeur);
-router.delete("/deleteVendeur/:id", vendeurController.deleteVendeur);
-router.get("/getVendeur/:id", vendeurController.getVendeur);
-router.get(
-	"/getAllVendeurByDossier/:dossierId",
+router.post("/addvendeur", authMiddleware, vendeurController.addVendeur);
+router.put("/update/:id", authMiddleware, vendeurController.updateVendeur);
+router.delete("/delete/:id", authMiddleware, vendeurController.deleteVendeur);
+router.get("/getVendeur/:id", authMiddleware, vendeurController.getVendeur);
+router.get("/getAllVendeurByDossier/:dossierId", authMiddleware,
 	vendeurController.getAllVendeurByDossier
 );
 
-router.get(
-	"/numberOfVendeursByDossier/:dossierId",
+router.get("/numberOfVendeursByDossier/:dossierId", authMiddleware,
 	vendeurController.numberOfVendeursByDossier
 );
 

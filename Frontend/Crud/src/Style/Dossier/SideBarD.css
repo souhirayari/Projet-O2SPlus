@@ -42,33 +42,59 @@
     z-index: 5;
 }
 
+.smallsideBar {
+    width: 200px;
+}
+
 .smallheader {
     height: max-content;
+    text-decoration: none;
+}
+
+.smallimg {
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+
 }
 
 .smallimg img {
     width: 50px;
 }
 
-.smallside :nth-child(n) {
-    display: flex;
+.smallside {
     align-items: center;
-    justify-content: center;
-    margin: 3px;
+}
+
+.smallsideBar:hover {
+    align-items: none;
+    width: max-content;
+}
+
+.smallside .nav-group-toggle::after {
+    display: none;
+}
+
+.smallside:hover .nav-group-toggle::after {
+    display: block;
 
 }
+
 
 .smallside::-webkit-scrollbar {
     display: none;
 }
 
-.sidebarF{
+.sidebarF {
     margin-left: 0% !important;
 }
 
+
 @media screen and (max-width :837px) {
-    .border-end{
+    .border-end {
         display: none
-    } ;
-    
+    }
+
+    ;
+
 }

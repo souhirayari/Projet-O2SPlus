@@ -1,16 +1,15 @@
-const {AddArticle,deleteArticle , findAllArticle, updateArticle, findAllArticlebyDossier } = require("../../Controller/Article/ControllerArticle");
-
+const { AddArticle, deleteArticle, findAllArticle, updateArticle, findAllArticlebyDossier, findOneArticle } = require("../../Controller/Article/ControllerArticle");
+const { authMiddleware } = require('../../Controller/Auth/AuthController')
 
 const router = require('express').Router();
 
 module.exports = app => {
-    router.post('/AddArticle',AddArticle);
-    router.delete('/deleteArticle/:codeArticle/:dossierId', deleteArticle)
+    router.post('/AddArticle', authMiddleware, AddArticle);
+    router.delete('/deleteArticle/:id', authMiddleware, deleteArticle)
     router.get('/findAllArticle', findAllArticle)
-    router.get('/findAllArticle/:dossierId', findAllArticlebyDossier)
-    router.put('/updateArticle/:id', updateArticle)
-    
-
+    router.get('/findAllArticle/:dossierId', authMiddleware, findAllArticlebyDossier)
+    router.get('/findOneArticle/:idArticle', authMiddleware, findOneArticle)
+    router.put('/updateArticle/:id', authMiddleware, updateArticle)
 
     app.use('/api/article', router);
 };

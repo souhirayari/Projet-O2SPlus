@@ -1,15 +1,15 @@
 
 const { AddTypeTarif, deleteTypeTarif, findAllTypeTarif, updateTypeTarif, findAllTypeTarifByDossier } = require("../../Controller/Article/ControllerTypeTarif");
-
+const { authMiddleware } = require('../../Controller/Auth/AuthController')
 
 const router = require('express').Router();
 
 module.exports = app => {
-    router.post('/AddTypeTarif', AddTypeTarif);
-    router.delete('/deleteTypeTarif/:codeTypeTarif/:dossierId', deleteTypeTarif)
+    router.post('/AddTypeTarif', authMiddleware, AddTypeTarif);
+    router.delete('/deleteTypeTarif/:idtype', authMiddleware, deleteTypeTarif)
     router.get('/findAllTypeTarif', findAllTypeTarif)
-    router.get('/findAllTypeTarifbyDossier/:dossierId', findAllTypeTarifByDossier)
-    router.put('/updateTypeTarif/:id', updateTypeTarif)
+    router.get('/findAllTypeTarifbyDossier/:dossierId', authMiddleware, findAllTypeTarifByDossier)
+    router.put('/updateTypeTarif/:idtype', authMiddleware, updateTypeTarif)
 
 
     app.use('/api/article', router);

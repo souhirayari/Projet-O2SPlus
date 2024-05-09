@@ -19,17 +19,21 @@ function Article() {
     let Component = null;
 
     if (currentPageUrl !== '') {
-        // Utilisation de filter pour trouver la route correspondant à la page d'accueil
-        ArticleRoute = Routes.find((route) => currentPageUrl.includes(route.path));
-        Component = ArticleRoute ? ArticleRoute.component : null;
+        if (currentPageUrl.includes('consulterarticle')) {
+            ArticleRoute = Routes.find((route) => route.path.includes('consulterarticle'));
+            Component = ArticleRoute ? ArticleRoute.component : null;
+        } else {
+            ArticleRoute = Routes.find((route) => currentPageUrl.substr(-route.path.length) === route.path) || Routes.find((route) => currentPageUrl.includes(route.path))
+            Component = ArticleRoute ? ArticleRoute.component : null;
+            console.log(ArticleRoute)
+        }
     }
-
     return (
         <div>
             <SideBarD visible={visible} show={show} setShow={setShow} />
-            <div className={visible ? 'biglayout' : 'smalllayout'} >
+            <div className={visible ? ' biglayout' : 'smalllayout'} >
                 <NavbarD setVisible={setVisible} visible={visible} show={show} setShow={setShow} title={ArticleRoute ? ArticleRoute.name : ''} />
-                {Component && <Component />}
+                <div className='boxBody'> {Component && <Component />}</div>
             </div>
         </div>
     );

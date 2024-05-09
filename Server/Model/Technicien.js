@@ -1,13 +1,13 @@
 
 module.exports = (sequelize, Sequelize) => {
-    const UserModel = sequelize.define('Utilisateur', {
-        id: {
+    const TechnicienModel = sequelize.define('Technicien', {
+        idTech: {
             type: Sequelize.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-       
+
         login: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -26,7 +26,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         genre: {
             type: Sequelize.ENUM,
-            allowNull: false,
+            allowNull: true,
             values: ['Homme', 'Femme']
         },
         dateNaissance: {
@@ -37,13 +37,13 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        emploi: {
+        specialite: {
             type: Sequelize.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         adresse: {
             type: Sequelize.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         ville: {
             type: Sequelize.STRING,
@@ -57,29 +57,11 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true,
         },
-        avatar: {
-            type: Sequelize.BLOB,
-            allowNull: true,
-            validate: {
-                isImageOrNull(value) {
-                    if (value && !/\.(jpg|jpeg|png|gif)$/.test(value)) {
-                        throw new Error('Le type de fichier doit être JPG, JPEG, PNG ou GIF.');
-                    }
-                }
-            }
-        },
-       statut: {
+        status: {
             type: Sequelize.STRING,
             allowNull: true,
             validate: {
                 isIn: [['Actif', 'Suspendu', 'Inactif', 'Retraité']]
-            }
-        }, 
-        Role: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                isIn: [['adminDossier', 'user', 'adminSite']]
             }
         },
         IsActive: {
@@ -93,5 +75,5 @@ module.exports = (sequelize, Sequelize) => {
         },
     });
 
-    return UserModel;
+    return TechnicienModel;
 };

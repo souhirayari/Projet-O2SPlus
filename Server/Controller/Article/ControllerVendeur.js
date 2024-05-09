@@ -3,6 +3,9 @@ const Vendeur = db.vendeurs;
 const Dossier = db.Dossier;
 
 const addVendeur = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		return res.status(403).json({ message: 'Unauthorized access' });
+	}
 	const data = {
 		Nom: req.body.Nom,
 		CodeVendeur: req.body.CodeVendeur,
@@ -11,6 +14,8 @@ const addVendeur = async (req, res) => {
 		CodePostal: req.body.CodePostal,
 		Telephone: req.body.Telephone,
 		Email: req.body.Email,
+		status: req.body.status,
+
 	};
 	const dossierId = req.body.dossierId;
 
@@ -77,6 +82,9 @@ const addVendeur = async (req, res) => {
 
 const getAllVendeurByDossier = async (req, res) => {
 	try {
+		if (auth.user.Role !== 'adminDossier') {
+			return res.status(403).json({ message: 'Unauthorized access' });
+		}
 		const dossierId = req.params.dossierId;
 		const vendeurs = await Vendeur.findAll({ where: { dossierId: dossierId } });
 		res.send(vendeurs);
@@ -104,6 +112,9 @@ const getVendeur = async (req, res) => {
 };
 
 const updateVendeur = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		return res.status(403).json({ message: 'Unauthorized access' });
+	}
 	const id = req.params.id;
 	const data = {
 		Nom: req.body.Nom,
@@ -112,6 +123,8 @@ const updateVendeur = async (req, res) => {
 		CodePostal: req.body.CodePostal,
 		Telephone: req.body.Telephone,
 		Email: req.body.Email,
+		status: req.body.status,
+
 	};
 
 	if (!id) {
@@ -141,6 +154,9 @@ const updateVendeur = async (req, res) => {
 };
 
 const deleteVendeur = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		return res.status(403).json({ message: 'Unauthorized access' });
+	}
 	const id = req.params.id;
 
 	if (!id) {

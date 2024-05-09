@@ -38,6 +38,13 @@ module.exports = (sequelize, Sequelize) => {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
+			status: {
+				type: Sequelize.STRING,
+				allowNull: true,
+				validate: {
+					isIn: [['Actif', 'Suspendu', 'Inactif', 'Retraité']]
+				}
+			},
 		},
 		{
 			tableName: "t-vendeur",

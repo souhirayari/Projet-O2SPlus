@@ -26,7 +26,9 @@ function Home() {
       <SideBarD visible={visible} show={show} setShow={setShow} />
       <div className={visible ? 'biglayout' : 'smalllayout'}>
         <NavbarD setVisible={setVisible} visible={visible} show={show} setShow={setShow} title={homeRoute && homeRoute.name} />
+        <div  className="boxBody">
         {Component && <Component />}
+        </div>
       </div>
     </div>
   );

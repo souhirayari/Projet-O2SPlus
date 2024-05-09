@@ -6,10 +6,10 @@ const router = require('express').Router();
 
 module.exports = app => {
     router.post('/AddModeRegl', AddModeRegl);
-    router.delete('/deleteModeRegl/:codeReg/:dossierId', deleteModeRegl)
+    router.delete('/deleteModeRegl/:idMode', deleteModeRegl)
     router.get('/findAllModeRegl', findAllModeRegl)
     router.get('/findAllModeRegl/:dossierId', findAllModeReglbyDossier)
-    router.put('/updateModeRegl/:id', updateModeRegl)
+    router.put('/updateModeRegl/:idMode', updateModeRegl)
 
 
     app.use('/api/article', router);

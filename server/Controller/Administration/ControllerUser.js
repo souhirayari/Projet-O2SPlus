@@ -2,15 +2,16 @@ const User = require('../../Model/main').User;
 const jwt = require('jsonwebtoken');
 const { findbyId } = require('../Administration/ControllerDossier');
 const Dossier = require('../../Model/main').Dossier;
-const UserDossier=require('../../Model/main').userDossier
+const UserDossier = require('../../Model/main').userDossier
 const { Sequelize } = require('sequelize');
 const { sendConfirmationEmail } = require('../../MailConfig/NodeMailer');
 const bcrypt = require('bcrypt');
 
 
 exports.AddUserinfo = async (req, res) => {
+    console.log(auth)
     try {
-        if (auth.Role !== 'adminSite') {
+        if (auth.user.Role !== 'adminSite' && auth.user.Role !== 'adminDossier') {
             return res.status(403).json({ message: 'Unauthorized access' });
         }
 
@@ -96,7 +97,7 @@ exports.AddUserinfo = async (req, res) => {
 
 
 exports.findAll = async (req, res) => {
-    if (auth.user.Role !== 'adminSite') {
+    if (auth.Role !== 'adminSite') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {
@@ -135,7 +136,7 @@ exports.findByIdUser = async (req, res) => {
 
 
 exports.findOneUser = async (req, res) => {
-    if (auth.user.Role !== 'adminSite'&& auth.user.Role !== 'adminDossier' ) {
+    if (auth.user.Role !== 'adminSite' && auth.user.Role !== 'adminDossier') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {
@@ -156,7 +157,7 @@ exports.findOneUser = async (req, res) => {
     }
 }
 exports.DeleteUser = async (req, res) => {
-    if (auth.user.Role !== 'adminSite') {
+    if (auth.user.Role !== 'adminSite' && auth.user.Role !== 'adminDossier') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {
@@ -174,7 +175,8 @@ exports.DeleteUser = async (req, res) => {
 
 
 exports.updateUser = async (req, res) => {
-    if (auth.user.Role !== 'adminSite') {
+
+    if (auth.user.Role !== 'adminSite' && auth.user.Role !== 'adminDossier') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {
@@ -195,7 +197,8 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.findAllByDossier = async (req, res) => {
-    if (auth.Role !== 'adminSite' && auth.Role !== 'adminDossier') {
+    console.log(auth)
+    if (auth.user.Role !== 'adminSite' && auth.user.Role !== 'adminDossier') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {

@@ -41,6 +41,12 @@ require('./Routes/RoutesArticle/RoutesAppareil')(app)
 require('./Routes/RoutesArticle/RoutesModeReg')(app)
 require('./Routes/RoutesArticle/RoutesTypeTarif')(app)
 
+/* 
+? TEchnicien
+*/
+require('./Routes/RouteTechnicien/RouteTechnicien.js')(app)
+
+
 /*
 * Auth */ 
 require('./Routes/RoutesAuth/RoutesAuth')(app)

@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
 			primaryKey: true,
 
 		},
-        codeFourniseur: {
+        codeFournisseur: {
             type: Sequelize.STRING,
             allowNull: false,
            
@@ -21,8 +21,12 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: true,
 		},
+		prenom: {
+			type: Sequelize.STRING,
+			allowNull: true,
+		},
 		Adresse: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 		},
 		CodePostal: {

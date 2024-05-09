@@ -8,7 +8,6 @@ function UsersD() {
   const [show, setShow] = useState(false);
   const [currentPageUrl, setCurrentPageUrl] = useState('');
 
-
   useEffect(() => {
     // Met à jour currentPageUrl lorsque le composant est monté
     setCurrentPageUrl(window.location.href);
@@ -19,19 +18,28 @@ function UsersD() {
   let Component = null;
 
   if (currentPageUrl !== '') {
-    // Utilisation de filter pour trouver la route correspondant à la page d'accueil
-    UserRoute = Routes.find((route) => currentPageUrl.includes(route.path));
-    Component = UserRoute ? UserRoute.component : null;
+    if (currentPageUrl.includes('consulterutilisateur')) {
+      UserRoute = Routes.find((route) => route.path.includes('consulterutilisateur'));
+      Component = UserRoute ? UserRoute.component : null;
+    } else {
+      console.log(currentPageUrl);
+      UserRoute =
+        Routes.find((route) => currentPageUrl.substr(-route.path.length) === route.path) ||
+        Routes.find((route) => currentPageUrl.includes(route.path));
+      Component = UserRoute ? UserRoute.component : null;
+    }
   }
 
-  return (
+  return UserRoute ? (
     <div>
       <SideBarD visible={visible} show={show} setShow={setShow} />
-      <div className={visible ? 'biglayout' : 'smalllayout'} >
+      <div className={visible ? 'biglayout' : 'smalllayout'}>
         <NavbarD setVisible={setVisible} visible={visible} show={show} setShow={setShow} title={UserRoute ? UserRoute.name : ''} />
-        {Component && <Component />}
+        <div className="boxBody">{Component && <Component />}</div>
       </div>
     </div>
+  ) : (
+<h1>hello</h1>
   );
 }
 

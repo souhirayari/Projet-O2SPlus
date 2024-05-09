@@ -61,7 +61,7 @@ function NavbarD({ setVisible, visible, show, setShow, title }) {
             <CNavbar expand="lg" className="bg-body-tertiary">
                 <CContainer fluid className='containerNav'>
                     <div className='leftpartnav'>
-                        <CSidebarToggler onClick={() => setVisible(!visible)} style={{ color: "#0f77c7", fontSize: "24px" }} />
+                        <CSidebarToggler onClick={() => setVisible(!visible)} style={{ color: "#5856d6", fontSize: "24px" }} />
                         <CNavbarToggler onClick={() => setShow(!show)} />
                         <CNavbarNav>
                             <CNavItem>
@@ -75,13 +75,13 @@ function NavbarD({ setVisible, visible, show, setShow, title }) {
                         <CNavbarNav>
                             <CNavItem>
                                 <CNavLink href="/dossier/info" className='namelogin'>
-                                    <FontAwesomeIcon icon={faFileImport} size="2xl" style={{ color: "#0f77c7", }} />
+                                    <FontAwesomeIcon icon={faFileImport} size="2xl" style={{ color: "#5856d6", }} />
                                     <CNavTitle> Dossier {dossier ? dossier.RaisonSociale : ''}</CNavTitle>
                                 </CNavLink>
                             </CNavItem>
                             <CNavItem>
                                 <CNavLink href="/Profile" className='namelogin'>
-                                    <FontAwesomeIcon icon={faCircleUser} size="2x" style={{ color: "#0f77c7" }} />
+                                    <FontAwesomeIcon icon={faCircleUser} size="2x" style={{ color: "#5856d6" }} />
                                     <CNavTitle> {user ? user.nom + ' ' + user.prenom : ''}</CNavTitle>
                                 </CNavLink>
                             </CNavItem>

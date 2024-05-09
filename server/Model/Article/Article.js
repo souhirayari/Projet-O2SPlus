@@ -73,7 +73,7 @@ module.exports = (sequelize, Sequelize) => {
 		couverture: {
 			type: Sequelize.ENUM,
 			allowNull: true,
-			values: ['A', 'M']
+			values: ['A', 'M','AM']
 		},
 		condition: {
 			type: Sequelize.ENUM,

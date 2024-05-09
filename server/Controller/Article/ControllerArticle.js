@@ -6,8 +6,17 @@ const Fournisseur = require('../../Model/main').Fournisseur;
 
 
 
+// Importez les modules nécessaires, y compris auth s'il n'est pas déjà importé
+
 exports.AddArticle = async (req, res) => {
     try {
+        // Assurez-vous que auth est correctement défini et contient l'utilisateur actuel
+
+        // Vérifiez le rôle de l'utilisateur
+        if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+            return res.status(403).json({ message: 'Unauthorized access' });
+        }
+
         const {
             codeArticle,
             libelle,
@@ -26,27 +35,34 @@ exports.AddArticle = async (req, res) => {
             condition,
             gereEnStock,
             Serialize,
-            IdMarque,
+            idMarque,
             idFamArt,
             idFournisseur,
             prixAchatFournisseur
         } = req.body;
+        console.log(req.body)
 
-        if (!await this.verifmarque(idFamArt, IdMarque)) {
-            return res.status(400).send({ message: 'marqueId n\'appartent pas à ce dossier' });
-        }
+        // // Vérifiez si l'ID de la marque appartient à la famille d'articles
+        // const isMarqueValid = await this.verifmarque(idFamArt, IdMarque);
+        // if (!isMarqueValid) {
+        //     return res.status(400).send({ message: 'L\'ID de la marque n\'appartient pas à cette famille d\'articles.' });
+        // }
 
+        // // Récupérez les IDs de toutes les familles d'articles du même dossier 
         const familleIds = await this.getAllfamilleIds(idFamArt);
+        console.log(familleIds)
+        // Vérifiez si l'article existe déjà dans une famille d'articles du dossier
         const existingArticle = await this.verifArticle(codeArticle, familleIds);
         if (existingArticle) {
             return res.status(400).send({ message: 'Cet article existe déjà dans une famille d\'articles de ce dossier.' });
         }
 
-
-        if (!codeArticle || !libelle || !type || !prixAchat) {
+        // Vérifiez si toutes les informations requises sont fournies
+        if (!codeArticle || !libelle || !prixAchat) {
             return res.status(400).send({ message: 'Veuillez fournir toutes les informations requises.' });
         }
 
+        // Créez un nouvel article
         const newArticle = {
             codeArticle,
             libelle,
@@ -65,31 +81,35 @@ exports.AddArticle = async (req, res) => {
             condition,
             gereEnStock,
             Serialize,
-            IdMarque,
+            idMarque,
             idFamArt,
         };
 
-
-
+        // Sauvegardez le nouvel article dans la base de données
         const article = await Article.create(newArticle);
-        const fournisseur = await this.verifFournisseur(idFournisseur, idFamArt)
-        if (fournisseur) {
+
+        // Vérifiez si le fournisseur appartient au même dossier que la famille d'articles
+        const isFournisseurValid = await this.verifFournisseur(idFournisseur, idFamArt);
+        if (isFournisseurValid) {
+            // Si le fournisseur est valide, créez une association entre l'article et le fournisseur
             await FourArticle.create({
                 idArticle: article.idArticle,
                 idFournisseur: idFournisseur,
                 prixAchat: prixAchatFournisseur
             });
         } else {
-            return res.status(200).send({ message: 'Votre article a été créé mais founisseur n\'apprteint pas a ce dossier.' });
+            return res.status(200).send({ message: 'Votre article a été créé mais le fournisseur n\'appartient pas à ce dossier.' });
         }
 
-        return res.status(200).send({ message: 'Votre article a été créé avec founisseur.' });
-
+        // Retournez un message de réussite
+        return res.status(200).send({ message: 'Votre article a été créé avec succès.' });
     } catch (err) {
         console.error("Erreur lors de la création de l'article :", err);
         res.status(500).send({ message: "Erreur interne du serveur !" });
     }
 };
+
+// Les fonctions verifArticle, verifmarque, verifFournisseur et getAllfamilleIds restent inchangées
 
 
 // verification de existance de article
@@ -139,6 +159,7 @@ exports.verifFournisseur = async (idFournisseur, idFamArt) => {
 exports.getAllfamilleIds = async (familleId) => {
     try {
         const famille = await FamArticle.findOne({ where: { idFamArt: familleId } });
+        console.log(famille)
         if (!famille) {
             throw new Error('Famille d\'articles non trouvée');
         }
@@ -153,10 +174,14 @@ exports.getAllfamilleIds = async (familleId) => {
 
 
 exports.deleteArticle = async (req, res) => {
-    try {
-        const { codeArticle, dossierId } = req.params
 
-        await Article.destroy({ where: { codeArticle: codeArticle, dossierId: dossierId } });
+    if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+        return res.status(403).json({ message: 'Unauthorized access' });
+    }
+    try {
+        const { id } = req.params
+
+        await Article.destroy({ where: { idArticle: id } });
 
         res.status(200).json({ success: true, message: 'Article supprimé avec succès' });
     } catch (err) {
@@ -188,51 +213,100 @@ exports.findAllArticle = async (req, res) => {
 
 exports.findAllArticlebyDossier = async (req, res) => {
     try {
-        const dossierId = req.params.dossierId
+        // Vérifier l'autorisation
+        const userRole = auth.user.Role;
+        if (userRole !== 'adminDossier' && userRole !== 'user') {
+            return res.status(403).json({ message: 'Unauthorized access' });
+        }
+
+        const dossierId = req.params.dossierId;
+
+        // Récupérer les familles d'articles
         const familles = await FamArticle.findAll({
-            where: {
-                dossierId: dossierId
-            }
-        })
+            where: { dossierId: dossierId }
+        });
+
         if (familles.length === 0) {
             return res.status(404).send({ message: "Aucune famille d'articles trouvée pour ce dossier" });
         }
-        const familleIds = familles.map(famille => famille.idFamArt);
 
-        const articles = await Article.findAll({
-            where: { idFamArt: familleIds },
-            include: [
-                {
-                    model: FamArticle,
-                    as: "FamilleArticle"
-                }
-
-            ]
-
+        // Récupérer les marques
+        const marques = await Marque.findAll({
+            where: { dossierId: dossierId }
         });
-        if (articles.length == 0) {
-            return res.status(404).send({ message: "aucun Article trouvée" })
+
+        if (marques.length === 0) {
+            return res.status(404).send({ message: "Aucune marque trouvée pour ce dossier" });
         }
-        return res.status(200).send(articles)
+
+        // Extraire les identifiants de famille et de marque
+        const familleIds = familles.map(famille => famille.idFamArt);
+        const marqueIds = marques.map(marque => marque.idMarque);
+
+        // Récupérer les articles avec famille et marque
+        const articles = await Article.findAll({
+            where: { idFamArt: familleIds, idMarque: marqueIds },
+            include: [
+                { model: FamArticle, as: "FamilleArticle" },
+                { model: Marque, as: "Marque" }
+            ]
+        });
+
+        if (articles.length === 0) {
+            return res.status(404).send({ message: "Aucun article trouvé pour ce dossier" });
+        }
+
+        return res.status(200).send(articles);
     } catch (err) {
         console.log(err);
-        res.status(500).send({ message: "Internal server error!" });
+        return res.status(500).send({ message: "Erreur interne du serveur!" });
     }
 }
+
 exports.updateArticle = async (req, res) => {
+
+    if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+        return res.status(403).json({ message: 'Unauthorized access' });
+    }
     try {
         const id = req.params.id;
-        const article = await Article.findOne({ where: { id: id } });
+        const article = await Article.findOne({ where: { idArticle: id } });
 
         if (!article) {
             return res.status(404).json({ success: false, message: "Article non trouvé" });
         }
 
-        await Article.update(req.body, { where: { id: id } });
+        await Article.update(req.body, { where: { idArticle: id } });
 
         res.status(200).json({ success: true, message: "Article mis à jour avec succès" });
     } catch (err) {
         console.log(err);
         res.status(500).send({ message: "Internal server error!" });
+    }
+};
+
+exports.findOneArticle = async (req, res) => {
+    try {
+        const idArticle = req.params.idArticle;
+        const article = await Article.findOne({
+            where: { idArticle: idArticle },
+            include: [
+                {
+                    model: FamArticle,
+                    as: "FamilleArticle"
+                },
+                {
+                    model: Marque,
+                    as: "Marque"
+                }
+            ]
+        });
+        if (!article) {
+            return res.status(404).send({ message: "Aucun article trouvé" });
+        }
+        return res.status(200).send(article);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ message: "Erreur interne du serveur !" });
     }
 };

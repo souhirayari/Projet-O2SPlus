@@ -175,3 +175,67 @@ a {
   justify-content: center;
   gap: 10px;
 }
+
+.boxBody {
+  margin: 30px;
+  padding: 10px;
+}
+
+.btnAjout {
+  position: relative;
+  left: 70%;
+}
+
+.gildLayout {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.imageview {
+  display: flex;
+  justify-content: center;
+  margin-top: 90px;
+  border: 1px black;
+}
+
+.linkaff {
+  text-decoration: none;
+}
+
+.layoutform {
+  overflow: hidden;
+  margin: 20px;
+}
+
+.viewmodel {}
+
+.viewmodel li {
+  list-style-type: none;
+  font-size: 17px;
+
+}
+
+.viewmodel .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.clloutflex {
+  display: flex;
+  gap: 30px;
+}
+
+.modal-content {
+  width: 900px !important;
+}
+.py-2{
+  display: flex;
+  gap: 10px;
+}
+.marginpage{
+  margin-top: 30px;
+}

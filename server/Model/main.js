@@ -42,6 +42,8 @@ db.TypeTarif = require('./Article/TypeTarif')(sequelize, Sequelize)
 db.ModeRegl = require('./Article/ModeRegl')(sequelize, Sequelize)
 db.Appareil = require('./Article/Appareil')(sequelize, Sequelize)
 db.TarifFamille = require('./Article/TarifFamille')(sequelize, Sequelize)
+db.Technicien = require('./Technicien.js')(sequelize, Sequelize)
+
 
 db.vendeurs = require("../Model/Article/vendeur.js")(sequelize, Sequelize);
 db.familleClients = require("../Model/Client/familleClient.js")(sequelize, Sequelize);
@@ -81,6 +83,17 @@ db.Licence.belongsTo(db.Dossier, {
 // Dossier -- User
 db.Dossier.belongsToMany(db.User, { through: db.userDossier })
 db.User.belongsToMany(db.Dossier, { through: db.userDossier });
+
+// Dossier -- Technicien
+db.Dossier.hasMany(db.Technicien, {
+    foreignKey: "dossierId",
+    as: "Technicien",
+});
+
+db.Technicien.belongsTo(db.Dossier, {
+    foreignKey: "dossierId",
+    as: "Dossier",
+});
 
 
 //Article
@@ -211,11 +224,11 @@ db.Fournisseur.belongsToMany(db.Article, {
 // Article -- Marque
 db.Article.belongsTo(db.Marque,
     {
-        foreignKey: "IdMarque",
+        foreignKey: "idMarque",
         as: "Marque"
     })
 db.Marque.hasMany(db.Article, {
-    foreignKey: "IdMarque",
+    foreignKey: "idMarque",
     as: "Article",
 });
 

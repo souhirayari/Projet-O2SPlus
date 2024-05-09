@@ -1,0 +1,42 @@
+.btnSupMod {
+  display: flex;
+  gap: 10px;
+
+  height: 40px;
+}
+
+
+.edit:hover :nth-child(n) {
+  color: white !important;
+}
+
+.supp:hover :nth-child(n) {
+  color: white !important;
+}
+
+.Revenir a {
+  display: inline-block;
+  text-decoration: none;
+  color: #5856d6;
+  transition: transform 0.3s ease-in-out;
+}
+
+.Revenir a:hover {
+  transform: translateX(-10px);
+}
+
+.Revenir a .fa-arrow-left {
+  margin-right: 5px;
+  /* Pour ajouter un espace entre l'icône et le texte */
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  color: white !important;
+}
+.btns > button {
+  color: white !important;
+
+} 

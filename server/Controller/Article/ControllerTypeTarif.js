@@ -6,6 +6,9 @@ const { Dossier } = require('../../Model/main');
 
 exports.AddTypeTarif = async (req, res) => {
     try {
+        if (auth.user.Role !== 'adminDossier') {
+            res.status(403).send({ message: 'unauthoried asscess' })
+        }
         const {
             codeTypeTarif,
             libelle,
@@ -40,10 +43,15 @@ exports.AddTypeTarif = async (req, res) => {
 }
 
 exports.deleteTypeTarif = async (req, res) => {
-    try {
-        const { codeTypeTarif, dossierId } = req.params;
 
-        await TypeTarif.destroy({ where: { codeTypeTarif: codeTypeTarif, dossierId: dossierId } });
+    if (auth.user.Role !== 'adminDossier') {
+        res.status(403).send({ message: 'unauthoried asscess' })
+    }
+
+    try {
+        const { idtype } = req.params;
+
+        await TypeTarif.destroy({ where: { idTypetarif: idtype } });
 
         res.status(200).json({ success: true, message: 'Type Tarif supprimé avec succès' });
     } catch (err) {
@@ -74,6 +82,10 @@ exports.findAllTypeTarif = async (req, res) => {
 }
 
 exports.findAllTypeTarifByDossier = async (req, res) => {
+
+    if (auth.user.Role !== 'adminDossier') {
+        res.status(403).send({ message: 'unauthoried asscess' })
+    }
     try {
         const dossierId = req.params.dossierId
         const TypeTarifs = await TypeTarif.findAll({
@@ -90,15 +102,21 @@ exports.findAllTypeTarifByDossier = async (req, res) => {
 }
 
 exports.updateTypeTarif = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const TypeTarif = await TypeTarif.findOne({ where: { id: id } });
 
-        if (!TypeTarif) {
+    if (auth.user.Role !== 'adminDossier') {
+        res.status(403).send({ message: 'unauthoried asscess' })
+    }
+    try {
+        console.log(req.params)
+        const idtype  = req.params.idtype;
+        console.log(idtype)
+        const typeTarif = await TypeTarif.findOne({ where: { idTypetarif: idtype } });
+
+        if (!typeTarif) {
             return res.status(404).json({ success: false, message: "Type Tarif non trouvé" });
         }
 
-        await TypeTarif.update(req.body, { where: { id: id } });
+        await TypeTarif.update(req.body, { where: { idTypetarif: idtype } });
 
         res.status(200).json({ success: true, message: "Type Tarif mis à jour avec succès" });
     } catch (err) {

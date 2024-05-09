@@ -8,7 +8,7 @@ function Initia() {
     const [show, setShow] = useState(false);
     const [currentPageUrl, setCurrentPageUrl] = useState('');
 
-    
+
     useEffect(() => {
         // Met à jour currentPageUrl lorsque le composant est monté
         setCurrentPageUrl(window.location.href);
@@ -20,9 +20,14 @@ function Initia() {
     let Component = null;
 
     if (currentPageUrl !== '') {
-        // Utilisation de filter pour trouver la route correspondant à la page d'accueil
-        initRoute = Routes.find((route) => currentPageUrl.includes(route.path));
-        Component = initRoute ? initRoute.component : null;
+        if (currentPageUrl.includes('consulter')) {
+            initRoute = Routes.find((route) => route.path.includes('consulter'));
+            Component = initRoute ? initRoute.component : null;
+        } else {
+            initRoute = Routes.find((route) => currentPageUrl.substr(-route.path.length) === route.path) || Routes.find((route) => currentPageUrl.includes(route.path))
+            Component = initRoute ? initRoute.component : null;
+            console.log(initRoute)
+        }
     }
 
     return (
@@ -30,7 +35,7 @@ function Initia() {
             <SideBarD visible={visible} show={show} setShow={setShow} />
             <div className={visible ? 'biglayout' : 'smalllayout'} >
                 <NavbarD setVisible={setVisible} visible={visible} show={show} setShow={setShow} title={initRoute ? initRoute.name : ''} />
-                {Component && <Component />}
+                <div className='boxBody'>  {Component && <Component />}</div>
             </div>
         </div>
     );

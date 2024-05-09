@@ -24,10 +24,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.ENUM,
             allowNull: false,
             values :[
-                'c',
-                'N',
-                'FM',
-                'FD'            
+                'comptant',
+                'Net',
+                'Fin Mois',
+                'Fin Décade'            
             ]
 
         },
@@ -42,7 +42,7 @@ module.exports = (sequelize, Sequelize) => {
         modePaiment: {
             type: Sequelize.ENUM,
             allowNull: true,
-            values:['c','v','cb','e','p']
+            values:['chèque','virement','carte bancaire','espèces','prélevement']
         }
 
     });

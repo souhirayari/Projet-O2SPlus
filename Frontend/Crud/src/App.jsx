@@ -22,7 +22,7 @@ import { useState, useEffect } from 'react';
 import Initia from './Pages/PagesDossier/Initia';
 import UsersD from './Pages/PagesDossier/UsersD'
 import Article from './Pages/PagesDossier/Article';
-import Stocks from'./Pages/PagesDossier/Stocks'
+import Stocks from './Pages/PagesDossier/Stocks'
 
 
 function App() {
@@ -94,17 +94,39 @@ function App() {
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/zoneinter` : ''} element={<Initia />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/secteursgeo` : ''} element={<Initia />} />
 
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/moderegl/ajoutermodeRegl` : ''} element={<Initia />} />
+
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/typetarif/ajoutertypetarif` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/typetarif/consultertypetarif/:idtype` : ''} element={<Initia />} />
+
+
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/utilisateurs` : ''} element={<UsersD />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/fournisseurs` : ''} element={<UsersD />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/techniciens` : ''} element={<UsersD />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/vendeurs` : ''} element={<UsersD />} />
 
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/utilisateurs/ajouterUtilisateur` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/consulterutilisateur/:userId` : ''} element={<UsersD />} />
+
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/fournisseurs/ajouterfournisseur` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/techniciens/ajoutertechnicien` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/vendeurs/ajoutervendeur` : ''} element={<UsersD />} />
+
+
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles` : ''} element={<Article />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/article/appareils` : ''} element={<Article />} />
 
-            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stocks` : ''} element={<Stocks/>} />
-            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/entree` : ''} element={<Stocks/>} />
-            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/sortie` : ''} element={<Stocks/>} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles/ajouterarticle` : ''} element={<Article />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles/consulterarticle/:idarticle` : ''} element={<Article />} />
+
+
+
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stocks` : ''} element={<Stocks />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/entree` : ''} element={<Stocks />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/sortie` : ''} element={<Stocks />} />
 
 
 

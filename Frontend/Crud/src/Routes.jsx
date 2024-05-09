@@ -18,14 +18,22 @@ import Appareil from './Components/Dossier/ArticleDossier/Appareil';
 import Mvt from './Components/Dossier/Stocks/Mvt'
 import Entree from './Components/Dossier/Stocks/Entree'
 import Sortie from './Components/Dossier/Stocks/Sortie'
-
+import AddUserD from './Components/Dossier/Add/AddUserD';
+import View from './Components/Dossier/Consulter/View';
+import AddFournisseur from './Components/Dossier/Add/AddFournisseur';
+import AddTechnicien from './Components/Dossier/Add/AddTechnicien';
+import AddVendeur from './Components/Dossier/Add/AddVendeur';
+import AddArticle from './Components/Dossier/Add/AddArticle';
+import ConsultArticle from './Components/Dossier/Consulter/ConsultArticle';
+import AddTypeTarif from './Components/Dossier/Add/AddTypeTarif';
+import AddModeRegl from './Components/Dossier/Add/AddModeRegl';
 
 
 
 function getRoutes() {
   const routes = [
     {
-      path: "/acceuil",
+      path: `/acceuil`,
       name: "Dashboard",
       component: Dasboard,
     },
@@ -39,12 +47,31 @@ function getRoutes() {
       name: "Type Tarif",
       component: TypeTarif,
     },
+    {
+      path: "/init/typetarif/ajoutertypetarif",
+      name: "Type Tarif",
+      component: AddTypeTarif,
+    },
+    {
+      path: "/init/typetarif/consultertypetarif/:idtype",
+      name: "Type Tarif",
+      component: AddTypeTarif,
+    },
+
 
     {
       path: "/init/moderegl",
       name: "Mode Reglement",
       component: ModeRegl,
-    }, {
+    },
+    {
+      path: "/init/moderegl/ajoutermodeRegl",
+      name: "Mode Reglement",
+      component: AddModeRegl,
+    },
+  
+   
+    {
       path: "/init/famillearticle",
       name: "Famille Article",
       component: FamArticle,
@@ -71,9 +98,25 @@ function getRoutes() {
       component: UserEmp,
     },
     {
+      path: "/utilisateurs/ajouterUtilisateur",
+      name: "Utilisateurs \\ Ajouter Un Utilisateur",
+      component: AddUserD,
+    },
+    {
+      path: '/consulterutilisateur/:userId',
+      name: "Utilisateurs \\ Consulter un  Utilisateur ",
+      component: View,
+    },
+
+    {
       path: "/users/fournisseurs",
       name: "Utilisateurs \\ Fournissuers",
       component: Fournisseur,
+    },
+    {
+      path: "/users/fournisseurs/ajouterfournisseur",
+      name: "Utilisateurs \\ Fournissuers",
+      component: AddFournisseur,
     },
     {
       path: "users/techniciens",
@@ -81,14 +124,34 @@ function getRoutes() {
       component: Technicien,
     },
     {
+      path: "users/techniciens/ajoutertechnicien",
+      name: "Utilisateurs \\ Techniciens",
+      component: AddTechnicien,
+    },
+    {
       path: "users/vendeurs",
       name: "Utilisateurs \\ Vendeurs",
       component: Vendeur,
     },
     {
+      path: "users/vendeurs/ajoutervendeur",
+      name: "Utilisateurs \\ Vendeurs",
+      component: AddVendeur,
+    },
+    {
       path: "/articles",
       name: "Article",
       component: ArticleD,
+    },
+    {
+      path: "/articles/ajouterarticle",
+      name: "Article",
+      component: AddArticle,
+    },
+    {
+      path: "/articles/consulterarticle/:idarticle",
+      name: "Article",
+      component: ConsultArticle,
     },
     {
       path: "/article/appareils",
