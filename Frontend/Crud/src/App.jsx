@@ -102,9 +102,9 @@ function App() {
 
 
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/utilisateurs` : ''} element={<UsersD />} />
-            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/fournisseurs` : ''} element={<UsersD />} />
+            {/* <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/fournisseurs` : ''} element={<UsersD />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/techniciens` : ''} element={<UsersD />} />
-            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/vendeurs` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/vendeurs` : ''} element={<UsersD />} /> */}
 
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/utilisateurs/ajouterUtilisateur` : ''} element={<UsersD />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/consulterutilisateur/:userId` : ''} element={<UsersD />} />
@@ -114,6 +114,40 @@ function App() {
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/techniciens/ajoutertechnicien` : ''} element={<UsersD />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/vendeurs/ajoutervendeur` : ''} element={<UsersD />} />
 
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/marque/ajoutermarque` : ''} element={<Initia />} />
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/zoneinter/ajouterzoneinter` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/secteursgeo/ajoutersecteur` : ''} element={<Initia />} />
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/famillearticle/ajouterfamillearticle` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/familleclient/ajouterfamilleclient` : ''} element={<Initia />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/init/familleclient/consulterfamilleClient/:id` : ''} element={<Initia />} />
+
+            {/* 
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles` : ''} element={<Article />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/article/appareils` : ''} element={<Article />} />
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles/ajouterarticle` : ''} element={<Article />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles/consulterarticle/:idarticle` : ''} element={<Article />} />
+
+
+
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stocks` : ''} element={<Stocks />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/entree` : ''} element={<Stocks />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/stock/sortie` : ''} element={<Stocks />} /> */}
+
+
+
+
+
+          </Route>
+          <Route element={<PrivateRoutes allowRoles={['adminDossier', 'user']} />}>
+
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/fournisseurs` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/techniciens` : ''} element={<UsersD />} />
+            <Route path={dossier ? `/dossier${dossier.RaisonSociale}/users/vendeurs` : ''} element={<UsersD />} />
 
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/articles` : ''} element={<Article />} />
             <Route path={dossier ? `/dossier${dossier.RaisonSociale}/article/appareils` : ''} element={<Article />} />
@@ -132,22 +166,9 @@ function App() {
 
 
 
-
-
-
-
-
-
-
-
-
           </Route>
 
           <Route path='/ErrorPage' element={<PageError />} />
-
-
-
-
           <Route path='/home' element={<Home />} />
           <Route element={<PrivateRoutes allowRoles={['adminSite', 'adminDossier']} />}>
             <Route path='/admin' element={<Admin />} />

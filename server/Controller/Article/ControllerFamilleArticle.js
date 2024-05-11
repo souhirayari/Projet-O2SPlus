@@ -1,17 +1,19 @@
 const FamArticle = require('../../Model/main').FamArticle
 const jwt = require('jsonwebtoken');
 const { findbyId } = require('../Administration/ControllerDossier');
-const { Model, where } = require('sequelize');
 const { Dossier, Fournisseur, FamArtFourni } = require('../../Model/main');
-const TypeTarif=require('../../Model/main').TypeTarif;
+const TypeTarif = require('../../Model/main').TypeTarif;
 
 
 
 exports.AddFamille = async (req, res) => {
     try {
-        const { codefamille, libelle, coefficient, valorisation, dossierId, idFournisseur,delaisliv,principale,equivStokage,idTarif } = req.body;
-        const newFamille = { codefamille, libelle, coefficient, valorisation, dossierId };
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(403).send({ message: 'Unathorized access.' });
 
+        }
+        const { codefamille, libelle, coefficient, valorisation, dossierId, idFournisseur, delaisliv, principale, equivStokage, idTarif } = req.body;
+        const newFamille = { codefamille, libelle, coefficient, valorisation, dossierId };
         if (!dossierId) {
             return res.status(400).send({ message: 'Set dossierId.' });
         }
@@ -44,9 +46,9 @@ exports.AddFamille = async (req, res) => {
         await FamArtFourni.create({
             idFournisseur: idFournisseur,
             idFamArt: famille.idFamArt,
-            delaisliv:delaisliv,
-            principale:principale,
-            equivStokage:equivStokage,
+            delaisliv: delaisliv,
+            principale: principale,
+            equivStokage: equivStokage,
         })
         await famille.addTypeTarif(typeTarif)
         return res.status(200).send({ message: 'Your famille Article has been created.' });
@@ -70,10 +72,14 @@ exports.verifCodefamille = async (codefamille, dossierId) => {
 
 exports.deleteFamille = async (req, res) => {
     try {
-        const { codefamille, dossierId } = req.params;
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(403).send({ message: 'Unathorized access.' });
+
+        }
+        const { id } = req.params;
 
         // Récupérer la famille d'article en fonction du codeFamille et du dossierId
-        const familleArticle = await FamArticle.findOne({ where: { codefamille: codefamille, dossierId: dossierId } });
+        const familleArticle = await FamArticle.findOne({ where: { idFamArt: id } });
 
         // Vérifier si la famille d'article existe
         if (!familleArticle) {
@@ -81,7 +87,7 @@ exports.deleteFamille = async (req, res) => {
         }
 
         // Supprimer la famille d'article
-        await FamArticle.destroy({ where: { codefamille: codefamille, dossierId: dossierId } });
+        await FamArticle.destroy({ where: { idFamArt: id } });
 
         res.status(200).json({ success: true, message: 'Famille d\'article supprimée avec succès' });
     } catch (err) {
@@ -115,15 +121,21 @@ exports.findAllFamille = async (req, res) => {
 
 exports.findAllFamilleBydossier = async (req, res) => {
     try {
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(403).send({ message: 'Unathorized access.' });
+
+        }
         const dossierId = req.params.dossierId
-        const famArticles = await FamArticle.findAll({ where: { dossierId: dossierId } ,
+        const famArticles = await FamArticle.findAll({
+            where: { dossierId: dossierId },
             include: [
                 {
                     model: Fournisseur,
                     as: "Fournisseurs"
                 }
 
-            ]})
+            ]
+        })
         if (famArticles.length == 0) {
             return res.status(404).send({ message: "aucun famille trouvée" })
         }
@@ -136,14 +148,18 @@ exports.findAllFamilleBydossier = async (req, res) => {
 
 exports.updateFamille = async (req, res) => {
     try {
-        const { codefamille, dossierId } = req.params;
-        const familleArt = await FamArticle.findOne({ where: { codefamille: codefamille, dossierId: dossierId } });
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(403).send({ message: 'Unathorized access.' });
+
+        }
+        const { id } = req.params;
+        const familleArt = await FamArticle.findOne({ where: { idFamArt: id } });
 
         if (!familleArt) {
             return res.status(404).json({ success: false, message: "famille Article non trouvé" });
         }
 
-        await FamArticle.update(req.body, { where: { id: id } });
+        await FamArticle.update(req.body, { where: { idFamArt: id } });
 
         res.status(200).json({ success: true, message: "famille Article mis à jour avec succès" });
     } catch (err) {

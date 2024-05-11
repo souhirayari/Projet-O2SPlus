@@ -8,10 +8,10 @@ module.exports = (sequelize, Sequelize) => {
 
 		},
 		codeArticle: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            unique: 'uniqueCodeArticlePerFamille' // Définition de la contrainte de validation unique
-        },
+			type: Sequelize.STRING,
+			allowNull: false,
+			unique: 'uniqueCodeArticlePerFamille' // Définition de la contrainte de validation unique
+		},
 		libelle: {
 			type: Sequelize.STRING,
 			allowNull: false,
@@ -73,7 +73,7 @@ module.exports = (sequelize, Sequelize) => {
 		couverture: {
 			type: Sequelize.ENUM,
 			allowNull: true,
-			values: ['A', 'M','AM']
+			values: ['A', 'M', 'AM']
 		},
 		condition: {
 			type: Sequelize.ENUM,

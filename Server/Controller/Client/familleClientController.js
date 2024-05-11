@@ -7,6 +7,9 @@ const Vendeur = db.vendeurs;
 
 const addFamilleClient = async (req, res) => {
     try {
+        if (auth.user.Role != 'adminDossier') {
+            return res.status.send({ message: 'Unanthorized Access' })
+        }
         const { Libelle, CodeFamilleClient, dossierId, typeTarifId, modeReglementId, vendeurId } = req.body;
 
         if (!dossierId) {
@@ -19,7 +22,7 @@ const addFamilleClient = async (req, res) => {
         }
 
         const modeReglement = await ModeReglement.findOne({
-            where: { id: modeReglementId, dossierId: dossierId }
+            where: { idReg: modeReglementId, dossierId: dossierId }
         });
         if (!modeReglement) {
             return res.status(400).send("Invalid modeReglementId");
@@ -33,7 +36,7 @@ const addFamilleClient = async (req, res) => {
         }
 
         const typeTarif = await TypeTarif.findOne({
-            where: { id: typeTarifId, dossierId: dossierId }
+            where: { idTypeTarif: typeTarifId, dossierId: dossierId }
         });
         if (!typeTarif) {
             return res.status(400).send("Invalid typeTarifId");
@@ -51,9 +54,9 @@ const addFamilleClient = async (req, res) => {
             Libelle,
             CodeFamilleClient: generatedCode,
             dossierId,
-            modeReglementId,
-            typeTarifId,
-            vendeurId
+            idReg: modeReglementId,
+            idTypetarif: typeTarifId,
+            vendeurId: vendeurId
         });
 
         res.status(201).send(newFamilleClient);
@@ -65,6 +68,9 @@ const addFamilleClient = async (req, res) => {
 
 const getFamilleClient = async (req, res) => {
     try {
+        if (auth.user.Role != 'adminDossier') {
+            return res.status.send({ message: 'Unanthorized Access' })
+        }
         const id = req.params.id;
         const familleClient = await FamilleClient.findByPk(id);
         if (!familleClient) {
@@ -79,13 +85,37 @@ const getFamilleClient = async (req, res) => {
 
 const getFamilleClientByDossier = async (req, res) => {
     try {
+        // Assurez-vous que auth est correctement passé avec req
+        // if (auth.user.Role !== 'adminDossier') {
+        //     // Utilisez res.status(403).send pour accès non autorisé
+        //     return res.status(403).send({ message: 'Unauthorized Access' });
+        // }
+
         const dossierId = req.params.dossierId;
+
         const familleClient = await FamilleClient.findAll({
-            where: { dossierId: dossierId }
+            where: { dossierId: dossierId },
+            include: [
+                {
+                    model: TypeTarif,
+                    as: 'typeTarif'
+                },
+                {
+                    model: ModeReglement,
+                    as: 'modeReglement'
+                },
+                {
+                    model: Vendeur,
+                    as: 'vendeur'
+                }
+
+            ]
         });
+
         if (!familleClient || familleClient.length === 0) {
             return res.status(404).send("Famille Client not found");
         }
+
         res.status(200).send(familleClient);
     } catch (error) {
         console.error("Error getting FamilleClient by Dossier:", error);
@@ -93,8 +123,12 @@ const getFamilleClientByDossier = async (req, res) => {
     }
 };
 
+
 const deleteFamilleClient = async (req, res) => {
     try {
+        if (auth.user.Role != 'adminDossier') {
+            return res.status.send({ message: 'Unanthorized Access' })
+        }
         const id = req.params.id;
         const familleClient = await FamilleClient.findByPk(id);
         if (!familleClient) {
@@ -110,6 +144,9 @@ const deleteFamilleClient = async (req, res) => {
 
 const updateFamilleClient = async (req, res) => {
     try {
+        if (auth.user.Role != 'adminDossier') {
+            return res.status.send({ message: 'Unanthorized Access' })
+        }
         const id = req.params.id;
         const data = {
             Libelle: req.body.Libelle,
@@ -176,4 +213,5 @@ module.exports = {
     getFamilleClient,
     getFamilleClientByDossier,
     deleteFamilleClient,
-    updateFamilleClient,};
+    updateFamilleClient,
+};

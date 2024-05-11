@@ -3,6 +3,9 @@ const ZoneIntervention = db.zoneInterventions;
 const Dossier = db.Dossier;
 
 const addZoneIntervention = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		res.status(403).send({ message: 'Unathorized access' })
+	}
 	const data = {
 		Libelle: req.body.Libelle,
 		Duree: req.body.Duree,
@@ -35,6 +38,9 @@ const addZoneIntervention = async (req, res) => {
 };
 
 const updateZoneIntervention = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		res.status(403).send({ message: 'Unathorized access' })
+	}
 	const id = req.params.id;
 
 	try {
@@ -57,6 +63,9 @@ const updateZoneIntervention = async (req, res) => {
 };
 
 const deleteZoneIntervention = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		res.status(403).send({ message: 'Unathorized access' })
+	}
 	const id = req.params.id;
 
 	try {
@@ -75,6 +84,9 @@ const deleteZoneIntervention = async (req, res) => {
 };
 
 const getAllZoneInterventionByDossier = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		res.status(403).send({ message: 'Unathorized access' })
+	}
 	const dossierId = req.params.dossierId;
 
 	try {
@@ -97,6 +109,9 @@ const getAllZoneInterventionByDossier = async (req, res) => {
 };
 
 const getZoneInterventionById = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		res.status(403).send({ message: 'Unathorized access' })
+	}
 	const id = req.params.id;
 
 	try {

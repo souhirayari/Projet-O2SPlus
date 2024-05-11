@@ -1,13 +1,14 @@
 const Marque = require('../../Model/main').Marque
-const jwt = require('jsonwebtoken');
 const { findbyId } = require('../Administration/ControllerDossier');
-const { Model } = require('sequelize');
 const { Dossier } = require('../../Model/main');
 
 
 
 exports.AddMarque = async (req, res) => {
     try {
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
         const { codeMarque, libelle, dossierId } = req.body
         const newMarque = { libelle, codeMarque, dossierId }
 
@@ -40,9 +41,12 @@ exports.AddMarque = async (req, res) => {
 
 exports.deleteMarque = async (req, res) => {
     try {
-        const { codeMarque, dossierId } = req.params;
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
+        const { id } = req.params;
 
-        await Marque.destroy({ where: { codeMarque: codeMarque, dossierId: dossierId } });
+        await Marque.destroy({ where: { idMarque: id } });
 
         res.status(200).json({ success: true, message: 'Marque  supprimé avec succès' });
     } catch (err) {
@@ -73,6 +77,9 @@ exports.findAllMarque = async (req, res) => {
 
 exports.findAllMarqueByDossier = async (req, res) => {
     try {
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
         const dossierId = req.params.dossierId
         const marques = await Marque.findAll({ where: { dossierId: dossierId } })
         if (marques.length == 0) {
@@ -86,14 +93,18 @@ exports.findAllMarqueByDossier = async (req, res) => {
 }
 exports.updateMarque = async (req, res) => {
     try {
-        const id = req.params.id;
-        const marque = await Marque.findOne({ where: { id: id } });
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
+        const { id } = req.params;
+        console.log (id)
+        const marque = await Marque.findOne({ where: { idMarque: id } });
 
         if (!marque) {
             return res.status(404).json({ success: false, message: "Marque  non trouvé" });
         }
 
-        await Marque.update(req.body, { where: { id: id } });
+        await Marque.update(req.body, { where: { idMarque: id } });
 
         res.status(200).json({ success: true, message: "Marque mis à jour avec succès" });
     } catch (err) {

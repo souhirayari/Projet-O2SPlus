@@ -6,6 +6,9 @@ const { Dossier } = require('../../Model/main');
 
 exports.AddModeRegl = async (req, res) => {
     try {
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
         const {
             codeReg,
             libelle,
@@ -45,9 +48,12 @@ exports.AddModeRegl = async (req, res) => {
 
 exports.deleteModeRegl = async (req, res) => {
     try {
-        const { codeReg, dossierId } = req.params;
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
+        const { idmode } = req.params;
 
-        await ModeRegl.destroy({ where: { codeReg: codeReg, dossierId: dossierId } });
+        await ModeRegl.destroy({ where: { idReg: idmode } });
 
         res.status(200).json({ success: true, message: 'Mode Reglement supprimé avec succès' });
     } catch (err) {
@@ -79,6 +85,9 @@ exports.findAllModeRegl = async (req, res) => {
 
 exports.findAllModeReglbyDossier = async (req, res) => {
     try {
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
         const dossierId = req.params.dossierId
         const modeRegls = await ModeRegl.findAll({ where: { dossierId: dossierId } })
         if (modeRegls.length == 0) {
@@ -93,14 +102,17 @@ exports.findAllModeReglbyDossier = async (req, res) => {
 
 exports.updateModeRegl = async (req, res) => {
     try {
-        const id = req.params.id;
-        const modeRegl = await ModeRegl.findOne({ where: { id: id } });
+        if (auth.user.Role !== 'adminDossier') {
+            return res.status(400).send({ message: 'unauthorised access ' });
+        }
+        const { idmode } = req.params;
+        const modeRegl = await ModeRegl.findOne({ where: { idReg: idmode } });
 
         if (!modeRegl) {
             return res.status(404).json({ success: false, message: "Mode Reglement non trouvé" });
         }
 
-        await ModeRegl.update(req.body, { where: { id: id } });
+        await ModeRegl.update(req.body, { where: { idReg: idmode } });
 
         res.status(200).json({ success: true, message: "Mode Reglementmis à jour avec succès" });
     } catch (err) {

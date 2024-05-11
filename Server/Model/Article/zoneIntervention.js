@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
 				allowNull: false,
 			},
 			Duree: {
-				type: Sequelize.TIME,
+				type: Sequelize.INTEGER,
 				allowNull: true,
 			},
 			Note: {

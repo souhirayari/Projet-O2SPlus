@@ -1,29 +1,29 @@
 const zoneInterventionController = require("../../Controller/Article/ControllerZoneIntervention");
-
+const { authMiddleware } = require('../../Controller/Auth/AuthController')
 const router = require("express").Router();
 
 router.post(
-	"/addZoneIntervention",
+	"/addZoneIntervention", authMiddleware,
 	zoneInterventionController.addZoneIntervention
 );
 
 router.put(
-	"/updateZoneIntervention/:id",
+	"/updateZoneIntervention/:id", authMiddleware,
 	zoneInterventionController.updateZoneIntervention
 );
 
 router.delete(
-	"/deleteZoneIntervention/:id",
+	"/deleteZoneIntervention/:id", authMiddleware,
 	zoneInterventionController.deleteZoneIntervention
 );
 
 router.get(
-	"/getAllZoneInterventionByDossier/:dossierId",
+	"/getAllZoneInterventionByDossier/:dossierId", authMiddleware,
 	zoneInterventionController.getAllZoneInterventionByDossier
 );
 
 router.get(
-	"/getZoneInterventionById/:id",
+	"/getZoneInterventionById/:id", authMiddleware,
 	zoneInterventionController.getZoneInterventionById
 );
 

@@ -12,8 +12,8 @@ module.exports = (sequelize, Sequelize) => {
         principale: {
             type: Sequelize.ENUM,
             allowNull: false,
-            values:['oui','non']
-            
+            values: ['oui', 'non']
+
         },
         equivStokage: {
             type: Sequelize.DOUBLE,

@@ -6,13 +6,10 @@ import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-function UpdateTypeTarif({ show, handleClose, typeTarif }) {
-    const dossierId = localStorage.getItem('dossierId')
-    console.log(typeTarif)
+function UpdateSecteur({ show, handleClose, secteur }) {
     const [formData, setFormData] = useState({
-        libelle: '',
-        codeTypeTarif: '',
-        type: ''
+        Libelle: '',
+        CodeSecteurGeo: ''
     });
 
 
@@ -26,21 +23,22 @@ function UpdateTypeTarif({ show, handleClose, typeTarif }) {
 
     };
     useEffect(() => {
-        if (typeTarif) {
+        if (secteur) {
             setFormData({
-                libelle: typeTarif.libelle || '',
-                codeTypeTarif: typeTarif.codeTypeTarif || '',
-                type: typeTarif.type || ''
+                Libelle: secteur.Libelle || '',
+                CodeSecteurGeo: secteur.CodeSecteurGeo || '',
+
+
             });
         }
-    }, [typeTarif]);
+    }, [secteur]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const tokenString = localStorage.getItem('token'); // Suppose que vous stockez le token dans le localStorage
             const token = JSON.parse(tokenString); // Analyser la chaîne JSON pour obtenir le token sans les guillemets
-            const response = await fetch(`http://localhost:5000/api/article/updateTypeTarif/${typeTarif.idTypetarif}`, {
+            const response = await fetch(`http://localhost:5000/api/SecteurGeo/updateSecteurGeo/${secteur.id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -50,53 +48,42 @@ function UpdateTypeTarif({ show, handleClose, typeTarif }) {
             });
 
             if (!response.ok) {
-                throw new Error('Erreur lors de la mise à jour du type tarif ');
+                throw new Error('Erreur lors de la mise à jour du secteur ');
             }
 
-            toast.success('type tarif mis à jour avec succès !');
+            toast.success('secteur mis à jour avec succès !');
             handleClose();
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
         } catch (error) {
-            console.error('Erreur lors de la mise à jour du type tarif:', error.message);
-            toast.error('Erreur lors de la mise à jour du type tarif');
+            console.error('Erreur lors de la mise à jour du secteur:', error.message);
+            toast.error('Erreur lors de la mise à jour du secteur');
         }
     };
-
-
 
     return (
         <>
             <div className='EditForm'>
-                {typeTarif && (
+                {secteur && (
                     <Modal show={show} onHide={handleClose}  >
                         <Modal.Header closeButton>
-                            <Modal.Title>Type Tarif</Modal.Title>
+                            <Modal.Title>Secteur Geographique</Modal.Title>
                         </Modal.Header>
                         <Modal.Body >
                             <Form>
                                 <Row className="mb-3">
-                                    <Form.Group as={Col} controlId="formGridRaisonsociale">
-                                        <Form.Label> Code Type Tarif </Form.Label>
-                                        <Form.Control type="text" name='codeTypeTarif' onChange={handleChange} value={formData.codeTypeTarif} placeholder="Enter code " disabled required />
-                                    </Form.Group>
-                                </Row>
-                                <Row className="mb-3">
                                     <Form.Group as={Col} controlId="formGridPrenom">
-                                        <Form.Label>Libelle</Form.Label>
-                                        <Form.Control type="text" name='libelle' onChange={handleChange} value={formData.libelle} placeholder="Enter libelle " />
+                                        <Form.Label> code Secteur</Form.Label>
+                                        <Form.Control type="text" name='Duree' onChange={handleChange} value={formData.CodeSecteurGeo} placeholder="Entrez la code" disabled required />
                                     </Form.Group>
-                                    <Form.Group as={Col} controlId="formGridNom">
-                                        <Form.Label>Type</Form.Label>
-                                        <Form.Select name='type' onChange={handleChange} value={formData.type} >
-                                            <option value="">Sélectionnez un sexe</option>
-                                            <option value="Tarif HT">Tarif HT</option>
-                                            <option value="Tarif TTC">Tarif TTC</option>
-                                        </Form.Select>
+                                    <Form.Group as={Col} controlId="formGridRaisonsociale">
+                                        <Form.Label>libelle </Form.Label>
+                                        <Form.Control type="text" name='Libelle' onChange={handleChange} value={formData.Libelle}  placeholder="Enter code Marque " />
                                     </Form.Group>
-                                </Row>
 
+                                </Row>
+                                <br />
                                 <br />
                             </Form>
 
@@ -116,4 +103,4 @@ function UpdateTypeTarif({ show, handleClose, typeTarif }) {
     );
 }
 
-export default UpdateTypeTarif;
+export default UpdateSecteur;

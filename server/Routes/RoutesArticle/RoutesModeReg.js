@@ -1,15 +1,15 @@
 
 const { AddModeRegl, deleteModeRegl, findAllModeRegl, updateModeRegl, findAllModeReglbyDossier } = require("../../Controller/Article/ControllerModeReg");
-
+const {authMiddleware}= require('../../Controller/Auth/AuthController')
 
 const router = require('express').Router();
 
 module.exports = app => {
-    router.post('/AddModeRegl', AddModeRegl);
-    router.delete('/deleteModeRegl/:idMode', deleteModeRegl)
-    router.get('/findAllModeRegl', findAllModeRegl)
-    router.get('/findAllModeRegl/:dossierId', findAllModeReglbyDossier)
-    router.put('/updateModeRegl/:idMode', updateModeRegl)
+    router.post('/addmoderegl', authMiddleware,AddModeRegl);
+    router.delete('/deleteModeRegl/:idmode', authMiddleware,deleteModeRegl)
+    router.get('/findAllModeRegl', authMiddleware,findAllModeRegl)
+    router.get('/findAllModeRegl/:dossierId',authMiddleware, findAllModeReglbyDossier)
+    router.put('/updateModeRegl/:idmode', authMiddleware,updateModeRegl)
 
 
     app.use('/api/article', router);

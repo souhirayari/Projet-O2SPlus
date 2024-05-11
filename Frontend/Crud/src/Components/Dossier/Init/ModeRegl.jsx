@@ -65,6 +65,8 @@ function ModeRegl() {
       }
     } catch (error) {
       console.error('Erreur handleDeleteModeRegl:', error);
+      toast.error('Erreur lors de la suppression du mode Reglement');
+
     }
   };
 

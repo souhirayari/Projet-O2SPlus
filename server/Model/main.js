@@ -241,226 +241,226 @@ db.Fournisseur.belongsTo(db.ModeRegl,
     {
         foreignKey: "idReg",
         as: "ModeRegl"
-     })
+    })
 //-------------------------------------------
 db.Dossier.hasMany(db.familleClients, {
-	foreignKey: "dossierId",
-	as: "familleClients",
+    foreignKey: "dossierId",
+    as: "familleClients",
 });
 
 db.familleClients.belongsTo(db.Dossier, {
-	foreignKey: "dossierId",
-	as: "dossier",
+    foreignKey: "dossierId",
+    as: "dossier",
 });
 
 db.TypeTarif.hasMany(db.familleClients, {
-	foreignKey: "idTypetarif",
-	as: "familleClients",
+    foreignKey: "idTypetarif",
+    as: "familleClients",
 });
 
 db.familleClients.belongsTo(db.TypeTarif, {
-	foreignKey: "idTypetarif",
-	as: "typeTarif",
+    foreignKey: "idTypetarif",
+    as: "typeTarif",
 });
 
 db.familleClients.belongsTo(db.ModeRegl, {
-	foreignKey: "idReg",
-	as: "modeReglement",
+    foreignKey: "idReg",
+    as: "modeReglement",
 });
 db.ModeRegl.hasMany(db.familleClients, {
-	foreignKey: "idReg",
-	as: "familleClients",
+    foreignKey: "idReg",
+    as: "familleClients",
 });
 
 db.Dossier.hasMany(db.secteurGeos, {
-	foreignKey: "dossierId",
-	as: "secteurGeos",
+    foreignKey: "dossierId",
+    as: "secteurGeos",
 });
 
 db.secteurGeos.belongsTo(db.Dossier, {
-	foreignKey: "dossierId",
-	as: "dossier",
+    foreignKey: "dossierId",
+    as: "dossier",
 });
 
 db.familleClients.hasMany(db.clients, {
-	foreignKey: "familleClientId",
-	as: "clients",
+    foreignKey: "familleClientId",
+    as: "clients",
 });
 
 db.clients.belongsTo(db.familleClients, {
-	foreignKey: "familleClientId",
-	as: "familleClient",
+    foreignKey: "familleClientId",
+    as: "familleClient",
 });
 
 db.clients.hasMany(db.siteClients, {
-	foreignKey: "clientId",
-	as: "siteClients",
+    foreignKey: "clientId",
+    as: "siteClients",
 });
 
 db.siteClients.belongsTo(db.clients, {
-	foreignKey: "clientId",
-	as: "client",
+    foreignKey: "clientId",
+    as: "client",
 });
 
 db.clients.belongsTo(db.secteurGeos, {
-	foreignKey: "secteurGeoId",
-	as: "secteurGeo",
+    foreignKey: "secteurGeoId",
+    as: "secteurGeo",
 });
 
 db.secteurGeos.hasMany(db.clients, {
-	foreignKey: "secteurGeoId",
-	as: "clients",
+    foreignKey: "secteurGeoId",
+    as: "clients",
 });
 
 db.clients.belongsTo(db.TypeTarif, {
-	foreignKey: "idTypetarif",
-	as: "typeTarif",
+    foreignKey: "idTypetarif",
+    as: "typeTarif",
 });
 
 db.TypeTarif.hasMany(db.clients, {
-	foreignKey: "idTypetarif",
-	as: "clients",
+    foreignKey: "idTypetarif",
+    as: "clients",
 });
 
 db.clients.belongsTo(db.ModeRegl, {
-	foreignKey: "idReg",
-	as: "modeReglement",
+    foreignKey: "idReg",
+    as: "modeReglement",
 });
 
 db.ModeRegl.hasMany(db.clients, {
-	foreignKey: "idReg",
-	as: "clients",
+    foreignKey: "idReg",
+    as: "clients",
 });
 
 db.Dossier.hasMany(db.zoneInterventions, {
-	foreignKey: "dossierId",
-	as: "zoneInterventions",
+    foreignKey: "dossierId",
+    as: "zoneInterventions",
 });
 
 db.zoneInterventions.belongsTo(db.Dossier, {
-	foreignKey: "dossierId",
-	as: "dossier",
+    foreignKey: "dossierId",
+    as: "dossier",
 });
 
 db.siteClients.belongsTo(db.zoneInterventions, {
-	foreignKey: "zoneInterventionId",
-	as: "zoneIntervention",
+    foreignKey: "zoneInterventionId",
+    as: "zoneIntervention",
 });
 
 db.zoneInterventions.hasMany(db.siteClients, {
-	foreignKey: "zoneInterventionId",
-	as: "siteClients",
+    foreignKey: "zoneInterventionId",
+    as: "siteClients",
 });
 
 db.Dossier.hasMany(db.vendeurs, {
-	foreignKey: "dossierId",
-	as: "vendeurs",
+    foreignKey: "dossierId",
+    as: "vendeurs",
 });
 
 db.vendeurs.belongsTo(db.Dossier, {
-	foreignKey: "dossierId",
-	as: "dossier",
+    foreignKey: "dossierId",
+    as: "dossier",
 });
 
 db.vendeurs.hasMany(db.familleClients, {
-	foreignKey: "vendeurId",
-	as: "familleClients",
+    foreignKey: "vendeurId",
+    as: "familleClients",
 });
 
 db.familleClients.belongsTo(db.vendeurs, {
-	foreignKey: "vendeurId",
-	as: "vendeur",
+    foreignKey: "vendeurId",
+    as: "vendeur",
 });
 
 db.vendeurs.hasMany(db.clients, {
-	foreignKey: "vendeurId",
-	as: "clients",
+    foreignKey: "vendeurId",
+    as: "clients",
 });
 
 db.clients.belongsTo(db.vendeurs, {
-	foreignKey: "vendeurId",
-	as: "vendeur",
+    foreignKey: "vendeurId",
+    as: "vendeur",
 });
 
 
 db.Dossier.hasMany(db.depots, {
-	foreignKey: "dossierId",
-	as: "depots",
+    foreignKey: "dossierId",
+    as: "depots",
 });
 
 db.depots.belongsTo(db.Dossier, {
-	foreignKey: "dossierId",
-	as: "dossier",
+    foreignKey: "dossierId",
+    as: "dossier",
 });
 
 db.depots.hasMany(db.enteteStocks, {
-	foreignKey: "depotId",
-	as: "enteteStocks",
+    foreignKey: "depotId",
+    as: "enteteStocks",
 });
 
 db.enteteStocks.belongsTo(db.depots, {
-	foreignKey: "depotId",
-	as: "depot",
+    foreignKey: "depotId",
+    as: "depot",
 });
 
 db.Fournisseur.hasMany(db.enteteStocks, {
-	foreignKey: "fournisseurId",
-	as: "enteteStocks",
+    foreignKey: "fournisseurId",
+    as: "enteteStocks",
 });
 
 db.enteteStocks.belongsTo(db.Fournisseur, {
-	foreignKey: "fournisseurId",
-	as: "fournisseur",
+    foreignKey: "fournisseurId",
+    as: "fournisseur",
 });
 
 db.enteteStocks.hasMany(db.ligneStocks, {
-	foreignKey: "enteteStockId",
-	as: "ligneStocks",
+    foreignKey: "enteteStockId",
+    as: "ligneStocks",
 });
 
 db.ligneStocks.belongsTo(db.enteteStocks, {
-	foreignKey: "enteteStockId",
-	as: "enteteStock",
+    foreignKey: "enteteStockId",
+    as: "enteteStock",
 });
 
 db.ligneStocks.belongsTo(db.depots, {
-	foreignKey: "depotId",
-	as: "depot",
+    foreignKey: "depotId",
+    as: "depot",
 });
 
 db.depots.hasMany(db.ligneStocks, {
-	foreignKey: "depotId",
-	as: "ligneStocks",
+    foreignKey: "depotId",
+    as: "ligneStocks",
 });
 
 db.Article.hasMany(db.ligneStocks, {
-	foreignKey: "idArticle",
-	as: "ligneStocks",
+    foreignKey: "idArticle",
+    as: "ligneStocks",
 });
 
 db.ligneStocks.belongsTo(db.Article, {
-	foreignKey: "idArticle",
-	as: "Article",
+    foreignKey: "idArticle",
+    as: "Article",
 });
 
 db.stocks.belongsTo(db.Article, {
-	foreignKey: "idArticle",
-	as: "Article",
+    foreignKey: "idArticle",
+    as: "Article",
 });
 
 db.Article.hasMany(db.stocks, {
-	foreignKey: "idArticle",
-	as: "stocks",
+    foreignKey: "idArticle",
+    as: "stocks",
 });
 
 db.stocks.belongsTo(db.depots, {
-	foreignKey: "depotId",
-	as: "depot",
+    foreignKey: "depotId",
+    as: "depot",
 });
 
 db.depots.hasMany(db.stocks, {
-	foreignKey: "depotId",
-	as: "stocks",
+    foreignKey: "depotId",
+    as: "stocks",
 });
 
 

@@ -40,6 +40,9 @@ require('./Routes/RoutesArticle/RoutesMarque')(app)
 require('./Routes/RoutesArticle/RoutesAppareil')(app)
 require('./Routes/RoutesArticle/RoutesModeReg')(app)
 require('./Routes/RoutesArticle/RoutesTypeTarif')(app)
+require('./Routes/RoutesArticle/RoutesFourFamArt.js')(app)
+
+
 
 /* 
 ? TEchnicien

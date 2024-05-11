@@ -9,19 +9,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Assurez-vou
 import {
     faArrowLeft
 } from '@fortawesome/free-solid-svg-icons';
-function AddTypeTarif() {
+function AddMarque() {
     const currentPageUrl = window.location.pathname;
-    const newUrl = currentPageUrl.replace('/ajoutertypetarif', '');
+    const newUrl = currentPageUrl.replace('/ajoutermarque', '');
 
     const tokenString = localStorage.getItem('token');
     const token = JSON.parse(tokenString);
     const dossierId = localStorage.getItem('dossierId')
 
     const [formData, setFormData] = useState({
+        codeMarque: '',
         libelle: '',
-        codeTypeTarif: '',
         dossierId: dossierId,
-        type: ''
+
     });
 
     const handleChange = (e) => {
@@ -36,7 +36,7 @@ function AddTypeTarif() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Vérifier si tous les champs obligatoires sont remplis
-        const requiredFields = ['libelle', 'type', 'codeTypeTarif'];
+        const requiredFields = ['codeMarque', 'libelle'];
         const missingFields = requiredFields.filter(field => !formData[field]);
 
         if (missingFields.length > 0) {
@@ -48,7 +48,7 @@ function AddTypeTarif() {
         console.log(formData)
 
         try {
-            const response = await fetch('http://localhost:5000/api/article/AddTypeTarif',
+            const response = await fetch('http://localhost:5000/api/article/addmarque',
                 {
                     method: 'POST',
                     headers: {
@@ -59,58 +59,46 @@ function AddTypeTarif() {
                 });
 
             if (!response.ok) {
-                throw new Error('Erreur lors de l\'ajout du type tarif');
+                throw new Error('Erreur lors de l\'ajout du Marque');
             }
 
-            toast.success('User ajouté avec succès !');
+            toast.success('Marque ajouté avec succès !');
 
             setTimeout(() => {
                 window.location.replace(newUrl);
             }, 1000);
         } catch (error) {
-            console.error('Erreur lors de la Ajout du type tarif:', error.message);
-            toast.error('Erreur lors de la Ajout du type tarif');
+            console.error('Erreur lors de la Ajout du Marque:', error.message);
+            toast.error('Erreur lors de la Ajout du Marque');
         }
     };
     return (
         <div>
             <div className='Revenir'>
-                <a href={newUrl}><FontAwesomeIcon icon={faArrowLeft} size="xl" style={{ color: "#5856d6", }} /> Type Tarifs </a>
+                <a href={newUrl}><FontAwesomeIcon icon={faArrowLeft} size="xl" style={{ color: "#5856d6", }} /> Marques </a>
             </div>
             <Form className='formulaire'>
-                <h3>Ajouter une Type Tarif</h3>
+                <h3>Ajouter une Marque</h3>
                 <br />
                 <div className='BoxAjout'>
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="formGridRaisonsociale">
-                            <Form.Label> Code Type Tarif </Form.Label>
-                            <Form.Control type="text" name='codeTypeTarif' onChange={handleChange} placeholder="Enter code " required />
+                            <Form.Label>* Code Marque </Form.Label>
+                            <Form.Control type="text" name='codeMarque' onChange={handleChange} placeholder="Enter code Marque " required />
                         </Form.Group>
-                    </Row>
-                    <Row className="mb-3">
                         <Form.Group as={Col} controlId="formGridPrenom">
-                            <Form.Label>Libelle</Form.Label>
+                            <Form.Label>* Libelle</Form.Label>
                             <Form.Control type="text" name='libelle' onChange={handleChange} placeholder="Enter libelle " />
                         </Form.Group>
-                        <Form.Group as={Col} controlId="formGridNom">
-                            <Form.Label>Type</Form.Label>
-                            <Form.Select name='type' onChange={handleChange}>
-                                <option value="">Sélectionnez un Type</option>
-                                <option value="Tarif HT">Tarif HT</option>
-                                <option value="Tarif TTC">Tarif TTC</option>
-                            </Form.Select>
-                        </Form.Group>
                     </Row>
-
                     <br />
                     <Button variant="primary" type="submit" className='btnAjout' onClick={handleSubmit}>
-                        Ajouter Type Tarif
+                        Ajouter Marque
                     </Button>
                 </div>
             </Form>
-
         </div>
     )
 }
 
-export default AddTypeTarif
+export default AddMarque

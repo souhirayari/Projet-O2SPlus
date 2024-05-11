@@ -2,7 +2,7 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 
 
-const PrivateRoutes = ({ allowRoles }) => {
+const  PrivateRoutes = ({ allowRoles }) => {
   const token = localStorage.getItem("token");
 
   if (!token) {

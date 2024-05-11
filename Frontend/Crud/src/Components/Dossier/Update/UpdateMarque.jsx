@@ -6,13 +6,10 @@ import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-function UpdateTypeTarif({ show, handleClose, typeTarif }) {
-    const dossierId = localStorage.getItem('dossierId')
-    console.log(typeTarif)
+function UpdateMarque({ show, handleClose, marque }) {
     const [formData, setFormData] = useState({
+        codeMarque: '',
         libelle: '',
-        codeTypeTarif: '',
-        type: ''
     });
 
 
@@ -26,21 +23,21 @@ function UpdateTypeTarif({ show, handleClose, typeTarif }) {
 
     };
     useEffect(() => {
-        if (typeTarif) {
+        if (marque) {
             setFormData({
-                libelle: typeTarif.libelle || '',
-                codeTypeTarif: typeTarif.codeTypeTarif || '',
-                type: typeTarif.type || ''
+                codeReg: marque.codeReg || '',
+                libelle: marque.libelle || '',
+
             });
         }
-    }, [typeTarif]);
+    }, [marque]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const tokenString = localStorage.getItem('token'); // Suppose que vous stockez le token dans le localStorage
             const token = JSON.parse(tokenString); // Analyser la chaîne JSON pour obtenir le token sans les guillemets
-            const response = await fetch(`http://localhost:5000/api/article/updateTypeTarif/${typeTarif.idTypetarif}`, {
+            const response = await fetch(`http://localhost:5000/api/article/updateMarque/${marque.idMarque}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -50,53 +47,40 @@ function UpdateTypeTarif({ show, handleClose, typeTarif }) {
             });
 
             if (!response.ok) {
-                throw new Error('Erreur lors de la mise à jour du type tarif ');
+                throw new Error('Erreur lors de la mise à jour du Marque ');
             }
 
-            toast.success('type tarif mis à jour avec succès !');
+            toast.success('Marque mis à jour avec succès !');
             handleClose();
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
         } catch (error) {
-            console.error('Erreur lors de la mise à jour du type tarif:', error.message);
-            toast.error('Erreur lors de la mise à jour du type tarif');
+            console.error('Erreur lors de la mise à jour du Marque:', error.message);
+            toast.error('Erreur lors de la mise à jour du Marque');
         }
     };
-
-
 
     return (
         <>
             <div className='EditForm'>
-                {typeTarif && (
+                {marque && (
                     <Modal show={show} onHide={handleClose}  >
                         <Modal.Header closeButton>
-                            <Modal.Title>Type Tarif</Modal.Title>
+                            <Modal.Title>Marque</Modal.Title>
                         </Modal.Header>
                         <Modal.Body >
                             <Form>
                                 <Row className="mb-3">
                                     <Form.Group as={Col} controlId="formGridRaisonsociale">
-                                        <Form.Label> Code Type Tarif </Form.Label>
-                                        <Form.Control type="text" name='codeTypeTarif' onChange={handleChange} value={formData.codeTypeTarif} placeholder="Enter code " disabled required />
+                                        <Form.Label>Code Marque </Form.Label>
+                                        <Form.Control type="text" name='codeMarque' onChange={handleChange} value={formData.codeMarque} disabled placeholder="Enter code Marque " />
                                     </Form.Group>
-                                </Row>
-                                <Row className="mb-3">
                                     <Form.Group as={Col} controlId="formGridPrenom">
-                                        <Form.Label>Libelle</Form.Label>
+                                        <Form.Label> Libelle</Form.Label>
                                         <Form.Control type="text" name='libelle' onChange={handleChange} value={formData.libelle} placeholder="Enter libelle " />
                                     </Form.Group>
-                                    <Form.Group as={Col} controlId="formGridNom">
-                                        <Form.Label>Type</Form.Label>
-                                        <Form.Select name='type' onChange={handleChange} value={formData.type} >
-                                            <option value="">Sélectionnez un sexe</option>
-                                            <option value="Tarif HT">Tarif HT</option>
-                                            <option value="Tarif TTC">Tarif TTC</option>
-                                        </Form.Select>
-                                    </Form.Group>
                                 </Row>
-
                                 <br />
                             </Form>
 
@@ -116,4 +100,4 @@ function UpdateTypeTarif({ show, handleClose, typeTarif }) {
     );
 }
 
-export default UpdateTypeTarif;
+export default UpdateMarque;

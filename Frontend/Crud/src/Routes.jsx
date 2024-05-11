@@ -27,6 +27,12 @@ import AddArticle from './Components/Dossier/Add/AddArticle';
 import ConsultArticle from './Components/Dossier/Consulter/ConsultArticle';
 import AddTypeTarif from './Components/Dossier/Add/AddTypeTarif';
 import AddModeRegl from './Components/Dossier/Add/AddModeRegl';
+import AddMarque from './Components/Dossier/Add/AddMarque';
+import AddZone from './Components/Dossier/Add/AddZone';
+import AddSecteur from './Components/Dossier/Add/AddSecteur';
+import AddFamilleArticle from './Components/Dossier/Add/AddFamilleArticle';
+import AddFamilleClient from './Components/Dossier/Add/AddFamilleClient';
+import ConsulterFamilleClient from './Components/Dossier/Consulter/ConsulterFamilleClient';
 
 
 
@@ -39,58 +45,84 @@ function getRoutes() {
     },
     {
       path: "/init/droitaccess",
-      name: "Droit d\'Accés",
+      name: "Initialisation \\ Droit d\'Accés",
       component: Droit,
     },
     {
       path: "/init/typetarif",
-      name: "Type Tarif",
+      name: "Initialisation \\ Type Tarif",
       component: TypeTarif,
     },
     {
       path: "/init/typetarif/ajoutertypetarif",
-      name: "Type Tarif",
+      name: "Initialisation \\ Type Tarif \\ Ajouter Type",
       component: AddTypeTarif,
     },
-    {
-      path: "/init/typetarif/consultertypetarif/:idtype",
-      name: "Type Tarif",
-      component: AddTypeTarif,
-    },
-
-
     {
       path: "/init/moderegl",
-      name: "Mode Reglement",
+      name: "Initialisation \\ Mode Réglement",
       component: ModeRegl,
     },
     {
       path: "/init/moderegl/ajoutermodeRegl",
-      name: "Mode Reglement",
+      name: "Initialisation \\ Mode Reglement \\ Ajouter Mode",
       component: AddModeRegl,
     },
-  
-   
+
+
     {
       path: "/init/famillearticle",
-      name: "Famille Article",
+      name: "Initialisation \\ Famille Article",
       component: FamArticle,
+    },
+    {
+      path: "/init/famillearticle/ajouterfamillearticle",
+      name: "Initialisation \\ Famille Article \\ Ajouter Famille ",
+      component: AddFamilleArticle,
     }, {
       path: "/init/familleclient",
-      name: "Famille Client",
+      name: " Initialisation \\ Famille Client",
       component: FamClient,
-    }, {
+    },
+    {
+      path: "/init/familleclient/ajouterfamilleclient",
+      name: " Initialisation \\ Famille Client  \\ Ajouter Famille  ",
+      component: AddFamilleClient,
+    },
+    {
+      path: "/init/familleclient/consulterfamilleClient/:id",
+      name: " Initialisation \\ Famille Client  \\ consulter Famille  ",
+      component: ConsulterFamilleClient,
+    },
+    {
       path: "/init/marque",
-      name: "Marque",
+      name: "Initialisation \\ Marque",
       component: Marque,
-    }, {
+    },
+    {
+      path: "/init/marque/ajoutermarque",
+      name: " Initialisation \\ Marque \\ Ajoouter Marque ",
+      component: AddMarque,
+    },
+    {
+      path: "/init/zoneinter/ajouterzoneinter",
+      name: "Initialisation \\ Zone d\'intervention \\ Ajouter Zone",
+      component: AddZone,
+    },
+    {
       path: "/init/zoneinter",
-      name: "Zone d\'intervention",
+      name: "Initialisation \\ Zone d\'intervention",
       component: ZoneInter,
-    }, {
+    },
+    {
       path: "/init/secteursgeo",
-      name: "Secteur Géographique",
+      name: "Initialisation \\ Secteur Géographique",
       component: SecteurGeo,
+    },
+    {
+      path: "/init/secteursgeo/ajoutersecteur",
+      name: "Initialisation \\ Secteur Géographique  \\ Ajouter Secteur",
+      component: AddSecteur,
     },
     {
       path: "/utilisateurs",
