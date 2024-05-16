@@ -5,7 +5,7 @@ const user = require('../../Model/main').User;
 const Licence = require('../../Model/main').Licence;
 
 exports.AddDossier = async (req, res) => {
- console.log(auth)
+    console.log(auth)
     if (auth.Role !== 'adminSite') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
@@ -126,7 +126,7 @@ exports.updateDossier = async (req, res) => {
 };
 
 exports.findDossierById = async (req, res) => {
-    if (auth.user.Role !== 'adminSite' &&  auth.user.Role !== 'adminDossier') {
+    if (auth.user.Role !== 'adminSite' && auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {

@@ -79,7 +79,8 @@ exports.SignIn = async (req, res) => {
                 break;
             case 'user':
                 dossierId = user.dossierId; // Affecter dossierId pour l'utilisateur
-                redirectPath = '/user';
+                const dossierUSER = await Dossier.findOne({ where: { id: dossierId } });
+                redirectPath = dossierUSER ? `/dossier${dossierUSER.RaisonSociale}/accueil` : '/erreur'; 
                 break;
             case 'adminDossier':
                 const userDossier = await UserDossier.findOne({ where: { UtilisateurId: user.id } });

@@ -33,6 +33,10 @@ import AddSecteur from './Components/Dossier/Add/AddSecteur';
 import AddFamilleArticle from './Components/Dossier/Add/AddFamilleArticle';
 import AddFamilleClient from './Components/Dossier/Add/AddFamilleClient';
 import ConsulterFamilleClient from './Components/Dossier/Consulter/ConsulterFamilleClient';
+import ViewClients from './Components/Dossier/Clients/ViewClients';
+import ConsulterClient from './Components/Dossier/Consulter/ConsulterClient';
+import AddClient from './Components/Dossier/Add/AddClient';
+import Dossier from './Pages/PagesDossier/Dossier';
 
 
 
@@ -91,7 +95,7 @@ function getRoutes() {
     },
     {
       path: "/init/familleclient/consulterfamilleClient/:id",
-      name: " Initialisation \\ Famille Client  \\ consulter Famille  ",
+      name: " Initialisation \\ Famille Client  \\ Consulter Famille  ",
       component: ConsulterFamilleClient,
     },
     {
@@ -206,6 +210,29 @@ function getRoutes() {
       path: "/stock/sortie",
       name: "Stocks \\ Sortie",
       component: Sortie,
+
+    },
+    {
+      path: "/clients",
+      name: "Clients",
+      component: ViewClients,
+
+    },
+    {
+      path: "/clients/ajouterclient",
+      name: "Clients \\ Ajouter Client",
+      component: AddClient,
+
+    }, {
+      path: "/clients/consulterclient/:id",
+      name: "Clients \\ Consulter Client",
+      component: ConsulterClient  ,
+
+    },
+    {
+      path: "/dossier/info",
+      name: "Dossier",
+      component: Dossier,
 
     },
   ];

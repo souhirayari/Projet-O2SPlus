@@ -4,10 +4,10 @@ const router = require("express").Router();
 
 router.post("/addFamilleClient", authMiddleware, familleClientController.addFamilleClient);
 router.get(
-	"/getFamilleClientByDossier/:dossierId",
+	"/getFamilleClientByDossier/:dossierId", authMiddleware,
 	familleClientController.getFamilleClientByDossier
 );
-router.get("/getFamilleClient/:id", authMiddleware,familleClientController.getFamilleClient);
+router.get("/getFamilleClient/:id", authMiddleware, familleClientController.getFamilleClient);
 router.delete(
 	"/deleteFamilleClient/:id", authMiddleware,
 	familleClientController.deleteFamilleClient

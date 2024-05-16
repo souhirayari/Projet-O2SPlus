@@ -7,7 +7,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare, faMagnifyingGlass, faEye } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import UpdateModeRegl from '../Update/UpdateModeRegl';
+import UpdateFamilleClient from '../Update/UpdateFamilleClient';
 
 function FamClient() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ function FamClient() {
         setFamilleClient(jsonRes);
         setIsLoading(false);
         setTimeout(() => {
-        },1000 );
+        }, 1000);
       } catch (error) {
         console.error('Erreur fetchData:', error);
         toast.error('Erreur lors du chargement des données');
@@ -175,7 +175,7 @@ function FamClient() {
           </Pagination>
         </div>
       )}
-      <UpdateModeRegl show={show} handleClose={handleClose} famille={selectedFamille} />
+      <UpdateFamilleClient show={show} handleClose={handleClose} famille={selectedFamille} />
     </>
   );
 }

@@ -65,7 +65,7 @@ function AddFamilleClient() {
                 // Vérification de la réponse pour la famille
                 if (!TarifResponse.ok) {
                     if (TarifResponse.status === 404) {
-                        setFamille([]);
+                        setTarif([]);
                     } else {
                         toast.error('Erreur lors de la récupération des Type tarif')
                         throw new Error('Erreur lors de la récupération des Type tarif');
@@ -78,7 +78,7 @@ function AddFamilleClient() {
                 // Vérification de la réponse pour la marque
                 if (!ModeResponse.ok) {
                     if (ModeResponse.status === 404) {
-                        setMarque([]);
+                        setMode([]);
                     } else {
                         toast.error('Erreur lors de la récupération des Mode Réglement')
                         throw new Error('Erreur lors de la récupération des mode réglemnt');

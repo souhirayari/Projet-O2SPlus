@@ -16,7 +16,6 @@ import { faCircleUser, faFileImport } from '@fortawesome/free-solid-svg-icons';
 function NavbarD({ setVisible, visible, show, setShow, title }) {
     const [dossier, setDossier] = useState(null);
     const [user, setUser] = useState(null);
-
     const dossierId = localStorage.getItem('dossierId');
     const userId = localStorage.getItem('userId');
 

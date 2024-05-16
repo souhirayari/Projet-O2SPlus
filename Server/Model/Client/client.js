@@ -34,6 +34,23 @@ module.exports = (sequelize, Sequelize) => {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
+			adresse: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			pays: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			ville: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			telephone: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+
 		},
 		{
 			tableName: "t-client",

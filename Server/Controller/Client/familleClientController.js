@@ -69,19 +69,38 @@ const addFamilleClient = async (req, res) => {
 const getFamilleClient = async (req, res) => {
     try {
         if (auth.user.Role != 'adminDossier') {
-            return res.status.send({ message: 'Unanthorized Access' })
+            return res.status(403).send({ message: 'Unauthorized Access' });
         }
+
         const id = req.params.id;
-        const familleClient = await FamilleClient.findByPk(id);
+        const familleClient = await FamilleClient.findByPk(id, {
+            include: [{
+                model: TypeTarif,
+                as: 'typeTarif'
+            },
+            {
+                model: ModeReglement,
+                as: 'modeReglement'
+            },
+            {
+                model: Vendeur,
+                as: 'vendeur'
+            }
+
+            ]
+        });
+
         if (!familleClient) {
             return res.status(404).send("Famille Client not found");
         }
+
         res.status(200).send(familleClient);
     } catch (error) {
         console.error("Error getting FamilleClient:", error);
         res.status(500).send("Failed to get FamilleClient");
     }
 };
+
 
 const getFamilleClientByDossier = async (req, res) => {
     try {
@@ -151,8 +170,8 @@ const updateFamilleClient = async (req, res) => {
         const data = {
             Libelle: req.body.Libelle,
             CodeFamilleClient: req.body.CodeFamilleClient,
-            typeTarifId: req.body.typeTarifId,
-            modeReglementId: req.body.modeReglementId,
+            idTypetarif: req.body.typeTarifId,
+            idReg: req.body.modeReglementId,
             vendeurId: req.body.vendeurId,
         };
 
@@ -173,7 +192,7 @@ const updateFamilleClient = async (req, res) => {
         if (data.typeTarifId) {
             const existingTypeTarif = await TypeTarif.findByPk(familleClient.typeTarifId);
             const newTypeTarif = await TypeTarif.findOne({
-                where: { id: data.typeTarifId, dossierId: familleClient.dossierId }
+                where: { idTypeTarif: data.typeTarifId, dossierId: familleClient.dossierId }
             });
             if (!newTypeTarif || newTypeTarif.dossierId !== existingTypeTarif.dossierId) {
                 throw new Error("Invalid typeTarifId");
@@ -183,7 +202,7 @@ const updateFamilleClient = async (req, res) => {
         if (data.modeReglementId) {
             const existingModeReglement = await ModeReglement.findByPk(familleClient.modeReglementId);
             const newModeReglement = await ModeReglement.findOne({
-                where: { id: data.modeReglementId, dossierId: familleClient.dossierId }
+                where: { idReg: data.modeReglementId, dossierId: familleClient.dossierId }
             });
             if (!newModeReglement || newModeReglement.dossierId !== existingModeReglement.dossierId) {
                 throw new Error("Invalid modeReglementId");

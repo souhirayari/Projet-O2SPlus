@@ -1,3 +1,4 @@
+
 const db = require("../../Model/main");
 const Client = db.clients;
 const FamilleClient = db.familleClients;
@@ -6,8 +7,15 @@ const SecteurGeo = db.secteurGeos;
 const TypeTarif = db.TypeTarif;
 const ModeReglement = db.ModeRegl;
 const Vendeur = db.vendeurs;
+const User = db.User
+const Technicien = db.Technicien
+const secteurGeo =db.secteurGeos
 
 const addClient = async (req, res) => {
+
+	if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+		return res.status(403).send({ message: 'authorized access' })
+	}
 	const data = {
 		CodeClient: req.body.CodeClient,
 		Nom: req.body.Nom,
@@ -15,6 +23,10 @@ const addClient = async (req, res) => {
 		Login: req.body.Login,
 		MotDePasse: req.body.MotDePasse,
 		Email: req.body.Email,
+		pays: req.body.pays,
+		adresse: req.body.adresse,
+		ville: req.body.ville,
+		telephone: req.body.telephone
 	};
 	const familleClientId = req.body.familleClientId;
 	const secteurGeoId = req.body.secteurGeoId;
@@ -22,8 +34,8 @@ const addClient = async (req, res) => {
 	const modeReglementId = req.body.modeReglementId;
 	const vendeurId = req.body.vendeurId;
 
-	if (!familleClientId || !secteurGeoId) {
-		res.status(400).send(" familleClientId and secteurGeoId are required");
+	if (!familleClientId) {
+		res.status(400).send(" familleClientId  are required");
 		return;
 	}
 
@@ -34,19 +46,30 @@ const addClient = async (req, res) => {
 	let vendeur;
 
 	try {
-		familleClient = await FamilleClient.findByPk(familleClientId);
-		secteurGeo = await SecteurGeo.findByPk(secteurGeoId);
+		const existinglogin =await User.findOne({ where: { login: data.Login } })
+		console.log("user", existinglogin)
+		const existlogin = await Technicien.findOne({ where: { login: data.Login } })
+		console.log("tech", existlogin)
+		const exislogin = await Client.findOne({ where: { Login: data.Login } })
+		console.log("client", exislogin)
 
+		if (existinglogin || exislogin || existlogin) {
+			return res.status(400).send({ message: ' login doit etre unique' })
+		}
+		familleClient = await FamilleClient.findByPk(familleClientId);
 		if (!familleClient) {
 			res.status(400).send("Invalid familleClientId");
 			return;
 		}
 
-		if (secteurGeo.dossierId !== familleClient.dossierId) {
-			res
-				.status(400)
-				.send("SecteurGeo is not in the same dossier as familleClient");
-			return;
+		if (secteurGeoId) {
+			secteurGeo = await SecteurGeo.findByPk(secteurGeoId);
+			if (secteurGeo.dossierId !== familleClient.dossierId) {
+				res
+					.status(400)
+					.send("SecteurGeo is not in the same dossier as familleClient");
+				return;
+			}
 		}
 
 		if (!modeReglementId) {
@@ -141,9 +164,9 @@ const addClient = async (req, res) => {
 		const client = {
 			...data,
 			familleClientId: familleClient.id,
-			secteurGeoId: secteurGeo.id,
-			typeTarifId: typeTarif,
-			modeReglementId: modeReglement,
+			secteurGeoId: secteurGeo ? secteurGeo.id : null,
+			idTypetarif: typeTarif,
+			idReg: modeReglement,
 			vendeurId: vendeur,
 		};
 		const newClient = await Client.create(client);
@@ -186,8 +209,34 @@ const getDossierIdOfClient = async (req, res) => {
 };
 
 const getClientById = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+		return res.status(403).send({ message: 'authorized access' })
+	}
 	const id = req.params.id;
-	const client = await Client.findByPk(id);
+	const client = await Client.findByPk(id,{
+		include: [
+			{
+				model: FamilleClient,
+				as: 'familleClient'
+			},
+			{
+				model: TypeTarif,
+				as: 'typeTarif'
+			},
+			{
+				model: ModeReglement,
+				as: 'modeReglement'
+			},
+			{
+				model: Vendeur,
+				as: 'vendeur'
+			},
+			{
+				model: secteurGeo,
+				as: 'secteurGeo'
+			}
+		]
+	});
 	if (!client) {
 		res.status(404).send("Client not found");
 		return;
@@ -196,6 +245,9 @@ const getClientById = async (req, res) => {
 };
 
 const deleteClient = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+		return res.status(403).send({ message: 'authorized access' })
+	}
 	const id = req.params.id;
 	const client = await Client.findByPk(id);
 	if (!client) {
@@ -207,6 +259,9 @@ const deleteClient = async (req, res) => {
 };
 
 const updateClient = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+		return res.status(403).send({ message: 'authorized access' })
+	}
 	const id = req.params.id;
 	const data = {
 		CodeClient: req.body.CodeClient,
@@ -215,35 +270,20 @@ const updateClient = async (req, res) => {
 		Login: req.body.Login,
 		MotDePasse: req.body.MotDePasse,
 		Email: req.body.Email,
+		pays: req.body.pays,
+		adresse: req.body.adresse,
+		ville: req.body.ville,
+		telephone: req.body.telephone,
 		familleClientId: req.body.familleClientId,
 	};
+
 	const client = await Client.findByPk(id);
 	if (!client) {
 		res.status(404).send("Client not found");
 		return;
 	}
-	if (data.familleClientId) {
-		const familleClient = await FamilleClient.findByPk(data.familleClientId);
-		if (!familleClient) {
-			res.status(400).send("Invalid familleClientId");
-			return;
-		}
-	}
 
 	try {
-		if (data.CodeClient) {
-			//	const familleClient = await FamilleClient.findByPk(data.familleClientId);
-			const existingCode = await Client.findOne({
-				where: {
-					//"$familleClient.dossierId$": familleClient.dossierId,
-					CodeClient: data.CodeClient,
-				},
-			});
-			if (existingCode && existingCode.id !== id) {
-				res.status(400).send("CodeClient must be unique");
-				return;
-			}
-		}
 		await client.update(data);
 		res.status(200).send("Client updated successfully");
 	} catch (error) {
@@ -253,6 +293,9 @@ const updateClient = async (req, res) => {
 };
 
 const getAllClientByFamilleClient = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+		return res.status(403).send({ message: 'authorized access' })
+	}
 	const familleClientId = req.params.familleClientId;
 	const familleClient = await FamilleClient.findByPk(familleClientId);
 	if (!familleClient) {
@@ -272,6 +315,9 @@ const getAllClientByFamilleClient = async (req, res) => {
 };
 
 const getAllClientByDossier = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+		return res.status(403).send({ message: 'authorized access' })
+	}
 	const dossierId = req.params.dossierId;
 	const dossier = await Dossier.findByPk(dossierId);
 	if (!dossier) {
@@ -283,7 +329,6 @@ const getAllClientByDossier = async (req, res) => {
 			dossierId: dossierId,
 		},
 	});
-	console.log(familleClients);
 	if (!familleClients) {
 		res.status(404).send("FamilleClients not found");
 		return;

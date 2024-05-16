@@ -28,6 +28,7 @@ import {
     faChartSimple,
     faFileImport,
     faRightFromBracket,
+    faHandshake
 } from '@fortawesome/free-solid-svg-icons';
 import '../../Style/Dossier/SideBarD.css'
 import logo from '../../assets/logo.png'
@@ -122,6 +123,9 @@ function SideBarD({ visible, show, setShow }) {
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/entree`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Entree</CNavItem>
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/sortie`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Sortie</CNavItem>
                         </CNavGroup>
+                        <CNavTitle>Clients</CNavTitle>
+                        <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/clients`} className='linksidebar'> <FontAwesomeIcon icon={faHandshake} />Clients</CNavItem>
+
                         <CNavTitle>Fonctionnalité</CNavTitle>
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/ventes`} className='linksidebar'> <FontAwesomeIcon icon={faTags} /> Ventes</CNavItem>
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/achats`} className='linksidebar'> <FontAwesomeIcon icon={faCartShopping} /> Achats</CNavItem>
