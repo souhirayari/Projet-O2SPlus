@@ -19,6 +19,8 @@ function NavbarD({ setVisible, visible, show, setShow, title }) {
     const dossierId = localStorage.getItem('dossierId');
     const userId = localStorage.getItem('userId');
 
+
+
     useEffect(() => {
         async function getData() {
             try {
@@ -73,16 +75,16 @@ function NavbarD({ setVisible, visible, show, setShow, title }) {
                     <div>
                         <CNavbarNav>
                             <CNavItem>
-                                <CNavLink href="/dossier/info" className='namelogin'>
+                                <CNavItem className='namelogin'>
                                     <FontAwesomeIcon icon={faFileImport} size="2xl" style={{ color: "#5856d6", }} />
                                     <CNavTitle> Dossier {dossier ? dossier.RaisonSociale : ''}</CNavTitle>
-                                </CNavLink>
+                                </CNavItem>
                             </CNavItem>
                             <CNavItem>
-                                <CNavLink href="/Profile" className='namelogin'>
+                                <CNavItem className='namelogin'>
                                     <FontAwesomeIcon icon={faCircleUser} size="2x" style={{ color: "#5856d6" }} />
                                     <CNavTitle> {user ? user.nom + ' ' + user.prenom : ''}</CNavTitle>
-                                </CNavLink>
+                                </CNavItem>
                             </CNavItem>
                         </CNavbarNav>
                     </div>

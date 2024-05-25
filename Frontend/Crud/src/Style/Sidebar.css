@@ -1,6 +1,6 @@
 @import 'Color.css';
 
-.sidebar {
+.sidebarAdmin {
     width: 230px;
     height: 100%;
     position: fixed;
@@ -11,7 +11,7 @@
 
 }
 
-.sidebar-header {
+.sidebar-headerAdmin {
     height: 200px;
 }
 
@@ -89,7 +89,7 @@ ul {
     margin-left: 20px;
 }
 
-.sidebar-footer {
+.sidebar-footerAdmin {
     position: fixed;
     top: 550px;
 }
@@ -103,7 +103,7 @@ ul {
     color: var(--SideBartext);
 }
 
-.btnDecon {
+.btnDeconAdmin {
     margin: 20px;
     width: 150px;
     height: 30px;
@@ -113,12 +113,12 @@ ul {
 
 }
 
-.btnDecon  {
+.btnDeconAdmin{
     text-decoration: none;
     color: var(--Btntexte);
     text-align: center;
 }
-.btnDecon:hover{
+.btnDeconAdmin:hover{
     color: var(--backSideBar);
     background-color: var(--backbody)
 }

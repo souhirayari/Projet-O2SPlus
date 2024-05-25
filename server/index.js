@@ -29,6 +29,7 @@ db.sequelize.sync({ force: false, alter: true })
 require('./Routes/RoutesAdministration/RoutesUser')(app)
 require('./Routes/RoutesAdministration/RoutesDossier')(app)
 require('./Routes/RoutesAdministration/RoutesLicence')(app)
+require('./Routes/RoutesAdministration/RoutesUserDossier.js')(app)
 
 
 /* 

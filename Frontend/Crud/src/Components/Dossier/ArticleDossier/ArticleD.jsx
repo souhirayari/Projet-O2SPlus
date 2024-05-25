@@ -24,7 +24,7 @@ function ArticleD() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`http://localhost:5000/api/article/findAllArticle/${dossierId}`, {
+        const res = await fetch(`http://localhost:5000/api/article/findAllArticlebyDossier/${dossierId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -134,7 +134,8 @@ function ArticleD() {
                 <td>{article.Marque.libelle}</td>
                 <td>{article.prixAchat}</td>
                 <td>
-                  <Switch checked={article.gereEnStock} style={{ margin: 16 }} disabled />
+
+                  <Switch checked={article.gereEnStock} className={article.gereEnStock ? 'switch-checked' : ''} disabled />
                 </td>
                 <td>{extractDate(article.createdAt)}</td>
                 <td className='btnView'>

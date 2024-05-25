@@ -463,5 +463,14 @@ db.depots.hasMany(db.stocks, {
     as: "stocks",
 });
 
+db.clients.hasMany(db.Appareil, {
+    foreignKey: "clientId",
+    as: "Appareil",
+})
+
+db.Appareil.belongsTo(db.clients, {
+    foreignKey: "clientId",
+    as: "Clients",
+})
 
 module.exports = db;

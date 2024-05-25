@@ -8,6 +8,7 @@ import UpdateUser from '../UpdateComponent/UpdateUser';
 function Users({ searchTerm }) {
     const [users, setUsers] = useState([]);
     const [Dossiers, setDossiers] = useState([]);
+    const [UserDossiers, setUserDossiers] = useState([]);
 
     const [show, setShow] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null); // Ajout de l'état pour l'utilisateur sélectionné
@@ -53,6 +54,23 @@ function Users({ searchTerm }) {
                     setDossiers(jsonDossiers);
                 }
 
+                // Fetching userDossier
+                const resUserDossier = await fetch('http://localhost:5000/api/usersDossier/findAll', {
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans le header
+                    }
+                });
+
+                if (!resUserDossier.ok) {
+                    if (resUserDossier.status === 404) {
+                        setUserDossiers([]); // Assuming you have a state setter for userDossiers
+                    } else {
+                        throw new Error('Erreur lors de la récupération des associations utilisateurs-dossiers');
+                    }
+                } else {
+                    const jsonUserDossiers = await resUserDossier.json();
+                    setUserDossiers(jsonUserDossiers); // Assuming you have a state setter for userDossiers
+                }
             } catch (error) {
                 console.error('Erreur fetchData:', error);
             }
@@ -60,6 +78,7 @@ function Users({ searchTerm }) {
 
         fetchData();
     }, [show]);
+    console.log(UserDossiers)
 
     const handleDeleteUser = async (id) => {
         try {
@@ -107,6 +126,18 @@ function Users({ searchTerm }) {
 
         return EmailMatch || DateMatch || RoleMatch || StatutMatch || EmploiMatch || NomMatch;
     });
+
+
+    const renderAdminDossierRaisonSociale = (user) => {
+        const data = UserDossiers.find(ud => ud.UtilisateurId === user.id);
+        console.log(data);
+        return data ? Dossiers.find(dossier => dossier.id === data.DossierId)?.RaisonSociale || 'N/A' : 'N/A';
+    };
+    
+    // Fonction pour afficher la Raison Sociale d'un dossier pour un utilisateur non administrateur de dossier
+    const renderUserRaisonSociale = (user) => {
+        return Dossiers.find(dossier => dossier.id === user.dossierId)?.RaisonSociale || 'N/A';
+    };
     return (
         <>
             <Table responsive>
@@ -140,8 +171,19 @@ function Users({ searchTerm }) {
                                 <td>{user.statut}</td>
                                 <td>{user.Role}</td>
                                 <td>
-                                    {Dossiers.find(dossier => dossier.id === user.dossierId)?.RaisonSociale || 'N/A'}
+                                    {user.Role === 'adminDossier' ? (
+                                        (() => {
+                                            const data = UserDossiers.find(ud => ud.UtilisateurId === user.id);
+                                            console.log(data)
+                                            return data ? Dossiers.find(dossier => dossier.id === data.DossierId)?.RaisonSociale || 'N/A' :'N/A';
+                                        })()
+                                    ) : (
+                                        Dossiers.find(dossier => dossier.id === user.dossierId)?.RaisonSociale || 'N/A'
+                                    )
+                                    }
                                 </td>
+
+
 
                                 <td>{extractDate(user.createdAt)}</td>
                                 <td className='btnEdit' onClick={() => { setShow(true); setSelectedUser(user); }}>Edit</td>

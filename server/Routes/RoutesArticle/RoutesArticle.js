@@ -7,7 +7,7 @@ module.exports = app => {
     router.post('/AddArticle', authMiddleware, AddArticle);
     router.delete('/deleteArticle/:id', authMiddleware, deleteArticle)
     router.get('/findAllArticle', findAllArticle)
-    router.get('/findAllArticle/:dossierId', authMiddleware, findAllArticlebyDossier)
+    router.get('/findAllArticlebyDossier/:dossierId', authMiddleware, findAllArticlebyDossier)
     router.get('/findOneArticle/:idArticle', authMiddleware, findOneArticle)
     router.put('/updateArticle/:id', authMiddleware, updateArticle)
 

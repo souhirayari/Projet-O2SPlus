@@ -38,6 +38,11 @@ function ViewClients() {
             label: 'Pays',
         },
         {
+            key: 'ville',
+            label: 'Adresse',
+        },
+
+        {
             key: 'telephone',
             label: 'Telephone',
         },
@@ -101,49 +106,60 @@ function ViewClients() {
                 <a href={window.location.href + '/ajouterclient'}><CButton color="primary" className='btnAjout'>Ajouter un Client </CButton> </a>
             </div>
             <br />
-            <CSmartTable
-                columns={columns}
-                columnFilter
-                columnSorter
-                footer
-                items={clients}
-                itemsPerPageSelect
-                loading={loading}
-                pagination
-                tableProps={{
-                    hover: true,
-                    responsive: true,
-                }}
-                scopedColumns={{
-                    show_details: (item) => {
-                        return (
-                            <td className="py-2">
+            <div style={{ textAlign: 'center' }}>
+                <CSmartTable
+                    activePage={1}
+                    columns={columns}
+                    columnFilter
+                    columnSorter
+                    items={clients}
+                    itemsPerPageSelect
+                    itemsPerPage={5}
+                    loading={loading}
+                    pagination
+                    tableProps={{
+                        className: 'add-this-class',
+                        responsive: true,
+                        striped: true,
+                        hover: true,
+                    }}
+                    scopedColumns={{
+                        show_details: (item) => {
+                            return (
+                                <td className="py-2">
 
-                                <CButton color="dark" variant="outline" shape="square" size="sm"
-                                    href={window.location.href + `/consulterclient/${item.id}`}
-                                >
-                                    <FontAwesomeIcon icon={faEye} />
+                                    <CButton color="dark" variant="outline" shape="square" size="sm"
+                                        href={window.location.href + `/consulterclient/${item.id}`}
+                                    >
+                                        <FontAwesomeIcon icon={faEye} />
 
-                                </CButton>
-                                <CButton color="primary" className='edit' variant="outline" shape="square" size="sm"
-                                    onClick={() => { setShow(true); setSelectedClient(item); }} >
-                                    <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#5856d6", }} />
+                                    </CButton>
+                                    <CButton color="primary" className='edit' variant="outline" shape="square" size="sm"
+                                        onClick={() => { setShow(true); setSelectedClient(item); }} >
+                                        <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#5856d6", }} />
 
-                                </CButton>
-                                <CButton color="danger" className='supp' variant="outline" shape="square" size="sm"
-                                    onClick={() => {
-                                        handleDeleteclient(item.id)
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faTrashCan} style={{ color: "#f96767", }} />
+                                    </CButton>
+                                    <CButton color="danger" className='supp' variant="outline" shape="square" size="sm"
+                                        onClick={() => {
+                                            handleDeleteclient(item.id)
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} style={{ color: "#f96767", }} />
 
-                                </CButton>
+                                    </CButton>
 
-                            </td>
-                        )
-                    },
-                }}
-            />
+                                </td>
+                            )
+                        },
+                    }}
+                    selectable
+                    tableFilter
+                    tableBodyProps={{
+                        className: 'align-middle'
+                    }}
+
+                />
+            </div>
             <UpdateClient show={show} handleClose={handleClose} client={selectedclient} />
         </div>
     );

@@ -42,13 +42,7 @@ exports.AddArticle = async (req, res) => {
         } = req.body;
         console.log(req.body)
 
-        // // Vérifiez si l'ID de la marque appartient à la famille d'articles
-        // const isMarqueValid = await this.verifmarque(idFamArt, IdMarque);
-        // if (!isMarqueValid) {
-        //     return res.status(400).send({ message: 'L\'ID de la marque n\'appartient pas à cette famille d\'articles.' });
-        // }
 
-        // // Récupérez les IDs de toutes les familles d'articles du même dossier 
         const familleIds = await this.getAllfamilleIds(idFamArt);
         console.log(familleIds)
         // Vérifiez si l'article existe déjà dans une famille d'articles du dossier
@@ -219,6 +213,7 @@ exports.findAllArticlebyDossier = async (req, res) => {
             return res.status(403).json({ message: 'Unauthorized access' });
         }
 
+
         const dossierId = req.params.dossierId;
 
         // Récupérer les familles d'articles
@@ -234,6 +229,7 @@ exports.findAllArticlebyDossier = async (req, res) => {
         const marques = await Marque.findAll({
             where: { dossierId: dossierId }
         });
+
 
         if (marques.length === 0) {
             return res.status(404).send({ message: "Aucune marque trouvée pour ce dossier" });

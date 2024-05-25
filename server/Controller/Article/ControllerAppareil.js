@@ -1,12 +1,15 @@
 const Appareil = require('../../Model/main').Appareil
 const jwt = require('jsonwebtoken');
-const { Article, FamArticle, Sequelize } = require('../../Model/main');
+const { Article, FamArticle, Sequelize, clients } = require('../../Model/main');
 const moment = require('moment');
 
 const { Op } = require('sequelize'); // Importer Op de sequelize
 
 exports.AddAppareil = async (req, res) => {
     try {
+        if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+            res.status(403).send({ message: 'Unauthorized Access' })
+        }
         const {
             codeAppareil,
             libelle,
@@ -27,13 +30,14 @@ exports.AddAppareil = async (req, res) => {
             couverture,
             condition,
             idArticle,
+            clientId
         } = req.body
 
 
 
         const existingAppareil = await this.VerifAppareil(idArticle, codeAppareil, numSerie)
         if (existingAppareil) {
-            return res.status(400).send({ message: 'Un appareil avec ce codeAppareil existe déjà.' });
+            return res.status(400).send({ message: 'Un appareil avec ce codeAppareil ou numero de serie  existe déjà.' });
         }
 
         if (!codeAppareil || !libelle || !numSerie || !prixAchat) {
@@ -61,13 +65,14 @@ exports.AddAppareil = async (req, res) => {
             prixAchat: prixAchat || article.prixAchat,
             prixTTC: prixTTC || article.prixTTC,
             prixHT: prixHT || article.prixHT,
-            dateVente: Sequelize.literal('CURRENT_TIMESTAMP'),
+            dateVente: dateVente,
             debutGarantie: debutGarantieDate,
             finGarantie: finGarantieDate,
             durreGarantie: durreGarantie || article.durreGarantie,
             couverture: couverture || article.couverture,
             condition: condition || article.condition,
             idArticle,
+            clientId
         };
 
         await Appareil.create(newAppareil);
@@ -75,7 +80,7 @@ exports.AddAppareil = async (req, res) => {
 
     } catch (err) {
         console.error("Erreur lors de la création de l'appareil :", err);
-        res.status(500).send({ message: "Erreur interne du serveur !" });
+        res.status(500).send({ message: "Erreur lors de la création de l'appareil :" });
     }
 }
 
@@ -131,9 +136,12 @@ exports.getArticle = async (idArticle) => {
 
 exports.deleteAppareil = async (req, res) => {
     try {
-        const { codeAppareil, articleId } = req.params.id;
+        if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+            res.status(403).send({ message: 'Unauthorized Access' })
+        }
+        const idappareil = req.params.idappareil;
 
-        await Appareil.destroy({ where: { codeAppareil: codeAppareil, idArticle: articleId } });
+        await Appareil.destroy({ where: { idappareil: idappareil } });
 
         res.status(200).json({ success: true, message: 'Appareil supprimé avec succès' });
     } catch (err) {
@@ -148,7 +156,7 @@ exports.findAllAppareil = async (req, res) => {
             where: {},
             include: [{
                 model: Article, // Nom du modèle Article
-                 
+
             }],
         });
         if (Appareils.length == 0) {
@@ -160,21 +168,55 @@ exports.findAllAppareil = async (req, res) => {
         res.status(500).send({ message: "Internal server error!" });
     }
 }
+
+exports.findOneAppareil = async (req, res) => {
+    try {
+        const idappareil = req.params.idappareil
+        const appareil = await Appareil.findOne({
+            where: { idAppareil: idappareil },
+            include: [{
+                model: Article,
+
+            }, {
+                model: clients,
+                as: 'Clients'
+
+            }],
+        });
+
+        if (appareil.length == 0) {
+            return res.status(404).send({ message: "Aucun Appareil trouvée" })
+        }
+
+        return res.status(200).send(appareil)
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ message: "Internal server error!" });
+    }
+}
 exports.findAllAppareilbyDossier = async (req, res) => {
     try {
-
+        if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+            res.status(403).send({ message: 'Unauthorized Access' })
+        }
         const dossierId = req.params.dossierId
         const familles = await FamArticle.findAll({ where: { dossierId: dossierId } })
         const famillesIds = familles.map(famille => famille.idFamArt);
         const articles = await Article.findAll({ where: { idFamArt: famillesIds } })
-        const ArticlesIds = articles.map(article => article.idArticle);
+        const articleIDs = articles.map(article => article.idArticle);
+
         const Appareils = await Appareil.findAll({
-            where: { idArticle: ArticlesIds },
+            where: { idArticle: articleIDs },
             include: [{
-                model: Article, 
-                
+                model: Article,
+            },
+            {
+                model: clients,
+                as: 'Clients'
+
             }],
         });
+
         if (Appareils.length == 0) {
             return res.status(404).send({ message: "aucun Appareil trouvée" })
         }
@@ -188,14 +230,17 @@ exports.findAllAppareilbyDossier = async (req, res) => {
 
 exports.updateAppareil = async (req, res) => {
     try {
-        const id = req.params.id;
-        const Appareil = await Appareil.findOne({ where: { id: id } });
+        if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+            res.status(403).send({ message: 'Unauthorized Access' })
+        }
+        const idappareil = req.params.idappareil;
+        const appareil = await Appareil.findOne({ where: { idAppareil: idappareil } });
 
-        if (!Appareil) {
+        if (!appareil) {
             return res.status(404).json({ success: false, message: "Appareil non trouvé" });
         }
 
-        await Appareil.update(req.body, { where: { id: id } });
+        await Appareil.update(req.body, { where: { idAppareil: idappareil } });
 
         res.status(200).json({ success: true, message: "Appareil mis à jour avec succès" });
     } catch (err) {

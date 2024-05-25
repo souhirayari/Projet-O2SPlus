@@ -32,13 +32,13 @@ export default function PageConfimation() {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <Result
                 status="success"
-                title="Successfully Confimation Mail!"
+                title="Vérification de Compte Mail Réussi!"
                 subTitle="vous pouvez revenir à Connexion."
                 extra={[
                     <Button type="primary" key="console">
                         <a href="/SignIn">Sign In</a>
                     </Button>,
-                    <Button key="buy">Close</Button>,
+                    <Button key="buy">fermer</Button>,
                 ]}
             />
         </div>

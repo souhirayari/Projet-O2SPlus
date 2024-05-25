@@ -37,6 +37,15 @@ import ViewClients from './Components/Dossier/Clients/ViewClients';
 import ConsulterClient from './Components/Dossier/Consulter/ConsulterClient';
 import AddClient from './Components/Dossier/Add/AddClient';
 import Dossier from './Pages/PagesDossier/Dossier';
+import AddAppareil from './Components/Dossier/Add/AddAppareil';
+import ConsulterAppareil from './Components/Dossier/Consulter/ConsulterAppareil';
+import ProfileUser from './Pages/PagesDossier/ProfileUser';
+import Depots from './Components/Dossier/Stocks/Depots';
+import AddDepot from './Components/Dossier/Add/AddDepot';
+import AddMvt from './Components/Dossier/Add/AddMvt';
+import Addligne from './Components/Dossier/Add/Addligne';
+import ConsulterEntete from './Components/Dossier/Consulter/ConsulterEntete';
+
 
 
 
@@ -130,12 +139,12 @@ function getRoutes() {
     },
     {
       path: "/utilisateurs",
-      name: "Utilisateurs",
+      name: "Utilisateurs ",
       component: UserEmp,
     },
     {
       path: "/utilisateurs/ajouterUtilisateur",
-      name: "Utilisateurs \\ Ajouter Un Utilisateur",
+      name: "Utilisateurs \\ Ajouter Un Utiliateurs Dossier",
       component: AddUserD,
     },
     {
@@ -195,6 +204,15 @@ function getRoutes() {
       component: Appareil,
     },
     {
+      path: "/article/appareils/ajouterappareil",
+      name: "Article \\ Appareils \\ Ajouter Appareil ",
+      component: AddAppareil,
+    }, {
+      path: "/article/appareils/consulterappareil/:idappareil",
+      name: "Article \\ Appareils \\ Consulter Appareil",
+      component: ConsulterAppareil,
+    },
+    {
       path: "/stocks",
       name: "Stocks \\ Movements",
       component: Mvt,
@@ -207,9 +225,51 @@ function getRoutes() {
 
     },
     {
+      path: "/stock/entree/ajouterEntree",
+      name: "Stocks \\ Entree \\ Ajouter une Entete",
+      component: AddMvt,
+
+    },
+    {
+      path: "/stock/entree/consultermvt/:id",
+      name: "Stocks \\ Entree \\ Consulter Stock",
+      component: ConsulterEntete,
+
+    },
+    {
+      path: "/stock/ajouterligne",
+      name: "Stocks \\ Entree \\ Ajouter les lignes",
+      component: Addligne,
+
+    },
+    {
       path: "/stock/sortie",
       name: "Stocks \\ Sortie",
       component: Sortie,
+
+    },
+    {
+      path: "/stock/sortie/ajouterSortie",
+      name: "Stocks \\ Sortie",
+      component: AddMvt,
+
+    },
+    {
+      path: "/stock/sortie/consultermvt/:id",
+      name: "Stocks \\ Sortie \\ Consulter Stock ",
+      component: ConsulterEntete,
+
+    },
+    {
+      path: "/stock/Depots",
+      name: "Stocks \\ Dépots",
+      component: Depots,
+
+    },
+    {
+      path: "/stock/ajouterdepot",
+      name: "Stocks \\ Dépots \\ Ajouter dépot",
+      component: AddDepot,
 
     },
     {
@@ -226,13 +286,19 @@ function getRoutes() {
     }, {
       path: "/clients/consulterclient/:id",
       name: "Clients \\ Consulter Client",
-      component: ConsulterClient  ,
+      component: ConsulterClient,
 
     },
     {
-      path: "/dossier/info",
+      path: "/dossier",
       name: "Dossier",
       component: Dossier,
+
+    },
+    {
+      path: "/ProfileUser",
+      name: "Dossier",
+      component: ProfileUser,
 
     },
   ];

@@ -103,8 +103,8 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="sidebar">
-            <div className="sidebar-header">
+        <div className="sidebarAdmin">
+            <div className="sidebar-headerAdmin">
                 <img src={logo} alt="Logo" className="logo" />
                 <h3 className='tableBord'> <FontAwesomeIcon icon={faCompass} /> Tableau de Bord</h3>
             </div>
@@ -167,12 +167,12 @@ const Sidebar = () => {
                     )}
                 </li>
             </ul>
-            <div className="sidebar-footer">
+            <div className="sidebar-footerAdmin">
                 <ul className='ulFooter'>
                     <li><a href="/Profile"><FontAwesomeIcon icon={faUser} /> Profile</a></li>
                     <li><a href=""><FontAwesomeIcon icon={faGear} /> Parametere</a></li>
                 </ul>
-                <div className='btnDecon'>
+                <div className='btnDeconAdmin'>
                     <div onClick={handleLogout} > <FontAwesomeIcon icon={faRightToBracket} />  Déconnexion</div>
                 </div>
             </div>

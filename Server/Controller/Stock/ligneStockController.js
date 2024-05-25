@@ -7,109 +7,196 @@ const Dossier = db.Dossier;
 const Stock = db.stocks;
 
 const addLigneStock = async (req, res) => {
-	const data = {
-		Quantite: parseInt(req.body.Quantite),
-		PrixUnitaire: req.body.PrixUnitaire,
-	};
-	const articleId = req.body.articleId;
-	const enteteStockId = req.body.enteteStockId;
-	const depotId = req.body.depotId;
-	const Type = req.body.Type;
+	const ligneStocksData = req.body;
+	console.log("ligneStocksDataFromBack", ligneStocksData);
 
-	if (!enteteStockId || !articleId) {
-		res.status(400).send("enteteStockId and articleId are required");
+	if (!ligneStocksData || !Array.isArray(ligneStocksData)) {
+		res.status(400).send("Invalid request body");
 		return;
 	}
 
-	let article;
-	let enteteStock;
-	let depotDossier;
-	let type;
-	let depot;
-
 	try {
-		enteteStock = await EnteteStock.findByPk(enteteStockId);
-		article = await Article.findByPk(articleId);
-		depotDossier = await Depot.findByPk(enteteStock.depotId);
-		if (!article) {
-			res.status(400).send("Invalid articleId");
-			return;
-		}
-		if (!enteteStock) {
-			res.status(400).send("Invalid enteteStockId");
-			return;
-		}
+		const groupedData = groupeOperationsByArticleAndDepot(ligneStocksData);
+		console.log('group', groupedData)
+		const validationPromises = Object.values(groupedData).map(async (group) => {
+			const idArticle = group[0].idArticle;
+			const enteteStockId = group[0].enteteStockId;
+			const depotId = group[0].depotId;
 
-		if (depotDossier.dossierId !== article.dossierId) {
-			res.status(400).send("Article is not in the same dossier as enteteStock");
-			return;
-		}
+			let article;
+			let enteteStock;
+			let depotDossier;
+			let depot;
 
-		if (!depotId) {
-			depot = enteteStock.depotId;
-		} else {
-			depot = await Depot.findByPk(depotId);
-			if (!depot || depot.dossierId !== depotDossier.dossierId) {
-				res.status(400).send("Depot is not in the same dossier as enteteStock");
-				return;
-			}
-			depot = depotId;
-		}
+			enteteStock = await EnteteStock.findByPk(enteteStockId);
+			article = await Article.findByPk(idArticle);
+			depotDossier = await Depot.findByPk(enteteStock.depotId);
 
-		if (!Type) {
-			type = enteteStock.Type;
-		} else {
-			type = Type;
-		}
-
-		// Update stock before creating ligneStock
-		const stock = await Stock.findOne({
-			where: {
-				articleId: articleId,
-				depotId: depot,
-			},
-		});
-
-		if (!stock) {
-			if (type === "Entree") {
-				const createdStock = await Stock.create({
-					articleId: articleId,
-					depotId: depot,
-					Quantite: data.Quantite,
-				});
-				if (!createdStock) {
-					res.status(400).send("Error creating stock");
-					return;
-				}
+			if (!depotId) {
+				depot = enteteStock.depotId;
 			} else {
-				res.status(400).send("There is no article in stock to remove");
-				return;
+				depot = await Depot.findByPk(depotId);
+				if (!depot || depot.dossierId !== depotDossier.dossierId) {
+					throw new Error(
+						"Depot is not in the same dossier as enteteStock for ligneStock n° "
+					);
+				}
+				depot = depotId;
 			}
-		} else if (type === "Entree") {
-			await stock.update({
-				Quantite: stock.Quantite + data.Quantite,
-			});
-		} else if (type === "Sortie") {
-			await stock.update({
-				Quantite: stock.Quantite - data.Quantite,
-			});
-		}
 
-		// Create ligneStock after updating the stock
-		const ligneStock = await LigneStock.create({
-			...data,
-			articleId: articleId,
-			enteteStockId: enteteStockId,
-			depotId: depot,
-			Type: type,
+			let stock = await Stock.findOne({
+				where: {
+					idArticle: idArticle,
+					depotId: depot,
+				},
+			});
+
+			let stockQuantity = stock ? stock.Quantite : 0;
+			console.log("stockQuantity", stockQuantity);
+
+			// Calculate the final value of quantite for the group
+			const entrees = group.filter((data) => data.Type === "Entree");
+			console.log('entree', entrees)
+			const sorties = group.filter((data) => data.Type === "Sortie");
+
+			const totalEntree = entrees.reduce(
+				(sum, data) => sum + parseInt(data.Quantite),
+				0
+			);
+
+			const totalSortie = sorties.reduce(
+				(sum, data) => sum + data.Quantite,
+				0
+			);
+			console.log("totalEntree", totalEntree);
+			console.log("totalSortie", totalSortie);
+
+			const finalQuantite = stockQuantity + totalEntree - totalSortie;
+			console.log("finalQuantite", finalQuantite);
+
+			// Check if final quantite is not negative
+			if (finalQuantite < 0) {
+				throw new Error(
+					"Not enough quantity in stock for this operation n° " + group[0].id
+				);
+			}
 		});
 
-		res.send(ligneStock);
+		await Promise.all(validationPromises);
+
+		// Perform the operations for all groups at once
+		const stockPromises = Object.values(groupedData).map(async (group) => {
+			const idArticle = parseInt(group[0].idArticle);
+			const enteteStockId = parseInt(group[0].enteteStockId);
+			const depotId = parseInt(group[0].depotId);
+
+			let article;
+			let enteteStock;
+			let depotDossier;
+			let depot;
+
+			enteteStock = await EnteteStock.findByPk(enteteStockId);
+			article = await Article.findByPk(idArticle);
+			depotDossier = await Depot.findByPk(enteteStock.depotId);
+
+			if (!depotId) {
+				depot = enteteStock.depotId;
+			} else {
+				depot = await Depot.findByPk(depotId);
+				if (!depot || depot.dossierId !== depotDossier.dossierId) {
+					throw new Error(
+						"Depot is not in the same dossier as enteteStock for ligneStock n° " +
+						group[0].id
+					);
+				}
+				depot = depotId;
+			}
+
+			let stock = await Stock.findOne({
+				where: {
+					idArticle: idArticle,
+					depotId: depot,
+				},
+			});
+
+			let stockQuantity = stock ? stock.Quantite : 0;
+
+			// Perform "Entree" operations
+			const entrees = group.filter((data) => data.Type === "Entree");
+			for (const data of entrees) {
+				const Quantite = parseInt(data.Quantite);
+				stockQuantity += Quantite;
+
+				if (!stock) {
+					stock = await Stock.create({
+						idArticle: idArticle,
+						depotId: depot,
+						Quantite: stockQuantity,
+					});
+				} else {
+					stock.Quantite = stockQuantity;
+					await stock.save();
+				}
+
+				const ligneStock = await LigneStock.create({
+					Quantite: Quantite,
+					PrixUnitaire: data.PrixUnitaire,
+					idArticle: idArticle,
+					enteteStockId: enteteStockId,
+					depotId: depot,
+					Type: "Entree",
+				});
+			}
+
+			// Perform "Sortie" operations
+			const sorties = group.filter((data) => data.Type === "Sortie");
+			for (const data of sorties) {
+				const Quantite = parseInt(data.Quantite);
+				stockQuantity -= Quantite;
+
+				if (!stock) {
+					stock = await Stock.create({
+						idArticle: idArticle,
+						depotId: depot,
+						Quantite: stockQuantity,
+					});
+				} else {
+					stock.Quantite = stockQuantity;
+					await stock.save();
+				}
+
+				const ligneStock = await LigneStock.create({
+					Quantite: Quantite,
+					PrixUnitaire: data.PrixUnitaire,
+					idArticle: idArticle,
+					enteteStockId: enteteStockId,
+					depotId: depot,
+					Type: "Sortie",
+				});
+			}
+
+			return groupeOperationsByArticleAndDepot(group);
+		});
+
+		const ligneStocks = await Promise.all(stockPromises);
+
+		res.send(ligneStocks.flat());
 	} catch (error) {
-		res.status(500).send(error);
+		res.status(500).send(error.message);
 		console.log(error);
 	}
 };
+
+function groupeOperationsByArticleAndDepot(operations) {
+	return operations.reduce((groups, operation) => {
+		const key = `${operation.idArticle}-${operation.depotId}`;
+		if (!groups[key]) {
+			groups[key] = [];
+		}
+		groups[key].push(operation);
+		return groups;
+	}, {});
+}
 
 const getLigneStock = async (req, res) => {
 	const id = req.params.id;
@@ -133,6 +220,11 @@ const getLigneStockByEnteteStock = async (req, res) => {
 			where: {
 				enteteStockId: enteteStockId,
 			},
+			include:
+				[{
+					model: Article,
+					as: 'Article'
+				},]
 		});
 		res.send(ligneStock);
 	} catch (error) {
@@ -176,7 +268,7 @@ const updateLigneStock = async (req, res) => {
 			return;
 		}
 		if (depotId) {
-			const depot = await Depot.findByPk(depotId);
+			depot = await Depot.findByPk(depotId);
 			if (!depot) {
 				res.status(400).send("Invalid depotId");
 				return;
@@ -252,7 +344,7 @@ const getQuantityByArticleAndDepot = async (req, res) => {
 		});
 
 		if (!stock) {
-			res.send({ quantity: 0 });
+			res.send("0");
 			return;
 		}
 

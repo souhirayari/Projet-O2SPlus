@@ -47,11 +47,8 @@ const addClient = async (req, res) => {
 
 	try {
 		const existinglogin =await User.findOne({ where: { login: data.Login } })
-		console.log("user", existinglogin)
 		const existlogin = await Technicien.findOne({ where: { login: data.Login } })
-		console.log("tech", existlogin)
 		const exislogin = await Client.findOne({ where: { Login: data.Login } })
-		console.log("client", exislogin)
 
 		if (existinglogin || exislogin || existlogin) {
 			return res.status(400).send({ message: ' login doit etre unique' })

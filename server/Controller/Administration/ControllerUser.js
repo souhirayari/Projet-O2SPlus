@@ -97,7 +97,8 @@ exports.AddUserinfo = async (req, res) => {
 
 
 exports.findAll = async (req, res) => {
-    if (auth.Role !== 'adminSite') {
+    console.log(auth)
+    if (auth.user.Role !== 'adminSite') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {

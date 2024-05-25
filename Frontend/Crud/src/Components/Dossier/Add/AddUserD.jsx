@@ -119,10 +119,10 @@ function AddUserD() {
     return (
         <>
             <div className='Revenir'>
-                <a href={newUrl}><FontAwesomeIcon icon={faArrowLeft} size="xl" style={{ color: "#5856d6", }} /> Utilisateurs </a>
+                <a href={newUrl}><FontAwesomeIcon icon={faArrowLeft} size="xl" style={{ color: "#5856d6", }} /> Utiliateurs Dossier </a>
             </div>
             <Form className='formulaire'>
-                <h3>Ajouter un Utilisateur</h3>
+                <h3>Ajouter un Utiliateurs Dossier</h3>
                 <br />
                 <div className='BoxAjout'>
                     <Row className="mb-3">
@@ -226,7 +226,7 @@ function AddUserD() {
                     </Form.Group>
                     <br />
                     <Button variant="primary" type="submit" className='btnAjout' onClick={handleSubmit}>
-                        Ajouter Utilisateur
+                        Ajouter Utiliateurs Dossier
                     </Button>
                 </div>
             </Form>

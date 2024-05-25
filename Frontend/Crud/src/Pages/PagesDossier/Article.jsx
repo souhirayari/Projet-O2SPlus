@@ -22,6 +22,10 @@ function Article() {
         if (currentPageUrl.includes('consulterarticle')) {
             ArticleRoute = Routes.find((route) => route.path.includes('consulterarticle'));
             Component = ArticleRoute ? ArticleRoute.component : null;
+        }
+        else if (currentPageUrl.includes('consulterappareil')) {
+            ArticleRoute = Routes.find((route) => route.path.includes('consulterappareil'));
+            Component = ArticleRoute ? ArticleRoute.component : null;
         } else {
             ArticleRoute = Routes.find((route) => currentPageUrl.substr(-route.path.length) === route.path) || Routes.find((route) => currentPageUrl.includes(route.path))
             Component = ArticleRoute ? ArticleRoute.component : null;
@@ -29,9 +33,9 @@ function Article() {
         }
     }
     return (
-        <div>
+        <div className='containerBody'>
             <SideBarD visible={visible} show={show} setShow={setShow} />
-            <div className={visible ? ' biglayout' : 'smalllayout'} >
+            <div className='biglayout'  >
                 <NavbarD setVisible={setVisible} visible={visible} show={show} setShow={setShow} title={ArticleRoute ? ArticleRoute.name : ''} />
                 <div className='boxBody'> {Component && <Component />}</div>
             </div>

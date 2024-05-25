@@ -9,8 +9,7 @@ import { toast } from 'react-toastify';
 
 function UpdateArticle({ show, handleClose, article }) {
   const dossierId = localStorage.getItem('dossierId'); // Suppose que vous stockez le token dans le localStorage
-  const currentPageUrl = window.location.pathname;
-  const newUrl = currentPageUrl.replace('/ajouterarticle', '');
+
   const [Familles, setFamille] = useState([])
   const [Marques, setMarque] = useState([])
   const [Fournisseurs, setFournisseurs] = useState([])

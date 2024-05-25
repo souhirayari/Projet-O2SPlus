@@ -31,9 +31,9 @@ function UsersD() {
   }
 
   return UserRoute ? (
-    <div>
+    <div className='containerBody'>
       <SideBarD visible={visible} show={show} setShow={setShow} />
-      <div className={visible ? 'biglayout' : 'smalllayout'}>
+      <div className= 'biglayout' >
         <NavbarD setVisible={setVisible} visible={visible} show={show} setShow={setShow} title={UserRoute ? UserRoute.name : ''} />
         <div className="boxBody">{Component && <Component />}</div>
       </div>

@@ -112,7 +112,7 @@ function FamArticle() {
     const libelleMatch = famille.libelle.toLowerCase().includes(searchTerm.toLowerCase());
     const creematch = extractDate(famille.createdAt).includes(searchTerm);
     // const valoriationmatch = famille.valorisation.toLowerCase().includes(searchTerm.toLowerCase());
-    return libelleMatch || creematch || valoriationmatch;
+    return libelleMatch || creematch ;
   });
   const currentItems = filteredFamille.slice(startIndex, endIndex);
 

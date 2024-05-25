@@ -1,27 +1,27 @@
 const ligneStockController = require("../../Controller/Stock/ligneStockController");
-
+const { authMiddleware } = require('../../Controller/Auth/AuthController')
 const router = require("express").Router();
 
-router.post("/addLigneStock", ligneStockController.addLigneStock);
-router.get("/getLigneStock/:id", ligneStockController.getLigneStock);
+router.post("/addLigneStock", authMiddleware, ligneStockController.addLigneStock);
+router.get("/getLigneStock/:id", authMiddleware, ligneStockController.getLigneStock);
 router.get(
-	"/getLigneStockByEnteteStock/:enteteStockId",
+	"/getLigneStockByEnteteStock/:enteteStockId", authMiddleware,
 	ligneStockController.getLigneStockByEnteteStock
 );
-router.delete("/deleteLigneStock/:id", ligneStockController.deleteLigneStock);
-router.put("/updateLigneStock/:id", ligneStockController.updateLigneStock);
+router.delete("/deleteLigneStock/:id", authMiddleware, ligneStockController.deleteLigneStock);
+router.put("/updateLigneStock/:id", authMiddleware, ligneStockController.updateLigneStock);
 router.get(
-	"/getAllLigneStockByDossier/:dossierId",
+	"/getAllLigneStockByDossier/:dossierId", authMiddleware,
 	ligneStockController.getAllLigneStockByDossier
 );
 
 router.get(
-	"/getQuantityByArticleAndDepot/:articleId/:depotId",
+	"/getQuantityByArticleAndDepot/:articleId/:depotId", authMiddleware,
 	ligneStockController.getQuantityByArticleAndDepot
 );
 
 router.put(
-	"/updateQuantite/:articleId/:depotId/:quantite",
+	"/updateQuantite/:articleId/:depotId/:quantite", authMiddleware,
 	ligneStockController.updateQuantite
 );
 

@@ -28,7 +28,8 @@ import {
     faChartSimple,
     faFileImport,
     faRightFromBracket,
-    faHandshake
+    faHandshake,
+    faCircleUser
 } from '@fortawesome/free-solid-svg-icons';
 import '../../Style/Dossier/SideBarD.css'
 import logo from '../../assets/logo.png'
@@ -81,9 +82,9 @@ function SideBarD({ visible, show, setShow }) {
 
 
     return (
-        <div >
+        <div className="main-container">
             <CCollapse visible={visible}>
-                <CSidebar className={show ? 'border-end sidebarF' : 'border-end'} colorScheme="dark"  >
+                <CSidebar className={show ? 'border-end ' : 'border-end'} colorScheme="dark"  >
                     {show && (<CCloseButton className='closebtn' dark onClick={() => { setShow(!show) }} />)}
                     <CSidebarHeader className='header'>
                         <CSidebarBrand className='imgSideBar'>
@@ -108,7 +109,7 @@ function SideBarD({ visible, show, setShow }) {
 
                         <CNavTitle>utilisateurs</CNavTitle>
                         <CNavGroup toggler={<a href={`/dossier${dossier ? dossier.RaisonSociale : ''}/utilisateurs`} className='linksidebar' > <FontAwesomeIcon icon={faUsers} /> Utilisateurs</a>}>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/utilisateurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Utilisateurs</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/utilisateurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Utiliateurs Dossier</CNavItem>
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/users/fournisseurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Fournisseurs</CNavItem>
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/users/techniciens`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Techniciens</CNavItem>
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/users/vendeurs`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Vendeur</CNavItem>
@@ -119,9 +120,10 @@ function SideBarD({ visible, show, setShow }) {
                             <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/article/appareils`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Appareil</CNavItem>
                         </CNavGroup>
                         <CNavGroup toggler={<a href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stocks`} className='linksidebar'> <FontAwesomeIcon icon={faTruckRampBox} /> Stocks</a>}>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stocks`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Mouvements</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/entree`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Entree</CNavItem>
-                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/sortie`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Sortie</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/Depots`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Dépots</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stocks`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Mouvements Stocks</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/entree`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Entrée Stock</CNavItem>
+                            <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/stock/sortie`}><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Sortie Stock</CNavItem>
                         </CNavGroup>
                         <CNavTitle>Clients</CNavTitle>
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/clients`} className='linksidebar'> <FontAwesomeIcon icon={faHandshake} />Clients</CNavItem>
@@ -142,6 +144,7 @@ function SideBarD({ visible, show, setShow }) {
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/statistique`} className='linksidebar'> <FontAwesomeIcon icon={faChartSimple} />Statistique</CNavItem>
 
                         <CNavTitle>Génerale</CNavTitle>
+                        <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/ProfileUser`} className='linksidebar'> <FontAwesomeIcon icon={faCircleUser} /> Profile</CNavItem>
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/dossier`} className='linksidebar'> <FontAwesomeIcon icon={faFileImport} /> Dossier</CNavItem>
                         <CNavItem href='/Signin' onClick={handleLogout} className='linksidebar'> <FontAwesomeIcon icon={faRightFromBracket} /> Déconnecter</CNavItem>
 
@@ -212,6 +215,7 @@ function SideBarD({ visible, show, setShow }) {
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/statistique`} className='linksidebar'> <FontAwesomeIcon icon={faChartSimple} />{hoveredItem === 'Sidebar' && 'Statistique'}</CNavItem>
 
                         <CNavTitle>Génerale</CNavTitle>
+
                         <CNavItem href={`/dossier${dossier ? dossier.RaisonSociale : ''}/dossier`} className='linksidebar'> <FontAwesomeIcon icon={faFileImport} /> {hoveredItem === 'Sidebar' && 'Dossier'}</CNavItem>
                         <CNavItem href='/Signin' onClick={handleLogout} className='linksidebar'> <FontAwesomeIcon icon={faRightFromBracket} /> {hoveredItem === 'Sidebar' && 'Déconnection'}</CNavItem>
 

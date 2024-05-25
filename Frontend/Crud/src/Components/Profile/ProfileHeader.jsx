@@ -9,7 +9,7 @@ const ProfileHeader = ({avatar}) => {
   
       <div className="profile-image-container">
         <Col xs={1} md={1}>
-          <Image src={ avatar ?  avatar : image} roundedCircle alt='image' className='profile-image' />
+          <Image src={image} roundedCircle alt='image' className='profile-image' />
         </Col>
       </div>
   );

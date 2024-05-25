@@ -3,6 +3,9 @@ const Depot = db.depots;
 const Dossier = db.Dossier;
 
 const addDepot = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		return res.status(403).json({ message: 'Unauthorized access' });
+	}
 	const data = {
 		Libelle: req.body.Libelle,
 		Pays: req.body.Pays,
@@ -14,6 +17,7 @@ const addDepot = async (req, res) => {
 		Principal: req.body.Principal,
 		CodeDepot: req.body.CodeDepot,
 	};
+	console.log(req.body)
 	const dossierId = req.body.dossierId;
 
 	if (!dossierId) {
@@ -60,7 +64,7 @@ const addDepot = async (req, res) => {
 			});
 
 			if (existingCode) {
-				res.status(400).send("CodeTypeTarif already exists");
+				res.status(400).send("code depot already exists");
 				return;
 			}
 		}
@@ -92,6 +96,9 @@ const addDepot = async (req, res) => {
 };
 
 const getAllDepotByDossier = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier' && auth.user.Role !== 'user') {
+		return res.status(403).json({ message: 'Unauthorized access' });
+	}
 	const dossierId = req.params.id;
 	//console.log(dossierId);
 
@@ -131,6 +138,9 @@ const getDepot = async (req, res) => {
 };
 
 const updateDepot = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		return res.status(403).json({ message: 'Unauthorized access' });
+	}
 	const id = req.params.id;
 	const data = {
 		Libelle: req.body.Libelle,
@@ -168,6 +178,9 @@ const updateDepot = async (req, res) => {
 };
 
 const deleteDepot = async (req, res) => {
+	if (auth.user.Role !== 'adminDossier') {
+		return res.status(403).json({ message: 'Unauthorized access' });
+	}
 	const id = req.params.id;
 
 	try {

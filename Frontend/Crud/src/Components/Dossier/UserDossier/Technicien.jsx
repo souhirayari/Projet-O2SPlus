@@ -138,81 +138,78 @@ function Technicien() {
         <div>
           <a href={window.location.href + '/ajoutertechnicien'}><CButton color="primary" className='btnAjout'>Ajouter un Technicien </CButton> </a>
         </div>
-        <CSmartTable
-          activePage={2}
-          cleaner
-          clickableRows
-          columns={columns}
-          columnFilter
-          columnSorter
-          footer
-          items={Technicien}
-          itemsPerPageSelect
-          itemsPerPage={5}
-          pagination
-          onFilteredItemsChange={(items) => {
-          }}
-          onSelectedItemsChange={(items) => {
-          }}
-          scopedColumns={{
-            status: (item) => (
-              <td>
-                <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
-              </td>
-            ),
-            show_details: (item) => {
-              return (
-                <td className="py-2">
-                  <CButton
-                    color="primary"
-                    variant="outline"
-                    shape="square"
-                    size="sm"
-                    onClick={() => {
-                      toggleDetails(item.idTech)
-
-                    }}
-                  >
-                    {details.includes(item.idTech) ? 'Hide' : 'Show'}
-
-                  </CButton>
-
+        <div style={{ textAlign: 'center' }}>
+          <CSmartTable
+            activePage={2}
+            cleaner
+            clickableRows
+            columns={columns}
+            columnFilter
+            columnSorter
+            items={Technicien}
+            itemsPerPageSelect
+            itemsPerPage={5}
+            pagination
+            scopedColumns={{
+              status: (item) => (
+                <td>
+                  <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
                 </td>
-              )
-            },
-            details: (item) => {
-              return (
-                <CCollapse visible={details.includes(item.idTech)}>
-                  <CCardBody className="p-3">
-                    <h4>{item.nom}</h4>
-                    <p className="text-muted">Technicien since: {extractDate(item.createdAt)}</p>
-                    <div className='btns'>
-                      <CButton size="sm" color="primary" onClick={() => { setShow(true); setSelectedTechnicien(item); }}>
-                        Modifier
-                      </CButton>
-                      <CButton size="sm" color="danger" onClick={() => { handleDeletetechnicien(item.idTech) }} >
-                        Delete
-                      </CButton>
-                    </div>
-                  </CCardBody>
-                </CCollapse>
-              )
-            },
-          }}
-          selectable
-          tableFilter
-          tableProps={{
-            className: 'add-this-class',
-            responsive: true,
-            striped: true,
-            hover: true,
-          }}
-          tableBodyProps={{
-            className: 'align-middle'
-          }}
-        />
+              ),
+              show_details: (item) => {
+                return (
+                  <td className="py-2">
+                    <CButton
+                      color="primary"
+                      variant="outline"
+                      shape="square"
+                      size="sm"
+                      onClick={() => {
+                        toggleDetails(item.idTech)
+
+                      }}
+                    >
+                      {details.includes(item.idTech) ? 'Hide' : 'Show'}
+
+                    </CButton>
+
+                  </td>
+                )
+              },
+              details: (item) => {
+                return (
+                  <CCollapse visible={details.includes(item.idTech)}>
+                    <CCardBody className="p-3">
+                      <h4>{item.nom}</h4>
+                      <p className="text-muted">Technicien since: {extractDate(item.createdAt)}</p>
+                      <div className='btns'>
+                        <CButton size="sm" color="primary" onClick={() => { setShow(true); setSelectedTechnicien(item); }}>
+                          Modifier
+                        </CButton>
+                        <CButton size="sm" color="danger" onClick={() => { handleDeletetechnicien(item.idTech) }} >
+                          Delete
+                        </CButton>
+                      </div>
+                    </CCardBody>
+                  </CCollapse>
+                )
+              },
+            }}
+            selectable
+            tableFilter
+            tableProps={{
+              className: 'add-this-class',
+              responsive: true,
+              striped: true,
+              hover: true,
+            }}
+            tableBodyProps={{
+              className: 'align-middle'
+            }}
+          />
+        </div>
       </div>
-     <UpdateTechnicien show={show} handleClose={handleClose} technicien={selectedTechnicien}/>
+      <UpdateTechnicien show={show} handleClose={handleClose} technicien={selectedTechnicien} />
     </>
   )
 }

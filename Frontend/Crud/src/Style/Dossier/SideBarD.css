@@ -3,12 +3,25 @@
 
 }
 
-.border-end {
+.main-container {
+    display: flex;
     min-height: 100vh;
-    position: fixed;
-    overflow: hidden;
-    width: fit-content;
+    /* Assure que le conteneur prend au moins toute la hauteur de la fenêtre */
+}
 
+.border-end {
+    position: -webkit-sticky;
+    /* Support Safari */
+    position: sticky;
+    top: 0;
+    width: 250px;
+    /* Largeur de la sidebar */
+    min-height: 100vh;
+    /* Assure que la sidebar prend toute la hauteur de la fenêtre */
+    overflow-y: auto;
+    /* Permettre le scroll vertical si nécessaire */
+    flex-shrink: 0;
+    /* Empêche la réduction de la sidebar */
 }
 
 .imgSideBar {
@@ -85,16 +98,9 @@
     display: none;
 }
 
-.sidebarF {
+/* .sidebarF {
     margin-left: 0% !important;
-}
+} */
 
 
-@media screen and (max-width :837px) {
-    .border-end {
-        display: none
-    }
-
-    ;
-
-}
+@media screen and (max-width :837px) {}

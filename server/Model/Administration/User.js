@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-       
+
         login: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -60,21 +60,21 @@ module.exports = (sequelize, Sequelize) => {
         avatar: {
             type: Sequelize.BLOB,
             allowNull: true,
-            validate: {
-                isImageOrNull(value) {
-                    if (value && !/\.(jpg|jpeg|png|gif)$/.test(value)) {
-                        throw new Error('Le type de fichier doit être JPG, JPEG, PNG ou GIF.');
-                    }
-                }
-            }
+            // validate: {
+            //     isImageOrNull(value) {
+            //         if (value && !/\.(jpg|jpeg|png|gif)$/.test(value)) {
+            //             throw new Error('Le type de fichier doit être JPG, JPEG, PNG ou GIF.');
+            //         }
+            //     }
+            // }
         },
-       statut: {
+        statut: {
             type: Sequelize.STRING,
             allowNull: true,
             validate: {
                 isIn: [['Actif', 'Suspendu', 'Inactif', 'Retraité']]
             }
-        }, 
+        },
         Role: {
             type: Sequelize.STRING,
             allowNull: false,

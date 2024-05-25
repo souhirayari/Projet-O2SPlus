@@ -113,7 +113,7 @@ function UpdateUserD({ show, handleClose, user }) {
       {user && (
         <Modal show={show} onHide={handleClose}  >
           <Modal.Header closeButton>
-            <Modal.Title>Utilisateur</Modal.Title>
+            <Modal.Title>Utiliateurs </Modal.Title>
           </Modal.Header>
           <Modal.Body >
             <Form>
