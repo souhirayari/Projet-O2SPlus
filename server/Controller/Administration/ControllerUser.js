@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const { findbyId } = require('../Administration/ControllerDossier');
 const Dossier = require('../../Model/main').Dossier;
 const UserDossier = require('../../Model/main').userDossier
-const { Sequelize } = require('sequelize');
 const { sendConfirmationEmail } = require('../../MailConfig/NodeMailer');
 const bcrypt = require('bcrypt');
 
@@ -121,9 +120,7 @@ exports.findByIdUser = async (req, res) => {
             return res.status(404).send({ message: 'User not found' });
         }
         const tokenPayload = {
-            id: user.id,
-            login: user.login,
-            Role: user.Role
+            user: user
         };
         const token = jwt.sign(tokenPayload, 'user', { expiresIn: '24h' });
         res.status(200).json({ success: true, token });
