@@ -220,7 +220,7 @@ function UpdateUser({ show, handleClose, user }) {
                             <br />
                             <Form.Group className="mb-3" controlId="formGridRole">
                                 <Form.Label>Role</Form.Label>
-                                <Form.Select name='Role' onChange={handleChange} value={formData.Role} required>
+                                <Form.Select name='Role' onChange={handleChange} value={formData.Role} required disabled>
                                     <option value="">Sélectionnez un rôle</option>
                                     <option value="adminSite">adminSite</option>
                                     <option value="adminDossier">adminDossier</option>

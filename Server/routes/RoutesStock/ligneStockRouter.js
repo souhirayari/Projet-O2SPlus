@@ -16,7 +16,7 @@ router.get(
 );
 
 router.get(
-	"/getQuantityByArticleAndDepot/:articleId/:depotId", authMiddleware,
+	"/getQuantityByArticle/:articleId", authMiddleware,
 	ligneStockController.getQuantityByArticleAndDepot
 );
 

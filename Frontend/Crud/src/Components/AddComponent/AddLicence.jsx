@@ -72,7 +72,7 @@ function AddLicence() {
         throw new Error('Erreur lors de l\'ajout du licence');
       }
 
-      toast.success('User ajouté avec succès !');
+      toast.success('licence ajouté avec succès !');
 
       setTimeout(() => {
         window.location.replace('/Licences');

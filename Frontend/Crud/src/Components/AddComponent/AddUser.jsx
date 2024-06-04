@@ -39,7 +39,7 @@ function AddUser() {
 
     const [dossiers, setDossiers] = useState([]);
     const [showDossierSelect, setShowDossierSelect] = useState(false);
-    
+
     const tokenString = localStorage.getItem('token');
     const token = JSON.parse(tokenString);
 
@@ -62,7 +62,7 @@ function AddUser() {
         };
 
         fetchDossiers();
-    }, []);
+    }, [token]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -70,17 +70,17 @@ function AddUser() {
             ...formData,
             [name]: value
         });
-        if (name === 'Role' && (value === 'adminDossier' || value === 'user')) {
-            setShowDossierSelect(!showDossierSelect);
-        } else {
-            setShowDossierSelect(!showDossierSelect);
+        if (name === 'Role') {
+            if (value === 'adminDossier' || value === 'user') {
+                setShowDossierSelect(true);
+            } else {
+                setShowDossierSelect(false);
+            }
         }
     };
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
-        setAvatarFile(file);
-
         const reader = new FileReader();
         reader.onloadend = () => {
             setFormData({
@@ -103,14 +103,11 @@ function AddUser() {
             return;
         }
 
-        // Générer un mot de passe unique de 8 caractères
-        console.log(formData)
-
         try {
             const response = await fetch('http://localhost:5000/api/users/Add', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}` ,// Ajout du token d'authentification dans le header
+                    'Authorization': `Bearer ${token}`,// Ajout du token d'authentification dans le header
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ ...formData, password: newPassword })

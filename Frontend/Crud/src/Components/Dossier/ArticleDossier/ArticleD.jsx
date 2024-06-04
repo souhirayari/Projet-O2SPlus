@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Pagination from 'react-bootstrap/Pagination';
-import { FloatButton, Switch } from 'antd';
+import { Switch } from 'antd';
 import '../../../Style/Dossier/userStyle.css';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,6 +24,7 @@ function ArticleD() {
   useEffect(() => {
     async function fetchData() {
       try {
+        // Fetch articles
         const res = await fetch(`http://localhost:5000/api/article/findAllArticlebyDossier/${dossierId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -37,7 +38,19 @@ function ArticleD() {
           }
         } else {
           const jsonres = await res.json();
-          setArticles(jsonres);
+          // Fetch quantities for each article
+          if (jsonres) {
+            const articlesWithQuantities = await Promise.all(jsonres.map(async (article) => {
+              const quantityRes = await fetch(`http://localhost:5000/api/ligneStock/getQuantityByArticle/${article.idArticle}`, {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
+              const quantity = await quantityRes.json();
+              return { ...article, quantity: quantity.quantity };
+            }));
+            setArticles(articlesWithQuantities);
+          }
         }
       } catch (error) {
         console.error('Erreur fetchData:', error);
@@ -84,13 +97,13 @@ function ArticleD() {
     const creematch = extractDate(article.createdAt).includes(searchTerm);
     const marqueMatch = article.Marque.libelle.toLowerCase().includes(searchTerm.toLowerCase());
     const familleMatch = article.FamilleArticle.libelle.toLowerCase().includes(searchTerm.toLowerCase());
-    const prixmatch = String(article.prixAchat).toLowerCase().includes(searchTerm.toLocaleLowerCase());
+    const prixmatch = String(article.prixAchat).toLowerCase().includes(searchTerm.toLowerCase());
     return libelleMatch || creematch || marqueMatch || familleMatch || prixmatch;
   });
   const currentItems = filteredArticles.slice(startIndex, endIndex);
 
   const handleClose = () => setShow(false);
-
+  console.log(articles)
   return (
     <>
       <div>
@@ -121,40 +134,47 @@ function ArticleD() {
               <th>Marque</th>
               <th>Prix Achat</th>
               <th>Gérer En Stock</th>
-              <th>crée le</th>
+              <th>Quantité</th>
+              <th>Crée le</th>
               <th colSpan={3}>Action</th>
             </tr>
           </thead>
           <tbody className='TabAff'>
-            {currentItems.map((article, index) => (
-              <tr key={index}>
-                <td><input type="checkbox" name="" id="" /></td>
-                <td>{article.libelle}</td>
-                <td>{article.FamilleArticle.libelle}</td>
-                <td>{article.Marque.libelle}</td>
-                <td>{article.prixAchat}</td>
-                <td>
-
-                  <Switch checked={article.gereEnStock} className={article.gereEnStock ? 'switch-checked' : ''} disabled />
-                </td>
-                <td>{extractDate(article.createdAt)}</td>
-                <td className='btnView'>
-                  <a href={window.location.href + `/consulterarticle/${article.idArticle}`}>
-                    <CButton color="dark" variant="outline"><FontAwesomeIcon icon={faEye} /></CButton>
-                  </a>
-                </td>
-                <td className='btnEdit' onClick={() => { setShow(true); setSelectedArticle(article); }}>
-                  <CButton color="primary" variant="outline" className='edit' onClick={() => { setShow(true); setSelectedUser(article); }}>
-                    <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#5856d6" }} />
-                  </CButton>
-                </td>
-                <td className='btnsupp' onClick={() => handleDeleteArticle(article.idArticle)}>
-                  <CButton color="danger" variant="outline" className='supp' onClick={() => handleDeleteUser(article.idArticle)}>
-                    <FontAwesomeIcon icon={faTrashCan} style={{ color: "#f96767" }} />
-                  </CButton>
-                </td>
+            {currentItems.length === 0 ? (
+              <tr>
+                <td colSpan="10" style={{ textAlign: 'center' }}>Aucun item trouvé</td>
               </tr>
-            ))}
+            ) : (
+              currentItems.map((article, index) => (
+                <tr key={index}>
+                  <td><input type="checkbox" name="" id="" /></td>
+                  <td>{article.libelle}</td>
+                  <td>{article.FamilleArticle.libelle}</td>
+                  <td>{article.Marque.libelle}</td>
+                  <td>{article.prixAchat}</td>
+                  <td>
+                    <Switch checked={article.gereEnStock} className={article.gereEnStock ? 'switch-checked' : ''} disabled />
+                  </td>
+                  <td>{article.quantity}</td>
+                  <td>{extractDate(article.createdAt)}</td>
+                  <td className='btnView'>
+                    <a href={window.location.href + `/consulterarticle/${article.idArticle}`}>
+                      <CButton color="dark" variant="outline"><FontAwesomeIcon icon={faEye} /></CButton>
+                    </a>
+                  </td>
+                  <td className='btnEdit' onClick={() => { setShow(true); setSelectedArticle(article); }}>
+                    <CButton color="primary" variant="outline" className='edit'>
+                      <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#5856d6" }} />
+                    </CButton>
+                  </td>
+                  <td className='btnsupp' onClick={() => handleDeleteArticle(article.idArticle)}>
+                    <CButton color="danger" variant="outline" className='supp'>
+                      <FontAwesomeIcon icon={faTrashCan} style={{ color: "#f96767" }} />
+                    </CButton>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </Table>
         {/* Pagination */}

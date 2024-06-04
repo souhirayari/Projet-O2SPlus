@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CRow, CCol, CButton, CTable, CPagination, CPaginationItem } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 function ConsulterEntete() {
+    const currentPageUrl = window.location.pathname;
+    const newUrl = currentPageUrl.split('/entree/consultermvt')[0] + 's';
+    console.log(newUrl)
     const tokenString = localStorage.getItem('token');
     const token = tokenString ? JSON.parse(tokenString) : null;
     const dossierId = localStorage.getItem('dossierId');
@@ -109,6 +112,10 @@ function ConsulterEntete() {
 
     return (
         <div>
+            <div className='Revenir'>
+                <a href={newUrl}><FontAwesomeIcon icon={faArrowLeft} size="xl" style={{ color: "#5856d6", }} /> Mvts </a>
+            </div>
+            <br />
             <div className='diventete'>
                 <h3>Entete Stock</h3>
                 <br />

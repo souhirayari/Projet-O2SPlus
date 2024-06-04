@@ -105,10 +105,10 @@ const getFamilleClient = async (req, res) => {
 const getFamilleClientByDossier = async (req, res) => {
     try {
         // Assurez-vous que auth est correctement passé avec req
-        // if (auth.user.Role !== 'adminDossier') {
-        //     // Utilisez res.status(403).send pour accès non autorisé
-        //     return res.status(403).send({ message: 'Unauthorized Access' });
-        // }
+        if (auth.user.Role !== 'adminDossier') {
+            // Utilisez res.status(403).send pour accès non autorisé
+            return res.status(403).send({ message: 'Unauthorized Access' });
+        }
 
         const dossierId = req.params.dossierId;
 

@@ -115,6 +115,8 @@ function AddFamilleArticle() {
                 });
 
             if (!response.ok) {
+                const errorData = await response.json();
+                toast.error(errorData.message, ' essayer une autre .. !');
                 throw new Error('Erreur lors de l\'ajout du Famille Article');
             }
 

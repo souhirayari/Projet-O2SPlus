@@ -8,7 +8,7 @@ import {
 
 function ConsultAppareil() {
     const currentPageUrl = window.location.pathname;
-    const newUrl = currentPageUrl.split('appareils/consulterappareil')[0] + 'Appareils';
+    const newUrl = currentPageUrl.split('appareils/consulterappareil')[0] + 'article/appareils';
     console.log(newUrl)
     const { idappareil } = useParams();
     console.log(idappareil)

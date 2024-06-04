@@ -27,15 +27,23 @@ function FamClient() {
           }
         });
 
-        if (!res.ok) {
-          throw new Error('Erreur lors de la récupération des familles clients');
-        }
 
-        const jsonRes = await res.json();
-        setFamilleClient(jsonRes);
-        setIsLoading(false);
-        setTimeout(() => {
-        }, 1000);
+        if (!res.ok) {
+          if (res.status === 404) {
+            setFamilleClient([]);
+            setIsLoading(false);
+          } else {
+            throw new Error('Erreur lors de la récupération des données');
+          }
+        }
+        else {
+
+          const jsonRes = await res.json();
+          setFamilleClient(jsonRes);
+          setIsLoading(false);
+          setTimeout(() => {
+          }, 1000);
+        }
       } catch (error) {
         console.error('Erreur fetchData:', error);
         toast.error('Erreur lors du chargement des données');

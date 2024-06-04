@@ -25,21 +25,21 @@ exports.AddFamille = async (req, res) => {
 
         const fournisseur = await Fournisseur.findOne({ where: { idFournisseur: idFournisseur, dossierId: dossierId } });
         if (!fournisseur) {
-            return res.status(404).send({ message: 'fournisseur not found' });
+            return res.status(404).send({ message: 'fournissuer obligatoire' });
         }
         const typeTarif = await TypeTarif.findOne({ where: { idTypetarif: idTarif, dossierId: dossierId } });
         if (!typeTarif) {
-            return res.status(404).send({ message: 'type tarif not found' });
+            return res.status(404).send({ message: 'type tarif obligatoire' });
         }
 
 
         if (!libelle || !coefficient || !valorisation || !codefamille) {
-            return res.status(400).send({ message: 'Set information' });
+            return res.status(400).send({ message: 'les infomations obligatoire' });
         }
 
         const familleExists = await this.verifCodefamille(codefamille, dossierId);
         if (familleExists) {
-            return res.status(200).send({ message: 'Your code famille is used, please try another.' });
+            return res.status(200).send({ message: 'code famille est utilisé, essayer autre.' });
         }
 
         const famille = await FamArticle.create(newFamille);
@@ -83,7 +83,7 @@ exports.deleteFamille = async (req, res) => {
 
         // Vérifier si la famille d'article existe
         if (!familleArticle) {
-            return res.status(404).json({ success: false, message: 'famille not found in dossier.' });
+            return res.status(404).json({ success: false, message: 'famille nest pas trouvé dans dossier.' });
         }
 
         // Supprimer la famille d'article

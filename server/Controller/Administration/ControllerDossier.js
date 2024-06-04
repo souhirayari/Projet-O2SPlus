@@ -6,7 +6,7 @@ const Licence = require('../../Model/main').Licence;
 
 exports.AddDossier = async (req, res) => {
     console.log(auth)
-    if (auth.Role !== 'adminSite') {
+    if (auth.user.Role !== 'adminSite') {
         return res.status(403).json({ message: 'Unauthorized access' });
     }
     try {

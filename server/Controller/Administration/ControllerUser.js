@@ -66,12 +66,12 @@ exports.AddUserinfo = async (req, res) => {
             case 'user':
                 // Vérifier si un dossier est sélectionné pour le rôle adminDossier ou user
                 if (!dossierId) {
-                    return res.status(400).send({ message: 'Set dossierId.' });
+                    return res.status(400).send({ message: 'dossierId obligatoire.' });
                 }
                 // Rechercher le dossier par son ID
                 const dossier = await findbyId(dossierId);
                 if (!dossier) {
-                    return res.status(404).send({ message: 'Dossier not found' });
+                    return res.status(404).send({ message: 'Dossier no trouver' });
                 }
                 // Créer un nouvel utilisateur avec le rôle user ou adminDossier
                 const newUserInstance = await User.create({ ...newUser, dossierId: dossierId });
@@ -102,7 +102,7 @@ exports.findAll = async (req, res) => {
     }
     try {
         const users = await User.findAll({ where: {} })
-        if (users.length == 0) return res.status(404).send({ message: 'no Users exist' })
+        if (users.length == 0) return res.status(404).send({ message: 'aucun Users existe' })
         return res.status(200).send(users);
 
     } catch (err) {

@@ -335,25 +335,31 @@ const getAllLigneStockByDossier = async (req, res) => {
 const getQuantityByArticleAndDepot = async (req, res) => {
 	try {
 		const articleId = req.params.articleId;
-		const depotId = req.params.depotId;
-		const stock = await Stock.findOne({
+		console.log(articleId);
+
+		// Récupérer toutes les lignes de stock pour l'article spécifié
+		const stocks = await Stock.findAll({
 			where: {
-				articleId: articleId,
-				depotId: depotId,
+				idArticle: articleId,
 			},
 		});
 
-		if (!stock) {
-			res.send("0");
-			return;
+		if (!stocks || stocks.length === 0) {
+			return res.json({ quantity: 0 });
 		}
 
-		res.send(stock.Quantite.toString());
+		// Calculer la quantité totale de l'article
+		const totalQuantity = stocks.reduce((sum, stock) => sum + (stock.Quantite || 0), 0);
+
+		console.log(`Quantité finale de l'article ${articleId} : ${totalQuantity}`);
+		res.json({ quantity: totalQuantity });
 	} catch (error) {
-		console.error("Error getting quantity by articleId and depotId:", error);
-		res.status(500).send("Failed to get quantity by articleId and depotId");
+		console.error("Error getting quantity by articleId:", error);
+		res.status(500).send("Failed to get quantity by articleId");
 	}
 };
+
+
 
 const updateQuantite = async (req, res) => {
 	const articleId = req.params.articleId;
